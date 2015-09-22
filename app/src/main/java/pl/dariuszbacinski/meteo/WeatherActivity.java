@@ -1,12 +1,10 @@
 package pl.dariuszbacinski.meteo;
 
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-
-import java.util.Locale;
 
 
 public class WeatherActivity extends Activity {
