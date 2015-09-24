@@ -34,5 +34,4 @@ public class WeatherDiagramFragment extends Fragment {
         Picasso.with(getActivity()).load(diagramLinkProvider.createDiagramLink(diagramCoordinates)).into(weatherDiagram);
         return rootView;
     }
-
 }

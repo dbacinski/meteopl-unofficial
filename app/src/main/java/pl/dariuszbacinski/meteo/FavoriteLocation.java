@@ -11,13 +11,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(suppressConstructorProperties = true)
-@Table(name = "Locations", id = "_id")
-public class Location extends Model {
+@Table(name = "FavoriteLocations", id = "_id")
+public class FavoriteLocation extends Model {
 
     @Column
-    private String name;
-    @Column
-    private Integer col;
-    @Column
-    private Integer row;
+    private Location location;
 }
