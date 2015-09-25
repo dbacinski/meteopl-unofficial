@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo;
+package pl.dariuszbacinski.meteo.diagram;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -6,32 +6,35 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
+import pl.dariuszbacinski.meteo.R;
+import pl.dariuszbacinski.meteo.favorite.FavoriteWeatherDataProvider;
 
-public class WeatherActivity extends Activity {
+
+public class WeatherDiagramActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager(), new FavoriteWeatherDataProvider(), new CurrentDateProvider());
-        ViewPager viewPager = createViewPager(sectionsPagerAdapter, new OnPageChangeUpdater(getActionBar()));
-        configureTabbedActionBar(getActionBar(), new OnTabChangeUpdater(viewPager), sectionsPagerAdapter);
+        WeatherDiagramPagerAdapter weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new FavoriteWeatherDataProvider(), new CurrentDateProvider());
+        ViewPager viewPager = createViewPager(weatherDiagramPagerAdapter, new OnPageChangeUpdater(getActionBar()));
+        configureTabbedActionBar(getActionBar(), new OnTabChangeUpdater(viewPager), weatherDiagramPagerAdapter);
     }
 
-    private ViewPager createViewPager(SectionsPagerAdapter sectionsPagerAdapter, OnPageChangeUpdater listener) {
+    private ViewPager createViewPager(WeatherDiagramPagerAdapter weatherDiagramPagerAdapter, OnPageChangeUpdater listener) {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager.setAdapter(weatherDiagramPagerAdapter);
         viewPager.addOnPageChangeListener(listener);
         return viewPager;
     }
 
-    private ActionBar configureTabbedActionBar(ActionBar actionBar, ActionBar.TabListener listener, SectionsPagerAdapter sectionsPagerAdapter) {
+    private ActionBar configureTabbedActionBar(ActionBar actionBar, ActionBar.TabListener listener, WeatherDiagramPagerAdapter weatherDiagramPagerAdapter) {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        for (int i = 0; i < sectionsPagerAdapter.getCount(); i++) {
+        for (int i = 0; i < weatherDiagramPagerAdapter.getCount(); i++) {
             actionBar.addTab(
                     actionBar.newTab()
-                            .setText(sectionsPagerAdapter.getPageTitle(i))
+                            .setText(weatherDiagramPagerAdapter.getPageTitle(i))
                             .setTabListener(listener));
         }
 

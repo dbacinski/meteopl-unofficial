@@ -1,9 +1,10 @@
-package pl.dariuszbacinski.meteo;
+package pl.dariuszbacinski.meteo.favorite;
 
 import com.activeandroid.query.Select;
 
 import java.util.List;
 
+import pl.dariuszbacinski.meteo.diagram.Location;
 import rx.Observable;
 import rx.functions.Func1;
 

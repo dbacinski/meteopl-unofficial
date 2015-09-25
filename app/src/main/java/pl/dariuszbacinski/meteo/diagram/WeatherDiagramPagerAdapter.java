@@ -1,15 +1,17 @@
-package pl.dariuszbacinski.meteo;
+package pl.dariuszbacinski.meteo.diagram;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+import pl.dariuszbacinski.meteo.favorite.FavoriteWeatherDataProvider;
+
+public class WeatherDiagramPagerAdapter extends FragmentPagerAdapter {
 
     private FavoriteWeatherDataProvider favoriteWeatherDataProvider;
     private CurrentDateProvider currentDateProvider;
 
-    public SectionsPagerAdapter(FragmentManager fm, FavoriteWeatherDataProvider favoriteWeatherDataProvider, CurrentDateProvider currentDateProvider) {
+    public WeatherDiagramPagerAdapter(FragmentManager fm, FavoriteWeatherDataProvider favoriteWeatherDataProvider, CurrentDateProvider currentDateProvider) {
         super(fm);
         this.favoriteWeatherDataProvider = favoriteWeatherDataProvider;
         this.currentDateProvider = currentDateProvider;

@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo;
+package pl.dariuszbacinski.meteo.diagram;
 
 class DiagramLinkProvider {
 

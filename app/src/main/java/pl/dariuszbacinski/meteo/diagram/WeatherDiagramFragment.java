@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo;
+package pl.dariuszbacinski.meteo.diagram;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import pl.dariuszbacinski.meteo.R;
 
 public class WeatherDiagramFragment extends Fragment {
 
