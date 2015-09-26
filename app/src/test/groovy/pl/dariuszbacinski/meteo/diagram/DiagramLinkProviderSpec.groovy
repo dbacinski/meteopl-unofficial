@@ -1,8 +1,9 @@
 package pl.dariuszbacinski.meteo.diagram
+
 import android.net.Uri
 import pl.polidea.robospock.RoboSpecification
 
-import static pl.dariuszbacinski.meteo.diagram.DiagramCoordinates.*
+import static pl.dariuszbacinski.meteo.diagram.DiagramCoordinates.DiagramCoordinatesBuilder
 
 class DiagramLinkProviderSpec extends RoboSpecification {
 
@@ -14,8 +15,15 @@ class DiagramLinkProviderSpec extends RoboSpecification {
         when:
             Uri diagramLink = Uri.parse(objectUnderTest.createDiagramLink(coordinates))
         then:
-            diagramLink.getQueryParameters("fdate").first() == "20150101"
-            diagramLink.getQueryParameters("col").first() == "100"
-            diagramLink.getQueryParameters("row").first() == "200"
+            diagramLink.getFirstParameter("fdate") == "20150101"
+            diagramLink.getFirstParameter("col") == "100"
+            diagramLink.getFirstParameter("row") == "200"
+            diagramLink.getFirstParameter("lang") == "pl"
+    }
+
+    def setupSpec() {
+        Uri.metaClass.getFirstParameter {
+            delegate.getQueryParameters(it).first()
+        }
     }
 }
