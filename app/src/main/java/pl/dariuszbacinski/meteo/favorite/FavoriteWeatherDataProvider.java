@@ -1,7 +1,5 @@
 package pl.dariuszbacinski.meteo.favorite;
 
-import com.activeandroid.query.Select;
-
 import java.util.List;
 
 import pl.dariuszbacinski.meteo.diagram.Location;
@@ -11,8 +9,8 @@ import rx.functions.Func1;
 public class FavoriteWeatherDataProvider {
     private Observable<Location> locations;
 
-    public FavoriteWeatherDataProvider() {
-        List<FavoriteLocation> favoriteLocations = new Select().from(FavoriteLocation.class).execute();
+    public FavoriteWeatherDataProvider(FavoriteLocationRepository favoriteLocationRepository) {
+        List<FavoriteLocation> favoriteLocations = favoriteLocationRepository.findAll();
         locations = rx.Observable.from(favoriteLocations).map(new Func1<FavoriteLocation, Location>() {
             @Override
             public Location call(FavoriteLocation favoriteLocation) {
@@ -29,4 +27,5 @@ public class FavoriteWeatherDataProvider {
     public int getFavoriteLocationCount() {
         return locations.count().toBlocking().single() ;
     }
+
 }

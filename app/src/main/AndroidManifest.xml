@@ -29,4 +29,7 @@
             android:value="pl.dariuszbacinski.meteo.favorite.FavoriteLocation, pl.dariuszbacinski.meteo.diagram.Location" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21" />
 </manifest>

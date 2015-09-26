@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import pl.dariuszbacinski.meteo.R;
+import pl.dariuszbacinski.meteo.favorite.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.favorite.FavoriteWeatherDataProvider;
 
 
@@ -16,7 +17,7 @@ public class WeatherDiagramActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
-        WeatherDiagramPagerAdapter weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new FavoriteWeatherDataProvider(), new CurrentDateProvider());
+        WeatherDiagramPagerAdapter weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new FavoriteWeatherDataProvider(new FavoriteLocationRepository()), new CurrentDateProvider());
         ViewPager viewPager = createViewPager(weatherDiagramPagerAdapter, new OnPageChangeUpdater(getActionBar()));
         configureTabbedActionBar(getActionBar(), new OnTabChangeUpdater(viewPager), weatherDiagramPagerAdapter);
     }
