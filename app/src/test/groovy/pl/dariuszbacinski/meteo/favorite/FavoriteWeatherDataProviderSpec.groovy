@@ -7,7 +7,7 @@ import pl.polidea.robospock.RoboSpecification;
 class FavoriteWeatherDataProviderSpec extends RoboSpecification {
 
 
-    def "test"() {
+    def "returns number of elements in repository"() {
         given:
             FavoriteLocationRepository favoriteLocationRepository = Mock()
             favoriteLocationRepository.findAll() >> [new FavoriteLocation(), new FavoriteLocation()]
