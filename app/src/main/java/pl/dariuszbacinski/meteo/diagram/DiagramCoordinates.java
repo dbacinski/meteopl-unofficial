@@ -5,9 +5,11 @@ import android.os.Parcelable;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
+import lombok.experimental.Builder;
 
 @AllArgsConstructor(suppressConstructorProperties = true)
 @Value
+@Builder
 public class DiagramCoordinates implements Parcelable {
 
     private String date;

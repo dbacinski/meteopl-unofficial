@@ -12,8 +12,8 @@ class FavoriteWeatherDataProviderSpec extends RoboSpecification {
 
     def "returns number of favorite locations"() {
         given:
-            this.favoriteLocationRepository.findAll() >> [new FavoriteLocation(), new FavoriteLocation()]
-            FavoriteWeatherDataProvider objectUnderTest = new FavoriteWeatherDataProvider(this.favoriteLocationRepository);
+            favoriteLocationRepository.findAll() >> [new FavoriteLocation(), new FavoriteLocation()]
+            FavoriteWeatherDataProvider objectUnderTest = new FavoriteWeatherDataProvider(favoriteLocationRepository);
         when:
             def count = objectUnderTest.favoriteLocationCount
         then:
