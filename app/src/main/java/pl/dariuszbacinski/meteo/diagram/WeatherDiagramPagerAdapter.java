@@ -19,7 +19,7 @@ public class WeatherDiagramPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        DiagramCoordinates diagramCoordinates = new DiagramCoordinates(currentDateProvider.getCurrentDate(),favoriteWeatherDataProvider.getFavoriteLocation(position).getCol(), favoriteWeatherDataProvider.getFavoriteLocation(position).getRow());
+        DiagramCoordinates diagramCoordinates = new DiagramCoordinates(currentDateProvider.getCurrentDate(), favoriteWeatherDataProvider.getFavoriteLocation(position).getCol(), favoriteWeatherDataProvider.getFavoriteLocation(position).getRow());
         return WeatherDiagramFragment.newInstance(diagramCoordinates);
     }
 

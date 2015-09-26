@@ -8,7 +8,7 @@ import lombok.Value;
 
 @AllArgsConstructor(suppressConstructorProperties = true)
 @Value
-public class DiagramCoordinates implements Parcelable{
+public class DiagramCoordinates implements Parcelable {
 
     private String date;
     private Integer col;

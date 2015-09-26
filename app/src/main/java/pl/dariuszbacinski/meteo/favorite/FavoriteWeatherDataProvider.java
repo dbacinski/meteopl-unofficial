@@ -25,7 +25,7 @@ public class FavoriteWeatherDataProvider {
     }
 
     public int getFavoriteLocationCount() {
-        return locations.count().toBlocking().single() ;
+        return locations.count().toBlocking().single();
     }
 
 }

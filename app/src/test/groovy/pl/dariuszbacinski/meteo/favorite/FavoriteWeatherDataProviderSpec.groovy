@@ -7,10 +7,10 @@ import pl.polidea.robospock.RoboSpecification;
 @Config(manifest = "src/main/AndroidManifest.xml")
 class FavoriteWeatherDataProviderSpec extends RoboSpecification {
 
-    public static final int SECOND_INDEX = 1
+    public static final int SECOND_ELEMENT = 1
     FavoriteLocationRepository favoriteLocationRepository = Mock()
 
-    def "returns number of elements in repository"() {
+    def "returns number of favorite locations"() {
         given:
             this.favoriteLocationRepository.findAll() >> [new FavoriteLocation(), new FavoriteLocation()]
             FavoriteWeatherDataProvider objectUnderTest = new FavoriteWeatherDataProvider(this.favoriteLocationRepository);
@@ -26,7 +26,7 @@ class FavoriteWeatherDataProviderSpec extends RoboSpecification {
             favoriteLocationRepository.findAll() >> [new FavoriteLocation(), new FavoriteLocation(expectedLocation)]
             FavoriteWeatherDataProvider objectUnderTest = new FavoriteWeatherDataProvider(favoriteLocationRepository);
         when:
-            def favoriteLocation = objectUnderTest.getFavoriteLocation(SECOND_INDEX)
+            def favoriteLocation = objectUnderTest.getFavoriteLocation(SECOND_ELEMENT)
         then:
             favoriteLocation == expectedLocation
     }
