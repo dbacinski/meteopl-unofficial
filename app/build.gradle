@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'groovyx.grooid.groovy-android'
 
 android {
-    compileSdkVersion 17
+    compileSdkVersion 21
     buildToolsVersion "19.1.0"
 
     defaultConfig {
         applicationId "pl.dariuszbacinski.meteo"
-        minSdkVersion 15
-        targetSdkVersion 17
+        minSdkVersion 14
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -29,6 +29,8 @@ dependencies {
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'org.codehaus.groovy:groovy:2.4.0:grooid'
+    compile 'com.android.support:recyclerview-v7:21.0.+'
+    compile 'com.bignerdranch.android:recyclerview-multiselect:0.2'
     testCompile 'org.robospock:robospock:0.8.0'
     testCompile 'cglib:cglib-nodep:2.2.2'
 }

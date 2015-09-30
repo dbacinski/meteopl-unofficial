@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.favorite
+package pl.dariuszbacinski.meteo.location
 
 import org.robolectric.annotation.Config
 import pl.dariuszbacinski.meteo.diagram.Location

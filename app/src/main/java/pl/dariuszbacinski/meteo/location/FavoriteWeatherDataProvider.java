@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.favorite;
+package pl.dariuszbacinski.meteo.location;
 
 import java.util.List;
 

@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import pl.dariuszbacinski.meteo.R;
-import pl.dariuszbacinski.meteo.favorite.FavoriteLocationRepository;
-import pl.dariuszbacinski.meteo.favorite.FavoriteWeatherDataProvider;
+import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
+import pl.dariuszbacinski.meteo.location.FavoriteWeatherDataProvider;
 
 
 public class WeatherDiagramActivity extends Activity {
