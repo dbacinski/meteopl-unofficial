@@ -1,11 +1,13 @@
 package pl.dariuszbacinski.meteo.diagram
 
 import android.net.Uri
-import pl.polidea.robospock.RoboSpecification
+import org.robolectric.annotation.Config
+import pl.dariuszbacinski.meteo.location.ShadowRoboSpecification
 
 import static pl.dariuszbacinski.meteo.diagram.DiagramCoordinates.DiagramCoordinatesBuilder
 
-class DiagramLinkProviderSpec extends RoboSpecification {
+@Config(manifest = "src/main/AndroidManifest.xml")
+class DiagramLinkProviderSpec extends ShadowRoboSpecification {
 
     DiagramLinkProvider objectUnderTest = new DiagramLinkProvider()
 

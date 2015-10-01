@@ -1,11 +1,9 @@
 package pl.dariuszbacinski.meteo.location
-
 import org.robolectric.annotation.Config
 import pl.dariuszbacinski.meteo.diagram.Location
-import pl.polidea.robospock.RoboSpecification;
 
 @Config(manifest = "src/main/AndroidManifest.xml")
-class FavoriteWeatherDataProviderSpec extends RoboSpecification {
+class FavoriteWeatherDataProviderSpec extends ShadowRoboSpecification {
 
     public static final int SECOND_ELEMENT = 1
     FavoriteLocationRepository favoriteLocationRepository = Mock()
