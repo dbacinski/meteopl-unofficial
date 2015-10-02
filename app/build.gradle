@@ -4,7 +4,6 @@ apply plugin: 'groovyx.grooid.groovy-android'
 android {
     compileSdkVersion 21
     buildToolsVersion "19.1.0"
-
     defaultConfig {
         applicationId "pl.dariuszbacinski.meteo"
         minSdkVersion 14
@@ -17,6 +16,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lintOptions {
+        disable 'InvalidPackage' //ButterKnife
     }
 }
 
@@ -31,6 +33,7 @@ dependencies {
     compile 'org.codehaus.groovy:groovy:2.4.0:grooid'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.bignerdranch.android:recyclerview-multiselect:0.2'
+    compile 'com.jakewharton:butterknife:7.0.1'
     testCompile 'org.robospock:robospock:0.8.0'
     testCompile 'cglib:cglib-nodep:2.2.2'
 }

@@ -8,14 +8,17 @@ import android.widget.CheckedTextView;
 
 import com.bignerdranch.android.multiselector.MultiSelector;
 
+import java.util.List;
+
 import pl.dariuszbacinski.meteo.diagram.Location;
 
 public class LocationAdapter extends RecyclerView.Adapter {
-    private FavoriteLocationRepository favoriteLocationRepository;
-    private MultiSelector multiSelector = new MultiSelector();
+    private LocationRepository locationRepository;
+    private MultiSelector multiSelector;
 
-    public LocationAdapter(FavoriteLocationRepository favoriteLocationRepository) {
-        this.favoriteLocationRepository = favoriteLocationRepository;
+    public LocationAdapter(LocationRepository locationRepository, MultiSelector multiSelector) {
+        this.locationRepository = locationRepository;
+        this.multiSelector = multiSelector;
         multiSelector.setSelectable(true);
     }
 
@@ -28,12 +31,18 @@ public class LocationAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Location location = favoriteLocationRepository.findAll().get(position).getLocation();
+        Location location = locationRepository.findAll().get(position);
         ((LocationViewHolder) holder).bindName(location.getName());
     }
 
     @Override
     public int getItemCount() {
-        return favoriteLocationRepository.findAll().size();
+        return locationRepository.findAll().size();
     }
+
+    public List<FavoriteLocation> getFavoritePositions() {
+        List<Location> locationList = locationRepository.findAll();
+        return new FavoriteLocationTransformation(locationList).filter(multiSelector.getSelectedPositions());
+    }
+
 }
