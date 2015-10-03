@@ -7,7 +7,6 @@ import com.activeandroid.annotation.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.dariuszbacinski.meteo.diagram.Location;
 
 @Getter
 @NoArgsConstructor

@@ -3,8 +3,6 @@ package pl.dariuszbacinski.meteo.location;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.dariuszbacinski.meteo.diagram.Location;
-
 class FavoriteLocationTransformation {
     private List<Location> locationList;
 

@@ -1,6 +1,5 @@
 package pl.dariuszbacinski.meteo.location
 import org.robolectric.annotation.Config
-import pl.dariuszbacinski.meteo.diagram.Location
 
 @Config(manifest = "src/main/AndroidManifest.xml")
 class FavoriteWeatherDataProviderSpec extends ShadowRoboSpecification {

@@ -9,7 +9,7 @@ import org.robolectric.annotation.Config
 class LocationViewHolderSpec extends ShadowRoboSpecification {
 
 
-    def "toggles view when clicked"() {
+    def "toggles view on click"() {
         given:
             CheckedTextView checkedTextView = Spy(CheckedTextView, constructorArgs: [RuntimeEnvironment.application])
             LocationViewHolder objectUnderTest = new LocationViewHolder(checkedTextView, new MultiSelector())
@@ -19,7 +19,7 @@ class LocationViewHolderSpec extends ShadowRoboSpecification {
             checkedTextView.toggle()
     }
 
-    def "item is selected in multi selector when clicked"() {
+    def "item is selected in multi selector on click"() {
         given:
             MultiSelector multiSelector = new MultiSelector()
             multiSelector.setSelectable(true)

@@ -10,8 +10,6 @@ import com.bignerdranch.android.multiselector.MultiSelector;
 
 import java.util.List;
 
-import pl.dariuszbacinski.meteo.diagram.Location;
-
 public class LocationAdapter extends RecyclerView.Adapter {
     private LocationRepository locationRepository;
     private MultiSelector multiSelector;
