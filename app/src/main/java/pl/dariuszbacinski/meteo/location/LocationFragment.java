@@ -1,6 +1,7 @@
 package pl.dariuszbacinski.meteo.location;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.bignerdranch.android.multiselector.MultiSelector;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.dariuszbacinski.meteo.R;
+import pl.dariuszbacinski.meteo.diagram.WeatherDiagramActivity;
 
 import static android.support.v7.widget.RecyclerView.LayoutManager;
 
@@ -58,5 +60,6 @@ public class LocationFragment extends Fragment {
     @OnClick(R.id.favorites_save)
     public void saveFavorites() {
         favoriteLocationRepository.saveList(locationAdapter.getFavoritePositions());
+        startActivity(new Intent(getActivity(), WeatherDiagramActivity.class));
     }
 }

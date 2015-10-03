@@ -6,6 +6,9 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
@@ -27,8 +30,13 @@ public class WeatherDiagramActivity extends Activity {
 
     private void startLocationActivityWhenNoFavoriteLocations(int numberOfFavoriteLocations) {
         if (numberOfFavoriteLocations == 0) {
-            startActivity(new Intent(this, LocationActivity.class));
+            startLocationActivity();
+            finish();
         }
+    }
+
+    private void startLocationActivity() {
+        startActivity(new Intent(this, LocationActivity.class));
     }
 
     private ViewPager createViewPager(WeatherDiagramPagerAdapter weatherDiagramPagerAdapter, OnPageChangeUpdater listener) {
@@ -49,6 +57,26 @@ public class WeatherDiagramActivity extends Activity {
         }
 
         return actionBar;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_diagram, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_favorite: {
+                startLocationActivity();
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
     }
 
     public static class OnPageChangeUpdater extends ViewPager.SimpleOnPageChangeListener {
