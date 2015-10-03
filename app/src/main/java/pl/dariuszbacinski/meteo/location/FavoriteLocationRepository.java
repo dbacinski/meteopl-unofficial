@@ -1,5 +1,7 @@
 package pl.dariuszbacinski.meteo.location;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.util.List;
@@ -11,8 +13,16 @@ public class FavoriteLocationRepository {
     }
 
     public void saveList(List<FavoriteLocation> favoritePositions) {
-        for(FavoriteLocation favoriteLocation : favoritePositions) {
-            favoriteLocation.save();
+        ActiveAndroid.beginTransaction();
+
+        try {
+            new Delete().from(FavoriteLocation.class).execute();
+            for (FavoriteLocation favoriteLocation : favoritePositions) {
+                favoriteLocation.save();
+            }
+            ActiveAndroid.setTransactionSuccessful();
+        } finally {
+            ActiveAndroid.endTransaction();
         }
     }
 }

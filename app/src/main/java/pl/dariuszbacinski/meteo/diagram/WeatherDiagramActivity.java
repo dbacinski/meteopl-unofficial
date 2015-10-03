@@ -3,12 +3,14 @@ package pl.dariuszbacinski.meteo.diagram;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.FavoriteWeatherDataProvider;
+import pl.dariuszbacinski.meteo.location.LocationActivity;
 
 
 public class WeatherDiagramActivity extends Activity {
@@ -16,10 +18,17 @@ public class WeatherDiagramActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weather);
         WeatherDiagramPagerAdapter weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new FavoriteWeatherDataProvider(new FavoriteLocationRepository()), new CurrentDateProvider());
+        startLocationActivityWhenNoFavoriteLocations(weatherDiagramPagerAdapter.getCount());
+        setContentView(R.layout.activity_weather);
         ViewPager viewPager = createViewPager(weatherDiagramPagerAdapter, new OnPageChangeUpdater(getActionBar()));
         configureTabbedActionBar(getActionBar(), new OnTabChangeUpdater(viewPager), weatherDiagramPagerAdapter);
+    }
+
+    private void startLocationActivityWhenNoFavoriteLocations(int numberOfFavoriteLocations) {
+        if (numberOfFavoriteLocations == 0) {
+            startActivity(new Intent(this, LocationActivity.class));
+        }
     }
 
     private ViewPager createViewPager(WeatherDiagramPagerAdapter weatherDiagramPagerAdapter, OnPageChangeUpdater listener) {

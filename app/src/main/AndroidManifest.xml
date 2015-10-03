@@ -40,7 +40,7 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="pl.dariuszbacinski.meteo.location.FavoriteLocation, pl.dariuszbacinski.meteo.diagram.Location" />
+            android:value="pl.dariuszbacinski.meteo.location.FavoriteLocation, pl.dariuszbacinski.meteo.location.Location" />
 
         <activity
             android:name=".location.LocationActivity"
