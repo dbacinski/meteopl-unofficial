@@ -30,7 +30,9 @@ public class LocationAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Location location = locationRepository.findAll().get(position);
-        ((LocationViewHolder) holder).bindName(location.getName());
+        LocationViewHolder locationViewHolder = (LocationViewHolder) holder;
+        locationViewHolder.bindName(location.getName());
+        locationViewHolder.bindSelected(multiSelector.isSelected(position, -1));
     }
 
     @Override

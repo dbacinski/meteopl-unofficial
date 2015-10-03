@@ -8,23 +8,27 @@ import com.bignerdranch.android.multiselector.SwappingHolder;
 
 class LocationViewHolder extends SwappingHolder
         implements View.OnClickListener {
-    private final CheckedTextView textView;
+    private final CheckedTextView checkedTextView;
     private MultiSelector multiSelector;
 
-    public LocationViewHolder(CheckedTextView textView, MultiSelector multiSelector) {
-        super(textView, multiSelector);
-        this.textView = textView;
+    public LocationViewHolder(CheckedTextView checkedTextView, MultiSelector multiSelector) {
+        super(checkedTextView, multiSelector);
+        this.checkedTextView = checkedTextView;
         this.multiSelector = multiSelector;
-        textView.setOnClickListener(this);
+        checkedTextView.setOnClickListener(this);
     }
 
     public void bindName(String name) {
-        textView.setText(name);
+        checkedTextView.setText(name);
     }
 
     @Override
     public void onClick(View v) {
         multiSelector.tapSelection(this);
         ((CheckedTextView) v).toggle();
+    }
+
+    public void bindSelected(boolean selected) {
+        checkedTextView.setSelected(selected);
     }
 }
