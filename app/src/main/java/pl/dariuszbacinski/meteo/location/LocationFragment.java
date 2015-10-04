@@ -38,7 +38,7 @@ public class LocationFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        locationAdapter = new LocationAdapter(new LocationRepository(), multiSelector);
+        locationAdapter = new LocationAdapter(new LocationRepository(), multiSelector, favoriteLocationRepository);
         recyclerView.setAdapter(locationAdapter);
         return view;
     }

@@ -2,7 +2,7 @@ package pl.dariuszbacinski.meteo.location
 import org.robolectric.annotation.Config
 
 @Config(manifest = "src/main/AndroidManifest.xml")
-class FavoriteWeatherDataProviderSpec extends ShadowRoboSpecification {
+class LocationTransformationSpec extends ShadowRoboSpecification {
 
     public static final int SECOND_ELEMENT = 1
     FavoriteLocationRepository favoriteLocationRepository = Mock()
@@ -10,7 +10,7 @@ class FavoriteWeatherDataProviderSpec extends ShadowRoboSpecification {
     def "returns number of favorite locations"() {
         given:
             favoriteLocationRepository.findAll() >> [new FavoriteLocation(), new FavoriteLocation()]
-            FavoriteWeatherDataProvider objectUnderTest = new FavoriteWeatherDataProvider(favoriteLocationRepository);
+            LocationTransformation objectUnderTest = new LocationTransformation(favoriteLocationRepository.findAll());
         when:
             def count = objectUnderTest.favoriteLocationCount
         then:
@@ -21,9 +21,9 @@ class FavoriteWeatherDataProviderSpec extends ShadowRoboSpecification {
         given:
             def expectedLocation = new Location("", 0, 0)
             favoriteLocationRepository.findAll() >> [new FavoriteLocation(), new FavoriteLocation(expectedLocation)]
-            FavoriteWeatherDataProvider objectUnderTest = new FavoriteWeatherDataProvider(favoriteLocationRepository);
+            LocationTransformation objectUnderTest = new LocationTransformation(favoriteLocationRepository.findAll());
         when:
-            def favoriteLocation = objectUnderTest.getFavoriteLocation(SECOND_ELEMENT)
+            def favoriteLocation = objectUnderTest.extractLocationAtPosition(SECOND_ELEMENT)
         then:
             favoriteLocation == expectedLocation
     }

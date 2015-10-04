@@ -11,13 +11,23 @@ import com.bignerdranch.android.multiselector.MultiSelector;
 import java.util.List;
 
 public class LocationAdapter extends RecyclerView.Adapter {
-    private LocationRepository locationRepository;
     private MultiSelector multiSelector;
+    private List<Location> locationList;
 
-    public LocationAdapter(LocationRepository locationRepository, MultiSelector multiSelector) {
-        this.locationRepository = locationRepository;
+    public LocationAdapter(LocationRepository locationRepository, MultiSelector multiSelector, FavoriteLocationRepository favoriteLocationRepository) {
+        locationList = locationRepository.findAll();
         this.multiSelector = multiSelector;
         multiSelector.setSelectable(true);
+        restoreSelectedItems(multiSelector, favoriteLocationRepository.findAll());
+    }
+
+    private void restoreSelectedItems(MultiSelector multiSelector, List<FavoriteLocation> favoriteLocationList) {
+        List<Location> selectedLocations = new LocationTransformation(favoriteLocationList).extractLocations();
+
+        for (Location selectedLocation : selectedLocations) {
+            int position = locationList.indexOf(selectedLocation);
+            multiSelector.setSelected(position, -1, true);
+        }
     }
 
     @Override
@@ -29,7 +39,7 @@ public class LocationAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Location location = locationRepository.findAll().get(position);
+        Location location = locationList.get(position);
         LocationViewHolder locationViewHolder = (LocationViewHolder) holder;
         locationViewHolder.bindName(location.getName());
         locationViewHolder.bindSelected(multiSelector.isSelected(position, -1));
@@ -37,12 +47,10 @@ public class LocationAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return locationRepository.findAll().size();
+        return locationList.size();
     }
 
     public List<FavoriteLocation> getFavoritePositions() {
-        List<Location> locationList = locationRepository.findAll();
         return new FavoriteLocationTransformation(locationList).filter(multiSelector.getSelectedPositions());
     }
-
 }

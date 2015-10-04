@@ -29,6 +29,6 @@ class LocationViewHolder extends SwappingHolder
     }
 
     public void bindSelected(boolean selected) {
-        checkedTextView.setSelected(selected);
+        checkedTextView.setChecked(selected);
     }
 }

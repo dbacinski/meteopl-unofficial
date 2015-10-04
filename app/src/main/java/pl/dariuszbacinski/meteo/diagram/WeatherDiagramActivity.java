@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
-import pl.dariuszbacinski.meteo.location.FavoriteWeatherDataProvider;
+import pl.dariuszbacinski.meteo.location.LocationTransformation;
 import pl.dariuszbacinski.meteo.location.LocationActivity;
 
 
@@ -21,7 +21,8 @@ public class WeatherDiagramActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        WeatherDiagramPagerAdapter weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new FavoriteWeatherDataProvider(new FavoriteLocationRepository()), new CurrentDateProvider());
+        final FavoriteLocationRepository favoriteLocationRepository = new FavoriteLocationRepository();
+        WeatherDiagramPagerAdapter weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new LocationTransformation(favoriteLocationRepository.findAll()), new CurrentDateProvider());
         startLocationActivityWhenNoFavoriteLocations(weatherDiagramPagerAdapter.getCount());
         setContentView(R.layout.activity_weather);
         ViewPager viewPager = createViewPager(weatherDiagramPagerAdapter, new OnPageChangeUpdater(getActionBar()));
