@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import pl.dariuszbacinski.meteo.R;
@@ -33,7 +34,7 @@ public class WeatherDiagramFragment extends Fragment {
         DiagramCoordinates diagramCoordinates = getArguments().getParcelable(ARG_SECTION_NUMBER);
         selectionLabel.setText(diagramCoordinates.getDate());
         ImageView weatherDiagram = (ImageView) rootView.findViewById(R.id.weather_diagram);
-        Picasso.with(getActivity()).load(diagramLinkProvider.createDiagramLink(diagramCoordinates)).into(weatherDiagram);
+        Picasso.with(getActivity()).load(diagramLinkProvider.createDiagramLink(diagramCoordinates)).memoryPolicy(MemoryPolicy.NO_STORE).fit().centerInside().noFade().into(weatherDiagram);
         return rootView;
     }
 }
