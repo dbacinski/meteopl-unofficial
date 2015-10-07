@@ -12,21 +12,33 @@ import android.view.MenuItem;
 
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
-import pl.dariuszbacinski.meteo.location.LocationTransformation;
 import pl.dariuszbacinski.meteo.location.LocationActivity;
+import pl.dariuszbacinski.meteo.location.LocationTransformation;
 
 
 public class WeatherDiagramActivity extends Activity {
 
+    private WeatherDiagramPagerAdapter weatherDiagramPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final FavoriteLocationRepository favoriteLocationRepository = new FavoriteLocationRepository();
-        WeatherDiagramPagerAdapter weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new LocationTransformation(favoriteLocationRepository.findAll()), new CurrentDateProvider());
+        weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new LocationTransformation(new FavoriteLocationRepository().findAll()), new CurrentDateProvider());
         startLocationActivityWhenNoFavoriteLocations(weatherDiagramPagerAdapter.getCount());
         setContentView(R.layout.activity_weather);
         ViewPager viewPager = createViewPager(weatherDiagramPagerAdapter, new OnPageChangeUpdater(getActionBar()));
         configureTabbedActionBar(getActionBar(), new OnTabChangeUpdater(viewPager), weatherDiagramPagerAdapter);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        weatherDiagramPagerAdapter.setLocations(new LocationTransformation(new FavoriteLocationRepository().findAll()));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     private void startLocationActivityWhenNoFavoriteLocations(int numberOfFavoriteLocations) {
@@ -37,7 +49,7 @@ public class WeatherDiagramActivity extends Activity {
     }
 
     private void startLocationActivity() {
-        startActivity(new Intent(this, LocationActivity.class));
+        startActivity(new Intent(this, LocationActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
     }
 
     private ViewPager createViewPager(WeatherDiagramPagerAdapter weatherDiagramPagerAdapter, OnPageChangeUpdater listener) {

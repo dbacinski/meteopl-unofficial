@@ -32,4 +32,9 @@ public class WeatherDiagramPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return locationTransformation.extractLocationAtPosition(position).getName();
     }
+
+    public void setLocations(LocationTransformation locationTransformation) {
+        this.locationTransformation = locationTransformation;
+        notifyDataSetChanged();
+    }
 }

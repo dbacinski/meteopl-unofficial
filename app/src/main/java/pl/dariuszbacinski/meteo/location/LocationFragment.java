@@ -60,6 +60,6 @@ public class LocationFragment extends Fragment {
     @OnClick(R.id.favorites_save)
     public void saveFavorites() {
         favoriteLocationRepository.saveList(locationAdapter.getFavoritePositions());
-        startActivity(new Intent(getActivity(), WeatherDiagramActivity.class));
+        startActivity(new Intent(getActivity(), WeatherDiagramActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
     }
 }
