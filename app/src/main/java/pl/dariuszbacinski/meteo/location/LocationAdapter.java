@@ -21,6 +21,7 @@ public class LocationAdapter extends RecyclerView.Adapter {
         restoreSelectedItems(multiSelector, favoriteLocationRepository.findAll());
     }
 
+    //TODO can be extracted
     private void restoreSelectedItems(MultiSelector multiSelector, List<FavoriteLocation> favoriteLocationList) {
         List<Location> selectedLocations = new LocationTransformation(favoriteLocationList).extractLocations();
 

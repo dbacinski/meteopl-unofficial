@@ -1,11 +1,12 @@
 package pl.dariuszbacinski.meteo.diagram;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +17,7 @@ import pl.dariuszbacinski.meteo.location.LocationActivity;
 import pl.dariuszbacinski.meteo.location.LocationTransformation;
 
 
-public class WeatherDiagramActivity extends Activity {
+public class WeatherDiagramActivity extends AppCompatActivity {
 
     private WeatherDiagramPagerAdapter weatherDiagramPagerAdapter;
 
@@ -26,8 +27,14 @@ public class WeatherDiagramActivity extends Activity {
         weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new LocationTransformation(new FavoriteLocationRepository().findAll()), new CurrentDateProvider());
         startLocationActivityWhenNoFavoriteLocations(weatherDiagramPagerAdapter.getCount());
         setContentView(R.layout.activity_weather);
-        ViewPager viewPager = createViewPager(weatherDiagramPagerAdapter, new OnPageChangeUpdater(getActionBar()));
-        configureTabbedActionBar(getActionBar(), new OnTabChangeUpdater(viewPager), weatherDiagramPagerAdapter);
+
+        ViewPager viewPager = createViewPager(weatherDiagramPagerAdapter);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setOnTabSelectedListener(new TabSeletedUpdater(viewPager));
     }
 
     @Override
@@ -52,10 +59,9 @@ public class WeatherDiagramActivity extends Activity {
         startActivity(new Intent(this, LocationActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
     }
 
-    private ViewPager createViewPager(WeatherDiagramPagerAdapter weatherDiagramPagerAdapter, OnPageChangeUpdater listener) {
+    private ViewPager createViewPager(WeatherDiagramPagerAdapter weatherDiagramPagerAdapter) {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(weatherDiagramPagerAdapter);
-        viewPager.addOnPageChangeListener(listener);
         return viewPager;
     }
 
@@ -92,40 +98,25 @@ public class WeatherDiagramActivity extends Activity {
         }
     }
 
-    public static class OnPageChangeUpdater extends ViewPager.SimpleOnPageChangeListener {
+    private static class TabSeletedUpdater implements TabLayout.OnTabSelectedListener {
+        private final ViewPager viewPager;
 
-        private ActionBar actionBar;
-
-        public OnPageChangeUpdater(ActionBar actionBar) {
-            this.actionBar = actionBar;
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            actionBar.setSelectedNavigationItem(position);
-        }
-    }
-
-    public static class OnTabChangeUpdater implements ActionBar.TabListener {
-
-        private ViewPager viewPager;
-
-        public OnTabChangeUpdater(ViewPager viewPager) {
+        public TabSeletedUpdater(ViewPager viewPager) {
             this.viewPager = viewPager;
         }
 
         @Override
-        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        public void onTabSelected(TabLayout.Tab tab) {
             viewPager.setCurrentItem(tab.getPosition());
         }
 
         @Override
-        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+        public void onTabUnselected(TabLayout.Tab tab) {
 
         }
 
         @Override
-        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+        public void onTabReselected(TabLayout.Tab tab) {
 
         }
     }
