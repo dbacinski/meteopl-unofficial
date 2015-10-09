@@ -1,5 +1,6 @@
 package pl.dariuszbacinski.meteo.location
 import org.robolectric.annotation.Config
+import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 
 @Config(manifest = "src/main/AndroidManifest.xml")
 class LocationTransformationSpec extends ShadowRoboSpecification {

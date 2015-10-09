@@ -2,7 +2,7 @@ package pl.dariuszbacinski.meteo.diagram
 
 import android.net.Uri
 import org.robolectric.annotation.Config
-import pl.dariuszbacinski.meteo.location.ShadowRoboSpecification
+import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 
 import static pl.dariuszbacinski.meteo.diagram.DiagramCoordinates.DiagramCoordinatesBuilder
 
