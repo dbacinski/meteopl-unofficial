@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -30,9 +29,7 @@ public class WeatherDiagramFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_weather, container, false);
-        TextView selectionLabel = (TextView) rootView.findViewById(R.id.section_label);
         DiagramCoordinates diagramCoordinates = getArguments().getParcelable(ARG_SECTION_NUMBER);
-        selectionLabel.setText(diagramCoordinates.getDate());
         ImageView weatherDiagram = (ImageView) rootView.findViewById(R.id.weather_diagram);
         Picasso.with(getActivity()).load(diagramLinkProvider.createDiagramLink(diagramCoordinates)).memoryPolicy(MemoryPolicy.NO_STORE).fit().centerInside().noFade().into(weatherDiagram);
         return rootView;

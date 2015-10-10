@@ -42,6 +42,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'com.bignerdranch.android:recyclerview-multiselect:0.2'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.commit451:PhotoView:1.2.4'
     provided 'org.projectlombok:lombok:1.12.6'
     testCompile 'org.robospock:robospock:0.8.0'
     testCompile 'org.robolectric:shadows-multidex:3.0'
