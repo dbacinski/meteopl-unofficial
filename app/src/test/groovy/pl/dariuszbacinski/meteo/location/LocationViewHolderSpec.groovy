@@ -1,13 +1,9 @@
 package pl.dariuszbacinski.meteo.location
-
 import android.widget.CheckedTextView
 import com.bignerdranch.android.multiselector.MultiSelector
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.annotation.Config
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
-import pl.dariuszbacinski.meteo.shadow.ShadowSwappingHolder
 
-@Config(manifest = "src/main/AndroidManifest.xml", shadows = ShadowSwappingHolder)
 class LocationViewHolderSpec extends ShadowRoboSpecification {
 
 

@@ -44,5 +44,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     provided 'org.projectlombok:lombok:1.12.6'
     testCompile 'org.robospock:robospock:0.8.0'
+    testCompile 'org.robolectric:shadows-multidex:3.0'
     testCompile 'cglib:cglib-nodep:2.2.2'
 }
