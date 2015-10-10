@@ -1,6 +1,5 @@
 package pl.dariuszbacinski.meteo.diagram;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -26,15 +25,14 @@ public class WeatherDiagramActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new LocationTransformation(new FavoriteLocationRepository().findAll()), new CurrentDateProvider());
         startLocationActivityWhenNoFavoriteLocations(weatherDiagramPagerAdapter.getCount());
+
         setContentView(R.layout.activity_weather);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         ViewPager viewPager = createViewPager(weatherDiagramPagerAdapter);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setOnTabSelectedListener(new TabSeletedUpdater(viewPager));
+        tabLayout.setOnTabSelectedListener(new TabSelectedUpdater(viewPager));
     }
 
     @Override
@@ -68,19 +66,6 @@ public class WeatherDiagramActivity extends AppCompatActivity {
         return viewPager;
     }
 
-    private ActionBar configureTabbedActionBar(ActionBar actionBar, ActionBar.TabListener listener, WeatherDiagramPagerAdapter weatherDiagramPagerAdapter) {
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        for (int i = 0; i < weatherDiagramPagerAdapter.getCount(); i++) {
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(weatherDiagramPagerAdapter.getPageTitle(i))
-                            .setTabListener(listener));
-        }
-
-        return actionBar;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -90,6 +75,7 @@ public class WeatherDiagramActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.action_favorite: {
                 startLocationActivity();
@@ -101,10 +87,10 @@ public class WeatherDiagramActivity extends AppCompatActivity {
         }
     }
 
-    private static class TabSeletedUpdater implements TabLayout.OnTabSelectedListener {
+    private static class TabSelectedUpdater implements TabLayout.OnTabSelectedListener {
         private final ViewPager viewPager;
 
-        public TabSeletedUpdater(ViewPager viewPager) {
+        public TabSelectedUpdater(ViewPager viewPager) {
             this.viewPager = viewPager;
         }
 
