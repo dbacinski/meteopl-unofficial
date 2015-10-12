@@ -6,4 +6,7 @@
     <!-- Info Screen -->
     <string name="title_activity_info">InfoActivity</string>
     <string name="action_info">O aplikacji</string>
+    <string name="info_author">Autor: Dariusz Baciński</string>
+    <string name="info_issue_tracker">W przypadku niewłaściwego działania aplikacji proszę o zgłoszenie błędów na stronie:</string>
+    <string name="info_issue_tracker_link">https://bitbucket.org/dariusz_bacinski/meteo_new/issues/new</string>
 </resources>
