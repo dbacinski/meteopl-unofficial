@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import pl.dariuszbacinski.meteo.R;
+import pl.dariuszbacinski.meteo.info.InfoActivity;
 import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.LocationActivity;
 import pl.dariuszbacinski.meteo.location.LocationTransformation;
@@ -81,10 +82,18 @@ public class WeatherDiagramActivity extends AppCompatActivity {
                 startLocationActivity();
                 return true;
             }
+            case R.id.action_info: {
+                startInfoActivity();
+                return true;
+            }
             default: {
                 return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    private void startInfoActivity() {
+        startActivity(new Intent(this, InfoActivity.class));
     }
 
     private static class TabSelectedUpdater implements TabLayout.OnTabSelectedListener {

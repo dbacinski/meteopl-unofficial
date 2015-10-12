@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Meteo</string>
+    <!-- Favorite Screen -->
     <string name="action_favorite">Ulubione</string>
     <string name="title_activity_favorite">FavoriteActivity</string>
+    <!-- Info Screen -->
+    <string name="title_activity_info">InfoActivity</string>
+    <string name="action_info">O aplikacji</string>
 </resources>
