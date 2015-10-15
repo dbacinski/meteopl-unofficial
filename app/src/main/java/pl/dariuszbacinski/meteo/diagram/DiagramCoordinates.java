@@ -12,7 +12,6 @@ import lombok.experimental.Builder;
 @Builder
 public class DiagramCoordinates implements Parcelable {
 
-    private String date;
     private Integer col;
     private Integer row;
 
@@ -23,13 +22,11 @@ public class DiagramCoordinates implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.date);
         dest.writeValue(this.col);
         dest.writeValue(this.row);
     }
 
     protected DiagramCoordinates(Parcel in) {
-        this.date = in.readString();
         this.col = (Integer) in.readValue(Integer.class.getClassLoader());
         this.row = (Integer) in.readValue(Integer.class.getClassLoader());
     }

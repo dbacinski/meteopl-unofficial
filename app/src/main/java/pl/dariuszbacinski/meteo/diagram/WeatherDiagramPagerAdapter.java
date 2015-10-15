@@ -9,17 +9,15 @@ import pl.dariuszbacinski.meteo.location.LocationTransformation;
 public class WeatherDiagramPagerAdapter extends FragmentPagerAdapter {
 
     private LocationTransformation locationTransformation;
-    private CurrentDateProvider currentDateProvider;
 
-    public WeatherDiagramPagerAdapter(FragmentManager fm, LocationTransformation locationTransformation, CurrentDateProvider currentDateProvider) {
+    public WeatherDiagramPagerAdapter(FragmentManager fm, LocationTransformation locationTransformation) {
         super(fm);
         this.locationTransformation = locationTransformation;
-        this.currentDateProvider = currentDateProvider;
     }
 
     @Override
     public Fragment getItem(int position) {
-        DiagramCoordinates diagramCoordinates = new DiagramCoordinates(currentDateProvider.getCurrentDate(), locationTransformation.extractLocationAtPosition(position).getCol(), locationTransformation.extractLocationAtPosition(position).getRow());
+        DiagramCoordinates diagramCoordinates = new DiagramCoordinates(locationTransformation.extractLocationAtPosition(position).getCol(), locationTransformation.extractLocationAtPosition(position).getRow());
         return WeatherDiagramFragment.newInstance(diagramCoordinates);
     }
 
