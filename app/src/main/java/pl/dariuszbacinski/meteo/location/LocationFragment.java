@@ -8,13 +8,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.bignerdranch.android.multiselector.MultiSelector;
+import com.jakewharton.rxbinding.widget.RxTextView;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.diagram.WeatherDiagramActivity;
+import rx.functions.Action1;
 
 import static android.support.v7.widget.RecyclerView.LayoutManager;
 
@@ -40,6 +43,13 @@ public class LocationFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         locationAdapter = new LocationAdapter(new LocationRepository(), multiSelector, favoriteLocationRepository);
         recyclerView.setAdapter(locationAdapter);
+        EditText filterInput = (EditText) view.findViewById(R.id.favorites_filter);
+        RxTextView.textChanges(filterInput).subscribe(new Action1<CharSequence>() {
+            @Override
+            public void call(CharSequence charSequence) {
+                locationAdapter.filterLocationsByName(charSequence.toString());
+            }
+        });
         return view;
     }
 
@@ -52,7 +62,7 @@ public class LocationFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             multiSelector.restoreSelectionStates(savedInstanceState.getBundle(MULTI_SELECTOR_STATE));
         }
     }
