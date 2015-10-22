@@ -13,7 +13,6 @@ import java.util.List;
 import pl.dariuszbacinski.meteo.rx.Indexed;
 import pl.dariuszbacinski.meteo.rx.NaturalNumbers;
 import rx.Observable;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
@@ -35,21 +34,9 @@ public class LocationAdapter extends RecyclerView.Adapter {
         restoreSelectedItems(multiSelector, favoriteLocationRepository.findAll());
     }
 
-    //TODO can be extracted
     private void restoreSelectedItems(final MultiSelector multiSelector, List<FavoriteLocation> favoriteLocationList) {
         final List<Location> selectedLocations = new LocationTransformation(favoriteLocationList).extractLocations();
-
-        locationObservable.filter(new Func1<Indexed<Location>, Boolean>() {
-            @Override
-            public Boolean call(Indexed<Location> locationIndexed) {
-                return selectedLocations.contains(locationIndexed.getValue());
-            }
-        }).forEach(new Action1<Indexed<Location>>() {
-            @Override
-            public void call(Indexed<Location> locationIndexed) {
-                multiSelector.setSelected(locationIndexed.getOriginalIndex(), -1, true);
-            }
-        });
+        new LocationMultiSelector(multiSelector).restoreSelectedItems(locationObservable, selectedLocations);
     }
 
     @Override
@@ -78,20 +65,7 @@ public class LocationAdapter extends RecyclerView.Adapter {
     }
 
     public List<FavoriteLocation> getFavoritePositions() {
-
-        final List<Integer> selectedPositions = multiSelector.getSelectedPositions();
-
-        return locationObservable.filter(new Func1<Indexed<Location>, Boolean>() {
-            @Override
-            public Boolean call(Indexed<Location> locationIndexed) {
-                return selectedPositions.contains(locationIndexed.getOriginalIndex());
-            }
-        }).map(new Func1<Indexed<Location>, FavoriteLocation>() {
-            @Override
-            public FavoriteLocation call(Indexed<Location> locationIndexed) {
-                return new FavoriteLocation(locationIndexed.getValue());
-            }
-        }).toList().toBlocking().single();
+        return new FavoriteLocationTransformation(locationObservable).filter(multiSelector.getSelectedPositions());
     }
 
     public void filterLocationsByName(final String name) {

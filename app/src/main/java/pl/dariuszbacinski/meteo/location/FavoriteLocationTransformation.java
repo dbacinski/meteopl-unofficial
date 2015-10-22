@@ -1,21 +1,29 @@
 package pl.dariuszbacinski.meteo.location;
 
-import java.util.ArrayList;
 import java.util.List;
 
-class FavoriteLocationTransformation {
-    private List<Location> locationList;
+import pl.dariuszbacinski.meteo.rx.Indexed;
+import rx.Observable;
+import rx.functions.Func1;
 
-    public FavoriteLocationTransformation(List<Location> locationList) {
-        this.locationList = locationList;
+class FavoriteLocationTransformation {
+    private Observable<Indexed<Location>> locationObservable;
+
+    public FavoriteLocationTransformation(Observable<Indexed<Location>> locationObservable) {
+        this.locationObservable = locationObservable;
     }
 
-    public List<FavoriteLocation> filter(List<Integer> selectedPositions) {
-        List<FavoriteLocation> favoriteLocations = new ArrayList<>();
-
-        for (Integer position : selectedPositions) {
-            favoriteLocations.add(new FavoriteLocation(locationList.get(position)));
-        }
-        return favoriteLocations;
+    public List<FavoriteLocation> filter(final List<Integer> selectedPositions) {
+        return locationObservable.filter(new Func1<Indexed<Location>, Boolean>() {
+            @Override
+            public Boolean call(Indexed<Location> locationIndexed) {
+                return selectedPositions.contains(locationIndexed.getOriginalIndex());
+            }
+        }).map(new Func1<Indexed<Location>, FavoriteLocation>() {
+            @Override
+            public FavoriteLocation call(Indexed<Location> locationIndexed) {
+                return new FavoriteLocation(locationIndexed.getValue());
+            }
+        }).toList().toBlocking().single();
     }
 }

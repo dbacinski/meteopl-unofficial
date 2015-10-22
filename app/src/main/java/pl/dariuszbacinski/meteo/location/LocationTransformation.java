@@ -13,7 +13,6 @@ public class LocationTransformation {
             @Override
             public Location call(FavoriteLocation favoriteLocation) {
                 return favoriteLocation.getLocation();
-
             }
         });
     }
