@@ -6,7 +6,6 @@ import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 
 class LocationViewHolderSpec extends ShadowRoboSpecification {
 
-
     def "toggles view on click"() {
         given:
             CheckedTextView checkedTextView = Spy(CheckedTextView, constructorArgs: [RuntimeEnvironment.application])
