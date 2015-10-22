@@ -27,6 +27,7 @@ public class LocationFragment extends Fragment {
     private MultiSelector multiSelector = new MultiSelector();
     private LocationAdapter locationAdapter;
     private FavoriteLocationRepository favoriteLocationRepository = new FavoriteLocationRepository();
+    private LocationRepository locationRepository = new LocationRepository();
 
     public LocationFragment() {
 
@@ -41,7 +42,7 @@ public class LocationFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        locationAdapter = new LocationAdapter(new LocationRepository(), multiSelector, favoriteLocationRepository);
+        locationAdapter = new LocationAdapter(multiSelector, locationRepository.findAll(), favoriteLocationRepository.findAll());
         recyclerView.setAdapter(locationAdapter);
         EditText filterInput = (EditText) view.findViewById(R.id.favorites_filter);
         RxTextView.textChanges(filterInput).subscribe(new Action1<CharSequence>() {
