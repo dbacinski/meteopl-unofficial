@@ -2,11 +2,11 @@ package pl.dariuszbacinski.meteo.diagram;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentStatePagerAdapter;
 
 import pl.dariuszbacinski.meteo.location.LocationTransformation;
 
-public class WeatherDiagramPagerAdapter extends FragmentPagerAdapter {
+public class WeatherDiagramPagerAdapter extends FragmentStatePagerAdapter {
 
     private LocationTransformation locationTransformation;
 
