@@ -50,7 +50,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 
     @Override
     public LocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ListItemLocationBinding binding = ListItemLocationBinding.inflate(LayoutInflater.from(parent.getContext()));
+        ListItemLocationBinding binding = ListItemLocationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new LocationViewHolder((CheckedTextView) binding.getRoot());
     }
 
@@ -64,11 +64,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 
     private Indexed<Location> getLocationAtPosition(final int position) {
         return getLocationObservable().filter(new Func1<Indexed<Location>, Boolean>() {
-                @Override
-                public Boolean call(Indexed<Location> locationIndexed) {
-                    return locationIndexed.getIndex() == position;
-                }
-            }).toBlocking().single();
+            @Override
+            public Boolean call(Indexed<Location> locationIndexed) {
+                return locationIndexed.getIndex() == position;
+            }
+        }).toBlocking().single();
     }
 
     @Override
@@ -77,7 +77,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     }
 
     public List<FavoriteLocation> getFavoritePositions() {
-        return new FavoriteLocationTransformation(getLocationObservable()).filter(getMultiSelector().getSelectedPositions());
+        return new FavoriteLocationTransformation(getOriginalLocationObservable()).filter(getMultiSelector().getSelectedPositions());
     }
 
     public void filterLocationsByName(final String name) {
