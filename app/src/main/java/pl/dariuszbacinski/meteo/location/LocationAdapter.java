@@ -2,7 +2,6 @@ package pl.dariuszbacinski.meteo.location;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 
@@ -13,6 +12,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import pl.dariuszbacinski.meteo.databinding.ListItemLocationBinding;
 import pl.dariuszbacinski.meteo.rx.Indexed;
 import pl.dariuszbacinski.meteo.rx.NaturalNumbers;
 import rx.Observable;
@@ -21,7 +21,7 @@ import rx.functions.Func2;
 
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PRIVATE)
-public class LocationAdapter extends RecyclerView.Adapter {
+public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     private MultiSelector multiSelector;
     private Observable<Indexed<Location>> originalLocationObservable;
     private Observable<Indexed<Location>> locationObservable;
@@ -49,18 +49,17 @@ public class LocationAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_multiple_choice, parent, false);
-        return new LocationViewHolder((CheckedTextView) view, getMultiSelector());
+    public LocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ListItemLocationBinding binding = ListItemLocationBinding.inflate(LayoutInflater.from(parent.getContext()));
+        return new LocationViewHolder((CheckedTextView) binding.getRoot());
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(LocationViewHolder holder, int position) {
         Indexed<Location> locationIndexed = getLocationAtPosition(position);
-        LocationViewHolder locationViewHolder = (LocationViewHolder) holder;
-        locationViewHolder.bindName(locationIndexed.getValue().getName());
-        locationViewHolder.bindSelected(getMultiSelector().isSelected(locationIndexed.getOriginalIndex(), -1));
+        LocationListItem listItem = new LocationListItem(locationIndexed.getValue().getName(), getMultiSelector().isSelected(locationIndexed.getOriginalIndex(), -1));
+        holder.getBinding().setItem(listItem);
+        holder.getBinding().setListener(new LocationListItemOnClickListener(multiSelector, locationIndexed.getOriginalIndex()));
     }
 
     private Indexed<Location> getLocationAtPosition(final int position) {

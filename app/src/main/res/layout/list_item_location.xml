@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="item"
+            type="pl.dariuszbacinski.meteo.location.LocationListItem"/>
+
+        <variable
+            name="listener"
+            type="pl.dariuszbacinski.meteo.location.LocationListItemOnClickListener"/>
+    </data>
+
+    <CheckedTextView
+        android:id="@+id/location_name"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:checked="@{item.checked}"
+        android:gravity="center_vertical"
+        android:onClick="@{listener.onClick}"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
+        android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:text="@{item.name}"
+        android:textAppearance="?android:attr/textAppearanceListItem"/>
+</layout>
