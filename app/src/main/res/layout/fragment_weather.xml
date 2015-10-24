@@ -11,6 +11,6 @@
     <uk.co.senab.photoview.PhotoView
         android:id="@+id/weather_diagram"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         />
 </RelativeLayout>
