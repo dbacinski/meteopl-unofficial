@@ -27,7 +27,7 @@ public class DiagramActivity extends AppCompatActivity {
         diagramPagerAdapter = new DiagramPagerAdapter(getFragmentManager(), new LocationTransformation(new FavoriteLocationRepository().findAll()));
         startLocationActivityWhenNoFavoriteLocations(diagramPagerAdapter.getCount());
 
-        setContentView(R.layout.activity_weather);
+        setContentView(R.layout.activity_diagram);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         ViewPager viewPager = createViewPager(diagramPagerAdapter);

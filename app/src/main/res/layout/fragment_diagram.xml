@@ -1,0 +1,27 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="imageUrl"
+            type="String"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".diagram.WeatherDiagramFragment">
+
+        <uk.co.senab.photoview.PhotoView
+            android:id="@+id/weather_diagram"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            bind:imageUrl="@{imageUrl}"/>
+    </RelativeLayout>
+</layout>
