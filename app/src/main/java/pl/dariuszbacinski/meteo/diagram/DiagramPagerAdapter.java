@@ -6,11 +6,11 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 
 import pl.dariuszbacinski.meteo.location.LocationTransformation;
 
-public class WeatherDiagramPagerAdapter extends FragmentStatePagerAdapter {
+public class DiagramPagerAdapter extends FragmentStatePagerAdapter {
 
     private LocationTransformation locationTransformation;
 
-    public WeatherDiagramPagerAdapter(FragmentManager fm, LocationTransformation locationTransformation) {
+    public DiagramPagerAdapter(FragmentManager fm, LocationTransformation locationTransformation) {
         super(fm);
         this.locationTransformation = locationTransformation;
     }
@@ -18,7 +18,7 @@ public class WeatherDiagramPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         DiagramCoordinates diagramCoordinates = new DiagramCoordinates(locationTransformation.extractLocationAtPosition(position).getCol(), locationTransformation.extractLocationAtPosition(position).getRow());
-        return WeatherDiagramFragment.newInstance(diagramCoordinates);
+        return DiagramFragment.newInstance(diagramCoordinates);
     }
 
     @Override

@@ -12,13 +12,13 @@ import com.squareup.picasso.Picasso;
 import pl.dariuszbacinski.meteo.R;
 import uk.co.senab.photoview.PhotoView;
 
-public class WeatherDiagramFragment extends Fragment {
+public class DiagramFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private DiagramLinkProvider diagramLinkProvider = new DiagramLinkProvider();
 
-    public static WeatherDiagramFragment newInstance(DiagramCoordinates sectionNumber) {
-        WeatherDiagramFragment fragment = new WeatherDiagramFragment();
+    public static DiagramFragment newInstance(DiagramCoordinates sectionNumber) {
+        DiagramFragment fragment = new DiagramFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);

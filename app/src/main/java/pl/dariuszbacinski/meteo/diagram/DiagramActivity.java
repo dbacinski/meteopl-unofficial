@@ -17,20 +17,20 @@ import pl.dariuszbacinski.meteo.location.LocationActivity;
 import pl.dariuszbacinski.meteo.location.LocationTransformation;
 
 
-public class WeatherDiagramActivity extends AppCompatActivity {
+public class DiagramActivity extends AppCompatActivity {
 
-    private WeatherDiagramPagerAdapter weatherDiagramPagerAdapter;
+    private DiagramPagerAdapter diagramPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        weatherDiagramPagerAdapter = new WeatherDiagramPagerAdapter(getFragmentManager(), new LocationTransformation(new FavoriteLocationRepository().findAll()));
-        startLocationActivityWhenNoFavoriteLocations(weatherDiagramPagerAdapter.getCount());
+        diagramPagerAdapter = new DiagramPagerAdapter(getFragmentManager(), new LocationTransformation(new FavoriteLocationRepository().findAll()));
+        startLocationActivityWhenNoFavoriteLocations(diagramPagerAdapter.getCount());
 
         setContentView(R.layout.activity_weather);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        ViewPager viewPager = createViewPager(weatherDiagramPagerAdapter);
+        ViewPager viewPager = createViewPager(diagramPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setOnTabSelectedListener(new TabSelectedUpdater(viewPager));
@@ -39,7 +39,7 @@ public class WeatherDiagramActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        weatherDiagramPagerAdapter.setLocations(new LocationTransformation(new FavoriteLocationRepository().findAll()));
+        diagramPagerAdapter.setLocations(new LocationTransformation(new FavoriteLocationRepository().findAll()));
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout.setupWithViewPager(viewPager);
@@ -61,9 +61,9 @@ public class WeatherDiagramActivity extends AppCompatActivity {
         startActivity(new Intent(this, LocationActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
     }
 
-    private ViewPager createViewPager(WeatherDiagramPagerAdapter weatherDiagramPagerAdapter) {
+    private ViewPager createViewPager(DiagramPagerAdapter diagramPagerAdapter) {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(weatherDiagramPagerAdapter);
+        viewPager.setAdapter(diagramPagerAdapter);
         return viewPager;
     }
 

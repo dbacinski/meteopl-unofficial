@@ -16,7 +16,7 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.dariuszbacinski.meteo.R;
-import pl.dariuszbacinski.meteo.diagram.WeatherDiagramActivity;
+import pl.dariuszbacinski.meteo.diagram.DiagramActivity;
 import rx.functions.Action1;
 
 import static android.support.v7.widget.RecyclerView.LayoutManager;
@@ -36,7 +36,7 @@ public class LocationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_favorite, container, false);
+        View view = inflater.inflate(R.layout.fragment_location, container, false);
         ButterKnife.bind(this, view);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.favorites_list);
         recyclerView.setHasFixedSize(true);
@@ -71,6 +71,6 @@ public class LocationFragment extends Fragment {
     @OnClick(R.id.favorites_save)
     public void saveFavorites() {
         favoriteLocationRepository.saveList(locationAdapter.getFavoritePositions());
-        startActivity(new Intent(getActivity(), WeatherDiagramActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        startActivity(new Intent(getActivity(), DiagramActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
     }
 }
