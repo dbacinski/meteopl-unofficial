@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.bignerdranch.android.multiselector.MultiSelector;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
-import butterknife.ButterKnife;
 import pl.dariuszbacinski.meteo.databinding.FragmentLocationBinding;
 import pl.dariuszbacinski.meteo.diagram.DiagramActivity;
 import rx.Subscription;
@@ -31,7 +30,6 @@ public class LocationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentLocationBinding locationBinding = FragmentLocationBinding.inflate(inflater, container, false);
-        ButterKnife.bind(this, locationBinding.getRoot());
         locationAdapter = new LocationAdapter(multiSelector, locationRepository.findAll(), favoriteLocationRepository.findAll());
         locationBinding.favoritesList.setHasFixedSize(true);
         locationBinding.favoritesList.setAdapter(locationAdapter);
