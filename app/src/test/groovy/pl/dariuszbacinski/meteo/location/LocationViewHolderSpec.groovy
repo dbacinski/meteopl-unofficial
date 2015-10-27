@@ -9,7 +9,7 @@ class LocationViewHolderSpec extends ShadowRoboSpecification {
     def "toggles view on click"() {
         given:
             CheckedTextView checkedTextView = Spy(CheckedTextView, constructorArgs: [RuntimeEnvironment.application])
-            LocationViewHolder objectUnderTest = new LocationViewHolder(checkedTextView)
+            LocationListItemOnClickListener objectUnderTest = new LocationListItemOnClickListener(new MultiSelector(), 0)
         when:
             objectUnderTest.onClick(checkedTextView)
         then:
@@ -21,7 +21,7 @@ class LocationViewHolderSpec extends ShadowRoboSpecification {
             MultiSelector multiSelector = new MultiSelector()
             multiSelector.setSelectable(true)
             CheckedTextView checkedTextView = Spy(CheckedTextView, constructorArgs: [RuntimeEnvironment.application])
-            LocationViewHolder objectUnderTest = new LocationViewHolder(checkedTextView)
+            LocationListItemOnClickListener objectUnderTest = new LocationListItemOnClickListener(multiSelector, 0)
         when:
             objectUnderTest.onClick(checkedTextView)
         then:

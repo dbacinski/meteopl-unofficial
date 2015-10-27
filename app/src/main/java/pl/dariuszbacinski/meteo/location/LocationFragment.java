@@ -19,11 +19,10 @@ import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.diagram.DiagramActivity;
 import rx.functions.Action1;
 
-import static android.support.v7.widget.RecyclerView.LayoutManager;
-
 public class LocationFragment extends Fragment {
 
     public static final String MULTI_SELECTOR_STATE = "multiselector";
+    //TODO try to replace with observable
     private MultiSelector multiSelector = new MultiSelector();
     private LocationAdapter locationAdapter;
     private FavoriteLocationRepository favoriteLocationRepository = new FavoriteLocationRepository();
@@ -40,10 +39,10 @@ public class LocationFragment extends Fragment {
         ButterKnife.bind(this, view);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.favorites_list);
         recyclerView.setHasFixedSize(true);
-        LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         locationAdapter = new LocationAdapter(multiSelector, locationRepository.findAll(), favoriteLocationRepository.findAll());
         recyclerView.setAdapter(locationAdapter);
+        //TODO migrate to data binding
         EditText filterInput = (EditText) view.findViewById(R.id.favorites_filter);
         RxTextView.textChanges(filterInput).subscribe(new Action1<CharSequence>() {
             @Override
@@ -68,8 +67,10 @@ public class LocationFragment extends Fragment {
         }
     }
 
+    //TODO migrate to data binding
     @OnClick(R.id.favorites_save)
     public void saveFavorites() {
+        //TODO model should be responsible for saving favorites
         favoriteLocationRepository.saveList(locationAdapter.getFavoritePositions());
         startActivity(new Intent(getActivity(), DiagramActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
     }
