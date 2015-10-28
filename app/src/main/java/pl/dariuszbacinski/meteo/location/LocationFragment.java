@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.bignerdranch.android.multiselector.MultiSelector;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
+import pl.dariuszbacinski.meteo.WeatherApplication;
 import pl.dariuszbacinski.meteo.databinding.FragmentLocationBinding;
 import pl.dariuszbacinski.meteo.diagram.DiagramActivity;
 import rx.Subscription;
@@ -69,5 +70,11 @@ public class LocationFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         watcherSubscription.unsubscribe();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        WeatherApplication.getRefWatcher(getActivity()).watch(this);
     }
 }

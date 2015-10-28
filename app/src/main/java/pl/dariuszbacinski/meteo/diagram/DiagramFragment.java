@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import pl.dariuszbacinski.meteo.WeatherApplication;
 import pl.dariuszbacinski.meteo.databinding.FragmentDiagramBinding;
 
 public class DiagramFragment extends Fragment {
@@ -29,5 +30,11 @@ public class DiagramFragment extends Fragment {
         FragmentDiagramBinding diagramBinding = FragmentDiagramBinding.inflate(inflater, container, false);
         diagramBinding.setImageUrl(diagramLink);
         return diagramBinding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        WeatherApplication.getRefWatcher(getActivity()).watch(this);
     }
 }
