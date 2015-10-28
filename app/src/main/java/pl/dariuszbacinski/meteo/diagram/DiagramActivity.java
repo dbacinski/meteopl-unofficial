@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import pl.dariuszbacinski.meteo.R;
+import pl.dariuszbacinski.meteo.databinding.ActivityDiagramBinding;
 import pl.dariuszbacinski.meteo.info.InfoActivity;
 import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.LocationActivity;
@@ -20,29 +20,27 @@ import pl.dariuszbacinski.meteo.location.LocationTransformation;
 public class DiagramActivity extends AppCompatActivity {
 
     private DiagramPagerAdapter diagramPagerAdapter;
+    private ActivityDiagramBinding diagramBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         diagramPagerAdapter = new DiagramPagerAdapter(getFragmentManager(), new LocationTransformation(new FavoriteLocationRepository().findAll()));
         startLocationActivityWhenNoFavoriteLocations(diagramPagerAdapter.getCount());
+        diagramBinding = ActivityDiagramBinding.inflate(getLayoutInflater());
+        setContentView(diagramBinding.getRoot());
+        setSupportActionBar(diagramBinding.toolbar);
 
-        setContentView(R.layout.activity_diagram);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
-        ViewPager viewPager = createViewPager(diagramPagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setOnTabSelectedListener(new TabSelectedUpdater(viewPager));
+        diagramBinding.pager.setAdapter(diagramPagerAdapter);
+        diagramBinding.tabs.setupWithViewPager(diagramBinding.pager);
+        diagramBinding.tabs.setOnTabSelectedListener(new TabSelectedUpdater(diagramBinding.pager));
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         diagramPagerAdapter.setLocations(new LocationTransformation(new FavoriteLocationRepository().findAll()));
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        tabLayout.setupWithViewPager(viewPager);
+        diagramBinding.tabs.setupWithViewPager(diagramBinding.pager);
     }
 
     @Override
@@ -59,12 +57,6 @@ public class DiagramActivity extends AppCompatActivity {
 
     private void startLocationActivity() {
         startActivity(new Intent(this, LocationActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-    }
-
-    private ViewPager createViewPager(DiagramPagerAdapter diagramPagerAdapter) {
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(diagramPagerAdapter);
-        return viewPager;
     }
 
     @Override
