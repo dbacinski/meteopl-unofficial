@@ -24,13 +24,13 @@ import rx.functions.Func2;
 public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     private MultiSelector multiSelector;
     private Observable<Indexed<Location>> originalLocationObservable;
-    private Observable<Indexed<Location>> locationObservable;
+    private List<Indexed<Location>> locationObservable;
 
     public LocationAdapter(MultiSelector multiSelector, List<Location> locationList, List<FavoriteLocation> favoriteLocationList) {
         this.multiSelector = multiSelector;
         multiSelector.setSelectable(true);
-        locationObservable = createObservableWithIndexedLocations(locationList);
-        originalLocationObservable = locationObservable;
+        originalLocationObservable = createObservableWithIndexedLocations(locationList);
+        locationObservable = originalLocationObservable.toList().toBlocking().single();
         restoreSelectedItems(multiSelector, originalLocationObservable, favoriteLocationList);
     }
 
@@ -40,7 +40,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
             public Indexed<Location> call(Location location, Integer index) {
                 return new Indexed<>(index, index, location);
             }
-        }).cache(5000);
+        });
     }
 
     private void restoreSelectedItems(MultiSelector multiSelector, Observable<Indexed<Location>> locationObservable, List<FavoriteLocation> favoriteLocationList) {
@@ -63,12 +63,12 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     }
 
     private Indexed<Location> getLocationAtPosition(final int position) {
-        return getLocationObservable().toList().cache().toBlocking().single().get(position);
+        return getLocationObservable().get(position);
     }
 
     @Override
     public int getItemCount() {
-        return getLocationObservable().count().toBlocking().single();
+        return getLocationObservable().size();
     }
 
     public List<FavoriteLocation> getFavoritePositions() {
@@ -86,7 +86,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
             public Indexed<Location> call(Indexed<Location> locationIndexed, Integer index) {
                 return locationIndexed.setIndex(index);
             }
-        }));
+        }).toList().toBlocking().single());
         notifyDataSetChanged();
     }
 }
