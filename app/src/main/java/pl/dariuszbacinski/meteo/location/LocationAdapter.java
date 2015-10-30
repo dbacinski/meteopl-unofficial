@@ -71,7 +71,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
         return getLocationObservable().size();
     }
 
-    public List<FavoriteLocation> getFavoritePositions() {
+    public List<FavoriteLocation> getFavoriteLocations() {
         return new FavoriteLocationTransformation(getOriginalLocationObservable()).filter(getMultiSelector().getSelectedPositions());
     }
 

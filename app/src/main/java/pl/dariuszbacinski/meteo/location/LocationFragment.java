@@ -61,7 +61,7 @@ public class LocationFragment extends Fragment {
 
     public void saveFavorites(View view) {
         //TODO model should be responsible for saving favorites
-        favoriteLocationRepository.saveList(locationAdapter.getFavoritePositions());
+        favoriteLocationRepository.saveList(locationAdapter.getFavoriteLocations());
         startActivity(new Intent(getActivity(), DiagramActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
     }
 

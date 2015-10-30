@@ -41,6 +41,7 @@ public class DiagramActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         diagramPagerAdapter.setLocations(new LocationTransformation(new FavoriteLocationRepository().findAll()));
         diagramBinding.tabs.setupWithViewPager(diagramBinding.pager);
+        startLocationActivityWhenNoFavoriteLocations(diagramPagerAdapter.getCount());
     }
 
     @Override
