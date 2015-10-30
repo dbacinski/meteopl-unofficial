@@ -40,7 +40,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
             public Indexed<Location> call(Location location, Integer index) {
                 return new Indexed<>(index, index, location);
             }
-        });
+        }).cache(5000);
     }
 
     private void restoreSelectedItems(MultiSelector multiSelector, Observable<Indexed<Location>> locationObservable, List<FavoriteLocation> favoriteLocationList) {
@@ -63,12 +63,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     }
 
     private Indexed<Location> getLocationAtPosition(final int position) {
-        return getLocationObservable().filter(new Func1<Indexed<Location>, Boolean>() {
-            @Override
-            public Boolean call(Indexed<Location> locationIndexed) {
-                return locationIndexed.getIndex() == position;
-            }
-        }).toBlocking().single();
+        return getLocationObservable().toList().cache().toBlocking().single().get(position);
     }
 
     @Override

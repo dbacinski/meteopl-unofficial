@@ -19,7 +19,7 @@ public class Location extends Model {
     @Column
     private String name;
     @Column
-    private Integer col;
-    @Column
     private Integer row;
+    @Column
+    private Integer col;
 }
