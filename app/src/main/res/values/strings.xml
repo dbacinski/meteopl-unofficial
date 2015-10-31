@@ -1,12 +1,10 @@
 <resources>
-    <string name="app_name">Meteo</string>
+    <string name="app_name">Meteo.pl Unofficial</string>
     <!-- Favorite Screen -->
     <string name="action_favorite">Ulubione</string>
-    <string name="title_activity_favorite">FavoriteActivity</string>
     <!-- Info Screen -->
-    <string name="title_activity_info">InfoActivity</string>
     <string name="action_info">O aplikacji</string>
-    <string name="info_author">Autor: Dariusz Baciński</string>
-    <string name="info_issue_tracker">W przypadku niewłaściwego działania aplikacji proszę o zgłoszenie błędów na stronie:</string>
-    <string name="info_issue_tracker_link">https://bitbucket.org/dariusz_bacinski/meteo_new/issues/new</string>
+    <string name="info_author" formatted="false"><![CDATA[Autor: <a href="https://www.linkedin.com/pub/dariusz-baci%C5%84ski/22/5ab/33b">Dariusz Baciński</a><br><br>Icons: <a href="https://www.linkedin.com/in/kkosiorek/de">Konrad Kosiorek</a>]]></string>
+    <string name="location_choose_favorite">Wybierz ulubione lokalizacje</string>
+    <string name="save">Zapisz</string>
 </resources>

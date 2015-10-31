@@ -7,7 +7,8 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="21"/>
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission
+        android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".WeatherApplication"
@@ -25,7 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".location.LocationActivity"/>
+        <activity
+            android:name=".info.InfoActivity"/>
         <meta-data
             android:name="AA_DB_NAME"
             android:value="meteo.db"/>
@@ -35,21 +39,5 @@
         <meta-data
             android:name="AA_MODELS"
             android:value="pl.dariuszbacinski.meteo.location.FavoriteLocation, pl.dariuszbacinski.meteo.location.Location"/>
-
-        <activity
-            android:name=".location.LocationActivity"
-            android:label="@string/title_activity_favorite">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".info.InfoActivity"
-            android:label="@string/title_activity_info"
-            android:theme="@style/AppTheme">
-        </activity>
     </application>
-
 </manifest>
