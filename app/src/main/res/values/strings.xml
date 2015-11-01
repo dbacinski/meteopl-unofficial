@@ -4,7 +4,7 @@
     <string name="action_favorite">Ulubione</string>
     <!-- Info Screen -->
     <string name="action_info">O aplikacji</string>
-    <string name="info_author" formatted="false"><![CDATA[Autor: <a href="https://www.linkedin.com/pub/dariusz-baci%C5%84ski/22/5ab/33b">Dariusz Baciński</a><br><br>Icons: <a href="https://www.linkedin.com/in/kkosiorek/de">Konrad Kosiorek</a>]]></string>
+    <string name="info_author" formatted="false" translatable="false"><![CDATA[Author: <a href="https://www.linkedin.com/pub/dariusz-baci%C5%84ski/22/5ab/33b">Dariusz Baciński</a><br><br>Icons: <a href="https://www.linkedin.com/in/kkosiorek/de">Konrad Kosiorek</a>]]></string>
     <string name="location_choose_favorite">Wybierz ulubione lokalizacje</string>
     <string name="save">Zapisz</string>
 </resources>
