@@ -35,4 +35,9 @@ public class DiagramPagerAdapter extends FragmentStatePagerAdapter {
         this.locationTransformation = locationTransformation;
         notifyDataSetChanged();
     }
+
+    public int getItemPosition(Object object) {
+        //XXX Hack to reload all fragments on notifyDataSetChanged()
+        return POSITION_NONE;
+    }
 }
