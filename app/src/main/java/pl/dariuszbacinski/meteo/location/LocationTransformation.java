@@ -17,16 +17,7 @@ public class LocationTransformation {
         });
     }
 
-    public Location extractLocationAtPosition(int position) {
-        return locations.elementAt(position).toBlocking().single();
-    }
-
     public List<Location> extractLocations(){
         return locations.toList().toBlocking().single();
     }
-
-    public int getFavoriteLocationCount() {
-        return locations.count().toBlocking().single();
-    }
-
 }
