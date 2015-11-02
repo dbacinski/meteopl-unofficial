@@ -1,0 +1,4 @@
+<resources>
+    <integer name="image_scale_min">2</integer>
+    <integer name="image_scale_max">4</integer>
+</resources>
