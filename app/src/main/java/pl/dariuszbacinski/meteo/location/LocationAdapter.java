@@ -24,13 +24,13 @@ import rx.functions.Func2;
 public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     private MultiSelector multiSelector;
     private Observable<Indexed<Location>> originalLocationObservable;
-    private List<Indexed<Location>> locationObservable;
+    private List<Indexed<Location>> locations;
 
-    public LocationAdapter(MultiSelector multiSelector, List<Location> locationList, List<FavoriteLocation> favoriteLocationList) {
+    public LocationAdapter(MultiSelector multiSelector, List<Location> locationList, List<Location> favoriteLocationList) {
         this.multiSelector = multiSelector;
         multiSelector.setSelectable(true);
         originalLocationObservable = createObservableWithIndexedLocations(locationList);
-        locationObservable = originalLocationObservable.toList().toBlocking().single();
+        locations = originalLocationObservable.toList().toBlocking().single();
         restoreSelectedItems(multiSelector, originalLocationObservable, favoriteLocationList);
     }
 
@@ -43,8 +43,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
         });
     }
 
-    private void restoreSelectedItems(MultiSelector multiSelector, Observable<Indexed<Location>> locationObservable, List<FavoriteLocation> favoriteLocationList) {
-        List<Location> selectedLocations = new LocationTransformation(favoriteLocationList).extractLocations();
+    private void restoreSelectedItems(MultiSelector multiSelector, Observable<Indexed<Location>> locationObservable, List<Location> selectedLocations) {
         new LocationMultiSelector(multiSelector).restoreSelectedItems(locationObservable, selectedLocations);
     }
 
@@ -63,20 +62,32 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     }
 
     private Indexed<Location> getLocationAtPosition(final int position) {
-        return getLocationObservable().get(position);
+        return getLocations().get(position);
     }
 
     @Override
     public int getItemCount() {
-        return getLocationObservable().size();
+        return getLocations().size();
     }
 
-    public List<FavoriteLocation> getFavoriteLocations() {
-        return new FavoriteLocationTransformation(getOriginalLocationObservable()).filter(getMultiSelector().getSelectedPositions());
+    public List<Location> getSelectedLocations() {
+        final List<Integer> selectedPositions = getMultiSelector().getSelectedPositions();
+
+        return getOriginalLocationObservable().filter(new Func1<Indexed<Location>, Boolean>() {
+            @Override
+            public Boolean call(Indexed<Location> locationIndexed) {
+                return selectedPositions.contains(locationIndexed.getOriginalIndex());
+            }
+        }).map(new Func1<Indexed<Location>, Location>() {
+            @Override
+            public Location call(Indexed<Location> locationIndexed) {
+                return locationIndexed.getValue();
+            }
+        }).toList().toBlocking().single();
     }
 
     public void filterLocationsByName(final String name) {
-        setLocationObservable(getOriginalLocationObservable().filter(new Func1<Indexed<Location>, Boolean>() {
+        setLocations(getOriginalLocationObservable().filter(new Func1<Indexed<Location>, Boolean>() {
             @Override
             public Boolean call(Indexed<Location> locationIndexed) {
                 return locationIndexed.getValue().getName().toLowerCase().contains(name.toLowerCase());

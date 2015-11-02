@@ -14,7 +14,6 @@ import pl.dariuszbacinski.meteo.databinding.ActivityDiagramBinding;
 import pl.dariuszbacinski.meteo.info.InfoActivity;
 import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.LocationActivity;
-import pl.dariuszbacinski.meteo.location.LocationTransformation;
 
 
 public class DiagramActivity extends AppCompatActivity {
@@ -25,7 +24,7 @@ public class DiagramActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        diagramPagerAdapter = new DiagramPagerAdapter(getFragmentManager(), new LocationTransformation(new FavoriteLocationRepository().findAll()));
+        diagramPagerAdapter = new DiagramPagerAdapter(getFragmentManager(), new FavoriteLocationRepository().findAll());
         startLocationActivityWhenNoFavoriteLocations(diagramPagerAdapter.getCount());
         diagramBinding = ActivityDiagramBinding.inflate(getLayoutInflater());
         setContentView(diagramBinding.getRoot());
@@ -39,7 +38,7 @@ public class DiagramActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        diagramPagerAdapter.setLocations(new LocationTransformation(new FavoriteLocationRepository().findAll()));
+        diagramPagerAdapter.setFavoriteLocations(new FavoriteLocationRepository().findAll());
         diagramBinding.tabs.setupWithViewPager(diagramBinding.pager);
         startLocationActivityWhenNoFavoriteLocations(diagramPagerAdapter.getCount());
     }

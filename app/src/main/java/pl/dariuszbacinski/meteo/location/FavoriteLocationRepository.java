@@ -8,17 +8,18 @@ import java.util.List;
 
 public class FavoriteLocationRepository {
 
-    public List<FavoriteLocation> findAll() {
-        return new Select().from(FavoriteLocation.class).execute();
+    public List<Location> findAll() {
+        List<FavoriteLocation> favoriteLocations = new Select().from(FavoriteLocation.class).execute();
+        return new LocationTransformation(favoriteLocations).extractLocations();
     }
 
-    public void saveList(List<FavoriteLocation> favoritePositions) {
+    public void saveList(List<Location> favoriteLocations) {
         ActiveAndroid.beginTransaction();
 
         try {
             new Delete().from(FavoriteLocation.class).execute();
-            for (FavoriteLocation favoriteLocation : favoritePositions) {
-                favoriteLocation.save();
+            for (Location favoriteLocation : favoriteLocations) {
+                new FavoriteLocation(favoriteLocation).save();
             }
             ActiveAndroid.setTransactionSuccessful();
         } finally {

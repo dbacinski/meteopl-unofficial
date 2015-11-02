@@ -1,9 +1,7 @@
 package pl.dariuszbacinski.meteo.location
 
 import com.bignerdranch.android.multiselector.MultiSelector
-import pl.dariuszbacinski.meteo.rx.Indexed
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
-import rx.Observable
 
 class LocationAdapterSpec extends ShadowRoboSpecification {
 
@@ -23,7 +21,7 @@ class LocationAdapterSpec extends ShadowRoboSpecification {
             objectUnderTest.filterLocationsByName("lub")
         then:
             objectUnderTest.getItemCount() == 1
-            getFirstLocation(objectUnderTest.getLocationObservable()).value.name == "Lublin"
+            objectUnderTest.getLocations().first().value.name == "Lublin"
     }
 
     def "filters locations by name and updates position"() {
@@ -32,11 +30,28 @@ class LocationAdapterSpec extends ShadowRoboSpecification {
         when:
             objectUnderTest.filterLocationsByName("Lublin")
         then:
-            getFirstLocation(objectUnderTest.getLocationObservable()).index == 0
-            getFirstLocation(objectUnderTest.getLocationObservable()).originalIndex == 1
+            objectUnderTest.getLocations().first().index == 0
+            objectUnderTest.getLocations().first().originalIndex == 1
     }
 
-    def getFirstLocation(Observable<Indexed<Location>> indexedObservable) {
-        indexedObservable.toList().toBlocking().single().get(0)
+
+    def "returns selected locations "() {
+        given:
+            LocationAdapter objectUnderTest =
+                    new LocationAdapter(new MultiSelector(),
+                            [new Location('BerlinNotSelected', 0, 0), new Location('Warszawa', 0, 0), new Location('Lublin', 0, 0)],
+                            [new Location('Warszawa', 0, 0), new Location('Lublin', 0, 0)])
+        when:
+            def favoriteLocations = objectUnderTest.getSelectedLocations()
+        then:
+            favoriteLocations.getLocationNameAtPosition(0) == 'Warszawa'
+            favoriteLocations.getLocationNameAtPosition(1) == 'Lublin'
     }
+
+    def setupSpec() {
+        List.metaClass.getLocationNameAtPosition {
+            delegate.get(it).name
+        }
+    }
+
 }

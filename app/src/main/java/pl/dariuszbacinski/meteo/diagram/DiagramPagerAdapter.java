@@ -4,35 +4,38 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
-import pl.dariuszbacinski.meteo.location.LocationTransformation;
+import java.util.List;
+
+import pl.dariuszbacinski.meteo.location.Location;
 
 public class DiagramPagerAdapter extends FragmentStatePagerAdapter {
 
-    private LocationTransformation locationTransformation;
+    private List<Location> favoriteLocations;
 
-    public DiagramPagerAdapter(FragmentManager fm, LocationTransformation locationTransformation) {
+    public DiagramPagerAdapter(FragmentManager fm, List<Location> favoriteLocations) {
         super(fm);
-        this.locationTransformation = locationTransformation;
+        this.favoriteLocations = favoriteLocations;
     }
 
     @Override
     public Fragment getItem(int position) {
-        DiagramCoordinates diagramCoordinates = new DiagramCoordinates(locationTransformation.extractLocationAtPosition(position).getCol(), locationTransformation.extractLocationAtPosition(position).getRow());
+        Location location = favoriteLocations.get(position);
+        DiagramCoordinates diagramCoordinates = new DiagramCoordinates(location.getCol(), location.getRow());
         return DiagramFragment.newInstance(diagramCoordinates);
     }
 
     @Override
     public int getCount() {
-        return locationTransformation.getFavoriteLocationCount();
+        return favoriteLocations.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return locationTransformation.extractLocationAtPosition(position).getName();
+        return favoriteLocations.get(position).getName();
     }
 
-    public void setLocations(LocationTransformation locationTransformation) {
-        this.locationTransformation = locationTransformation;
+    public void setFavoriteLocations(List<Location> favoriteLocations) {
+        this.favoriteLocations = favoriteLocations;
         notifyDataSetChanged();
     }
 
