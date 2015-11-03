@@ -9,7 +9,7 @@ android {
         applicationId "pl.dariuszbacinski.meteo"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 3
+        versionCode 4
         versionName "1.0"
         multiDexEnabled true
     }
