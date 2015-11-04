@@ -3,6 +3,7 @@ package pl.dariuszbacinski.meteo.location;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,13 @@ import android.view.ViewGroup;
 import com.bignerdranch.android.multiselector.MultiSelector;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
+import java.util.List;
+
+import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.WeatherApplication;
 import pl.dariuszbacinski.meteo.databinding.FragmentLocationBinding;
 import pl.dariuszbacinski.meteo.diagram.DiagramActivity;
+import pl.dariuszbacinski.meteo.ui.SnackbarLightBuilder;
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -26,11 +31,12 @@ public class LocationFragment extends Fragment {
     private FavoriteLocationRepository favoriteLocationRepository = new FavoriteLocationRepository();
     private LocationRepository locationRepository = new LocationRepository();
     private Subscription watcherSubscription;
+    private FragmentLocationBinding locationBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentLocationBinding locationBinding = FragmentLocationBinding.inflate(inflater, container, false);
+        locationBinding = FragmentLocationBinding.inflate(inflater, container, false);
         locationAdapter = new LocationAdapter(multiSelector, locationRepository.findAll(), favoriteLocationRepository.findAll());
         locationBinding.favoritesList.setHasFixedSize(true);
         locationBinding.favoritesList.setAdapter(locationAdapter);
@@ -61,15 +67,20 @@ public class LocationFragment extends Fragment {
 
     public void saveFavorites(View view) {
         //TODO model should be responsible for saving favorites
-        favoriteLocationRepository.saveList(locationAdapter.getSelectedLocations());
-        startActivity(new Intent(getActivity(), DiagramActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        final List<Location> selectedLocations = locationAdapter.getSelectedLocations();
+        favoriteLocationRepository.saveList(selectedLocations);
+        if (selectedLocations.size() == 0) {
+            new SnackbarLightBuilder().make(getView(), R.string.location_no_locations_selected, Snackbar.LENGTH_LONG).show();
+        } else {
+            startActivity(new Intent(getActivity(), DiagramActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        }
     }
-
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         watcherSubscription.unsubscribe();
+        locationBinding = null;
     }
 
     @Override

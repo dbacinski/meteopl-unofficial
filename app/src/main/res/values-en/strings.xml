@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Meteo.pl Unofficial</string>
-    <string name="action_favorite">Favorites</string>
+    <string name="action_favorite">Edit locations</string>
     <string name="action_info">About</string>
     <string name="location_choose_favorite">Select favorite locations</string>
     <string name="save">Save</string>
+    <string name="location_no_locations_selected">Select at least one location</string>
 </resources>
