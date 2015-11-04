@@ -73,6 +73,7 @@ public class LocationFragment extends Fragment {
             new SnackbarLightBuilder().make(getView(), R.string.location_no_locations_selected, Snackbar.LENGTH_LONG).show();
         } else {
             startActivity(new Intent(getActivity(), DiagramActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+            getActivity().finish();
         }
     }
 
