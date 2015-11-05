@@ -3,10 +3,6 @@
     package="pl.dariuszbacinski.meteo"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="21"/>
-
     <uses-permission
         android:name="android.permission.INTERNET"/>
 
@@ -39,5 +35,8 @@
         <meta-data
             android:name="AA_MODELS"
             android:value="pl.dariuszbacinski.meteo.location.FavoriteLocation, pl.dariuszbacinski.meteo.location.Location"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3532ab59d2182893c031c56cac2353f33af09bf3" />
     </application>
 </manifest>
