@@ -24,9 +24,8 @@ import rx.functions.Func2;
 @Setter(AccessLevel.PRIVATE)
 public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     private MultiSelector multiSelector;
-    //TODO migrate to IndexedLocation
-    private Observable<Indexed<Location>> originalLocationObservable;
-    private List<Indexed<Location>> locations;
+    private Observable<IndexedLocation> originalLocationObservable;
+    private List<IndexedLocation> locations;
 
     public LocationAdapter(MultiSelector multiSelector, List<Location> locationList, List<Location> favoriteLocationList) {
         this.multiSelector = multiSelector;
@@ -36,16 +35,16 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
         restoreSelectedItems(multiSelector, originalLocationObservable, favoriteLocationList);
     }
 
-    private Observable<Indexed<Location>> createObservableWithIndexedLocations(List<Location> locationList) {
-        return Observable.from(locationList).zipWith(NaturalNumbers.instance(), new Func2<Location, Integer, Indexed<Location>>() {
+    private Observable<IndexedLocation> createObservableWithIndexedLocations(List<Location> locationList) {
+        return Observable.from(locationList).zipWith(NaturalNumbers.instance(), new Func2<Location, Integer, IndexedLocation>() {
             @Override
-            public Indexed<Location> call(Location location, Integer index) {
-                return new Indexed<>(index, index, location);
+            public IndexedLocation call(Location location, Integer index) {
+                return new IndexedLocation(index, index, location);
             }
         });
     }
 
-    private void restoreSelectedItems(MultiSelector multiSelector, Observable<Indexed<Location>> locationObservable, List<Location> selectedLocations) {
+    private void restoreSelectedItems(MultiSelector multiSelector, Observable<IndexedLocation> locationObservable, List<Location> selectedLocations) {
         new LocationMultiSelector(multiSelector).restoreSelectedItems(locationObservable, selectedLocations);
     }
 
@@ -57,13 +56,13 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 
     @Override
     public void onBindViewHolder(LocationViewHolder holder, int position) {
-        Indexed<Location> locationIndexed = getLocationAtPosition(position);
+        IndexedLocation locationIndexed = getLocationAtPosition(position);
         LocationListItem listItem = new LocationListItem(locationIndexed.getValue().getName(), getMultiSelector().isSelected(locationIndexed.getOriginalIndex(), -1));
         holder.getBinding().setItem(listItem);
         holder.getBinding().setListener(new LocationListItemOnClickListener(multiSelector, locationIndexed.getOriginalIndex()));
     }
 
-    private Indexed<Location> getLocationAtPosition(final int position) {
+    private IndexedLocation getLocationAtPosition(final int position) {
         return getLocations().get(position);
     }
 
@@ -90,21 +89,17 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 
     @DebugLog
     public void filterLocationsByName(final String name) {
-        setLocations(getOriginalLocationObservable().filter(new Func1<Indexed<Location>, Boolean>() {
+        setLocations(getOriginalLocationObservable().filter(new Func1<IndexedLocation, Boolean>() {
             @Override
-            public Boolean call(Indexed<Location> locationIndexed) {
-                return getName(locationIndexed).contains(name.toLowerCase());
+            public Boolean call(IndexedLocation locationIndexed) {
+                return locationIndexed.getLowerCaseName().contains(name.toLowerCase());
             }
-        }).zipWith(new NaturalNumbers(), new Func2<Indexed<Location>, Integer, Indexed<Location>>() {
+        }).zipWith(new NaturalNumbers(), new Func2<IndexedLocation, Integer, IndexedLocation>() {
             @Override
-            public Indexed<Location> call(Indexed<Location> locationIndexed, Integer index) {
+            public IndexedLocation call(IndexedLocation locationIndexed, Integer index) {
                 return locationIndexed.setIndex(index);
             }
         }).toSortedList(new SortFunctionStartsWith(name)).toBlocking().single());
         notifyDataSetChanged();
-    }
-
-    private String getName(Indexed<Location> locationIndexed) {
-        return locationIndexed.getValue().getName().toLowerCase();
     }
 }

@@ -16,7 +16,7 @@ public class LocationMultiSelector {
     @Delegate
     MultiSelector multiSelector;
 
-    public void restoreSelectedItems(Observable<Indexed<Location>> locationObservable, final List<Location> selectedLocations) {
+    public void restoreSelectedItems(Observable<IndexedLocation> locationObservable, final List<Location> selectedLocations) {
 
         locationObservable.filter(new Func1<Indexed<Location>, Boolean>() {
             @Override

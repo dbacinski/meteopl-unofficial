@@ -13,5 +13,4 @@ public class Indexed<T> {
     private int index;
     private int originalIndex;
     private T value;
-
 }

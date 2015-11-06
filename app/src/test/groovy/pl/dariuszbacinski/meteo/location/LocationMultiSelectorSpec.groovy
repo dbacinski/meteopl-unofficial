@@ -1,7 +1,5 @@
 package pl.dariuszbacinski.meteo.location
-
 import com.bignerdranch.android.multiselector.MultiSelector
-import pl.dariuszbacinski.meteo.rx.Indexed
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 import rx.Observable
 
@@ -37,9 +35,9 @@ class LocationMultiSelectorSpec extends ShadowRoboSpecification {
             MultiSelector multiSelector = new MultiSelector()
             LocationMultiSelector objectUnderTest = new LocationMultiSelector(multiSelector)
             def observableLocations = Observable.from(
-                    [[ANY, ANY, new Location('first', ANY, ANY)] as Indexed<Location>,
-                     [SECOND_POSITION, SECOND_POSITION, new Location('second', ANY, ANY)] as Indexed<Location>,
-                     [THIRD_POSITION, THIRD_POSITION, new Location('third', ANY, ANY)] as Indexed<Location>])
+                    [[ANY, ANY, new Location('first', ANY, ANY)] as IndexedLocation,
+                     [SECOND_POSITION, SECOND_POSITION, new Location('second', ANY, ANY)] as IndexedLocation,
+                     [THIRD_POSITION, THIRD_POSITION, new Location('third', ANY, ANY)] as IndexedLocation])
         when:
             objectUnderTest.restoreSelectedItems(observableLocations, [new Location('second', ANY, ANY), new Location('third', ANY, ANY) ]);
         then:
