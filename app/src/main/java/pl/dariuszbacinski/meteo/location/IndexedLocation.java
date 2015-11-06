@@ -3,7 +3,6 @@ package pl.dariuszbacinski.meteo.location;
 import java.util.HashMap;
 import java.util.Map;
 
-import hugo.weaving.DebugLog;
 import pl.dariuszbacinski.meteo.rx.Indexed;
 
 public class IndexedLocation extends Indexed<Location> {
@@ -16,7 +15,6 @@ public class IndexedLocation extends Indexed<Location> {
         return getValue().getName().toLowerCase();
     }
 
-    @DebugLog
     public String getNormalizedName() {
         return StringNormalizer.normalizePlLang(getLowerCaseName());
     }

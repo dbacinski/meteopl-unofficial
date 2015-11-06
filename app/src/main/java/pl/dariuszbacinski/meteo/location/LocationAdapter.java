@@ -92,7 +92,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
         setLocations(getOriginalLocationObservable().filter(new Func1<IndexedLocation, Boolean>() {
             @Override
             public Boolean call(IndexedLocation locationIndexed) {
-                return locationIndexed.getLowerCaseName().contains(name.toLowerCase());
+                String lowerCaseName = name.toLowerCase();
+                return locationIndexed.getLowerCaseName().contains(lowerCaseName) || locationIndexed.getNormalizedName().contains(lowerCaseName) ;
             }
         }).zipWith(new NaturalNumbers(), new Func2<IndexedLocation, Integer, IndexedLocation>() {
             @Override
