@@ -20,7 +20,10 @@ public class WeatherApplication extends MultiDexApplication {
         super.onCreate();
         ActiveAndroid.initialize(this);
         refWatcher = LeakCanary.install(this);
+        initReleaseMode();
+    }
 
+    private void initReleaseMode() {
         if(!BuildConfig.DEBUG) {
             Fabric.with(this, new CrashlyticsCore(), new Answers());
         }
