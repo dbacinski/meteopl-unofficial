@@ -9,6 +9,7 @@ import com.bignerdranch.android.multiselector.MultiSelector;
 
 import java.util.List;
 
+import hugo.weaving.DebugLog;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ import rx.functions.Func2;
 @Setter(AccessLevel.PRIVATE)
 public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     private MultiSelector multiSelector;
+    //TODO migrate to IndexedLocation
     private Observable<Indexed<Location>> originalLocationObservable;
     private List<Indexed<Location>> locations;
 
@@ -86,18 +88,23 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
         }).toList().toBlocking().single();
     }
 
+    @DebugLog
     public void filterLocationsByName(final String name) {
         setLocations(getOriginalLocationObservable().filter(new Func1<Indexed<Location>, Boolean>() {
             @Override
             public Boolean call(Indexed<Location> locationIndexed) {
-                return locationIndexed.getValue().getName().toLowerCase().contains(name.toLowerCase());
+                return getName(locationIndexed).contains(name.toLowerCase());
             }
         }).zipWith(new NaturalNumbers(), new Func2<Indexed<Location>, Integer, Indexed<Location>>() {
             @Override
             public Indexed<Location> call(Indexed<Location> locationIndexed, Integer index) {
                 return locationIndexed.setIndex(index);
             }
-        }).toList().toBlocking().single());
+        }).toSortedList(new SortFunctionStartsWith(name)).toBlocking().single());
         notifyDataSetChanged();
+    }
+
+    private String getName(Indexed<Location> locationIndexed) {
+        return locationIndexed.getValue().getName().toLowerCase();
     }
 }

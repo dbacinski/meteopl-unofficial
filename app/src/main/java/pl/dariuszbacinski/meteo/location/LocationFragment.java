@@ -20,7 +20,10 @@ import pl.dariuszbacinski.meteo.databinding.FragmentLocationBinding;
 import pl.dariuszbacinski.meteo.diagram.DiagramActivity;
 import pl.dariuszbacinski.meteo.ui.SnackbarLightBuilder;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class LocationFragment extends Fragment {
 
@@ -41,7 +44,7 @@ public class LocationFragment extends Fragment {
         locationBinding.favoritesList.setHasFixedSize(true);
         locationBinding.favoritesList.setAdapter(locationAdapter);
         locationBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        watcherSubscription = RxTextView.textChanges(locationBinding.favoritesFilter).subscribe(new Action1<CharSequence>() {
+        watcherSubscription = RxTextView.textChanges(locationBinding.favoritesFilter).throttleLast(100L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<CharSequence>() {
             @Override
             public void call(CharSequence charSequence) {
                 locationAdapter.filterLocationsByName(charSequence.toString());

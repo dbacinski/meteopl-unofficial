@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'groovyx.grooid.groovy-android'
 apply plugin: 'com.android.databinding'
 apply plugin: 'io.fabric'
+apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 23
@@ -47,6 +48,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.pardom:ActiveAndroid:08c6335cd7'
     compile 'io.reactivex:rxjava:1.0.14'
+    compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.bignerdranch.android:recyclerview-multiselect:0.2'
     compile 'com.commit451:PhotoView:1.2.4'
     compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'

@@ -7,6 +7,6 @@ import java.util.List;
 public class LocationRepository {
 
     public List<Location> findAll() {
-        return new Select().from(Location.class).orderBy("name").execute();
+        return new Select().from(Location.class).orderBy("name COLLATE LOCALIZED ASC").execute();
     }
 }
