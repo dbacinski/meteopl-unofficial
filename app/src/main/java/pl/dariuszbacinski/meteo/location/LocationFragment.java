@@ -44,13 +44,8 @@ public class LocationFragment extends Fragment {
         locationBinding.favoritesList.setHasFixedSize(true);
         locationBinding.favoritesList.setAdapter(locationAdapter);
         locationBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        watcherSubscription = RxTextView.textChanges(locationBinding.favoritesFilter).throttleLast(100L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<CharSequence>() {
-            @Override
-            public void call(CharSequence charSequence) {
-                locationAdapter.filterLocationsByName(charSequence.toString());
-            }
-        });
         locationBinding.setFragment(this);
+        watcherSubscription = RxTextView.textChanges(locationBinding.favoritesFilter).throttleLast(100L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter));
         return locationBinding.getRoot();
     }
 
@@ -91,5 +86,19 @@ public class LocationFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         WeatherApplication.getRefWatcher(getActivity()).watch(this);
+    }
+
+    private static class FilterLocationByNameAction implements Action1<CharSequence> {
+
+        private LocationAdapter locationAdapter;
+
+        public FilterLocationByNameAction(LocationAdapter locationAdapter) {
+            this.locationAdapter = locationAdapter;
+        }
+
+        @Override
+        public void call(CharSequence charSequence) {
+            locationAdapter.filterLocationsByName(charSequence.toString());
+        }
     }
 }
