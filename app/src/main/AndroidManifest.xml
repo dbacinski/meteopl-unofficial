@@ -6,6 +6,9 @@
     <uses-permission
         android:name="android.permission.INTERNET"/>
 
+    <uses-sdk
+        android:targetSdkVersion="21"/>
+
     <application
         android:name=".WeatherApplication"
         android:allowBackup="true"
