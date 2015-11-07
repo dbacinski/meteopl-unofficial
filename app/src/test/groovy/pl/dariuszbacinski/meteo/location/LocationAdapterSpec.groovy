@@ -14,28 +14,7 @@ class LocationAdapterSpec extends ShadowRoboSpecification {
             count == 0
     }
 
-    def "filters locations by name ignoring case"() {
-        given:
-            LocationAdapter objectUnderTest = new LocationAdapter(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Lublin", 0, 0)], [])
-        when:
-            objectUnderTest.filterLocationsByName("lub")
-        then:
-            objectUnderTest.getItemCount() == 1
-            objectUnderTest.getLocations().first().value.name == "Lublin"
-    }
-
-    def "filters locations by name and updates position"() {
-        given:
-            LocationAdapter objectUnderTest = new LocationAdapter(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Lublin", 0, 0)], [])
-        when:
-            objectUnderTest.filterLocationsByName("Lublin")
-        then:
-            objectUnderTest.getLocations().first().index == 0
-            objectUnderTest.getLocations().first().originalIndex == 1
-    }
-
-
-    def "returns selected locations "() {
+    def "returns selected locations"() {
         given:
             LocationAdapter objectUnderTest =
                     new LocationAdapter(new MultiSelector(),

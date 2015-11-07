@@ -64,8 +64,8 @@ public class LocationFragment extends Fragment {
     }
 
     public void saveFavorites(View view) {
-        //TODO model should be responsible for saving favorites
         final List<Location> selectedLocations = locationAdapter.getSelectedLocations();
+        //TODO model should be responsible for saving favorites
         favoriteLocationRepository.saveList(selectedLocations);
         if (selectedLocations.size() == 0) {
             new SnackbarLightBuilder().make(getView(), R.string.location_no_locations_selected, Snackbar.LENGTH_LONG).show();
