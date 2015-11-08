@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.diagram;
+package pl.dariuszbacinski.meteo.diagram.view;
 
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;

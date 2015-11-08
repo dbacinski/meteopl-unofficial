@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.diagram;
+package pl.dariuszbacinski.meteo.diagram.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +33,7 @@ public class DiagramActivity extends AppCompatActivity {
         setContentView(diagramBinding.getRoot());
         setSupportActionBar(diagramBinding.toolbar);
 
+        //TODO Migrate to data binding and DiagramViewModel
         diagramBinding.pager.setAdapter(diagramPagerAdapter);
         diagramBinding.tabs.setupWithViewPager(diagramBinding.pager);
         diagramBinding.tabs.setOnTabSelectedListener(new TabSelectedUpdater(diagramBinding.pager));

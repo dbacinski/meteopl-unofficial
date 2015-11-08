@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.diagram;
+package pl.dariuszbacinski.meteo.diagram.view;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -6,6 +6,7 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
+import pl.dariuszbacinski.meteo.diagram.model.Diagram;
 import pl.dariuszbacinski.meteo.location.Location;
 
 public class DiagramPagerAdapter extends FragmentStatePagerAdapter {
@@ -20,8 +21,7 @@ public class DiagramPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Location location = favoriteLocations.get(position);
-        DiagramCoordinates diagramCoordinates = new DiagramCoordinates(location.getCol(), location.getRow());
-        return DiagramFragment.newInstance(diagramCoordinates);
+        return DiagramFragment.newInstance(new Diagram(location));
     }
 
     @Override

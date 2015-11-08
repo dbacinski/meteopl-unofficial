@@ -30,7 +30,7 @@
                 app:tabMode="scrollable"/>
         </android.support.design.widget.AppBarLayout>
 
-        <pl.dariuszbacinski.meteo.diagram.HackyViewPager
+        <pl.dariuszbacinski.meteo.diagram.view.HackyViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

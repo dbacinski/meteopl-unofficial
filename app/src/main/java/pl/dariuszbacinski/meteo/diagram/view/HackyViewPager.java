@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.diagram;
+package pl.dariuszbacinski.meteo.diagram.view;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

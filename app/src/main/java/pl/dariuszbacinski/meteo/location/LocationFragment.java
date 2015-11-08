@@ -17,7 +17,7 @@ import java.util.List;
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.WeatherApplication;
 import pl.dariuszbacinski.meteo.databinding.FragmentLocationBinding;
-import pl.dariuszbacinski.meteo.diagram.DiagramActivity;
+import pl.dariuszbacinski.meteo.diagram.view.DiagramActivity;
 import pl.dariuszbacinski.meteo.ui.SnackbarLightBuilder;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
