@@ -3,7 +3,6 @@ package pl.dariuszbacinski.meteo.diagram.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +11,7 @@ import android.view.View;
 
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.databinding.ActivityDiagramBinding;
+import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramPagerViewModel;
 import pl.dariuszbacinski.meteo.info.InfoActivity;
 import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.LocationActivity;
@@ -21,31 +21,40 @@ import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 public class DiagramActivity extends AppCompatActivity {
 
-    private DiagramPagerAdapter diagramPagerAdapter;
     private ActivityDiagramBinding diagramBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        diagramPagerAdapter = new DiagramPagerAdapter(getFragmentManager(), new FavoriteLocationRepository().findAll());
-        startLocationActivityWhenNoFavoriteLocations(diagramPagerAdapter.getCount());
         diagramBinding = ActivityDiagramBinding.inflate(getLayoutInflater());
         setContentView(diagramBinding.getRoot());
-        setSupportActionBar(diagramBinding.toolbar);
+        setupToolbar(diagramBinding);
+        setupViewPager(diagramBinding);
+        loadFavoriteLocations(diagramBinding);
+    }
 
-        //TODO Migrate to data binding and DiagramViewModel
-        diagramBinding.pager.setAdapter(diagramPagerAdapter);
-        diagramBinding.tabs.setupWithViewPager(diagramBinding.pager);
-        diagramBinding.tabs.setOnTabSelectedListener(new TabSelectedUpdater(diagramBinding.pager));
+    private void setupToolbar(ActivityDiagramBinding diagramBinding) {
+        setSupportActionBar(diagramBinding.toolbar);
         diagramBinding.toolbar.setVisibility(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE ? View.GONE : View.VISIBLE);
+    }
+
+    private void setupViewPager(ActivityDiagramBinding diagramBinding) {
+        diagramBinding.tabs.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(diagramBinding.pager));
+        diagramBinding.pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(diagramBinding.tabs));
+    }
+
+    private void loadFavoriteLocations(ActivityDiagramBinding diagramBinding) {
+        DiagramPagerViewModel diagramPagerViewModel = new DiagramPagerViewModel(new FavoriteLocationRepository().findAll());
+        startLocationActivityWhenNoFavoriteLocations(diagramPagerViewModel.getCount());
+        diagramBinding.setViewModel(diagramPagerViewModel);
+        diagramBinding.executePendingBindings();
+        diagramBinding.tabs.setTabsFromPagerAdapter(diagramBinding.pager.getAdapter());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        diagramPagerAdapter.setFavoriteLocations(new FavoriteLocationRepository().findAll());
-        diagramBinding.tabs.setupWithViewPager(diagramBinding.pager);
-        startLocationActivityWhenNoFavoriteLocations(diagramPagerAdapter.getCount());
+        loadFavoriteLocations(diagramBinding);
     }
 
     @Override
@@ -91,28 +100,5 @@ public class DiagramActivity extends AppCompatActivity {
 
     private void startInfoActivity() {
         startActivity(new Intent(this, InfoActivity.class));
-    }
-
-    private static class TabSelectedUpdater implements TabLayout.OnTabSelectedListener {
-        private final ViewPager viewPager;
-
-        public TabSelectedUpdater(ViewPager viewPager) {
-            this.viewPager = viewPager;
-        }
-
-        @Override
-        public void onTabSelected(TabLayout.Tab tab) {
-            viewPager.setCurrentItem(tab.getPosition());
-        }
-
-        @Override
-        public void onTabUnselected(TabLayout.Tab tab) {
-
-        }
-
-        @Override
-        public void onTabReselected(TabLayout.Tab tab) {
-
-        }
     }
 }

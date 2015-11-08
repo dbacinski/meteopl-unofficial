@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="imageUrl"
-            type="String"/>
+            name="item"
+            type="pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramItemViewModel"/>
     </data>
 
     <RelativeLayout
@@ -22,6 +22,6 @@
             android:id="@+id/weather_diagram"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            bind:imageUrl="@{imageUrl}"/>
+            bind:imageUrl="@{item.imageUrl}"/>
     </RelativeLayout>
 </layout>

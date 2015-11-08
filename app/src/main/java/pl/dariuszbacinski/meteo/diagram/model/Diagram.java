@@ -11,4 +11,8 @@ public class Diagram {
     public String getDiagramLink() {
         return DiagramLinkProvider.createDiagramLink(location);
     }
+
+    public String getTitle() {
+        return location.getName();
+    }
 }
