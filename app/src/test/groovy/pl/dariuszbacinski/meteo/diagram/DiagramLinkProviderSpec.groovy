@@ -1,9 +1,8 @@
 package pl.dariuszbacinski.meteo.diagram
 import android.net.Uri
 import pl.dariuszbacinski.meteo.diagram.model.DiagramLinkProvider
+import pl.dariuszbacinski.meteo.location.Location
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
-
-import static pl.dariuszbacinski.meteo.diagram.model.DiagramCoordinates.DiagramCoordinatesBuilder
 
 class DiagramLinkProviderSpec extends ShadowRoboSpecification {
 
@@ -11,9 +10,9 @@ class DiagramLinkProviderSpec extends ShadowRoboSpecification {
 
     def "creates link with correct parameters"() {
         given:
-            DiagramCoordinates coordinates = new DiagramCoordinatesBuilder().col(100).row(200).build()
+            Location location = new Location("", 100, 200)
         when:
-            Uri diagramLink = Uri.parse(objectUnderTest.createDiagramLink(coordinates))
+            Uri diagramLink = Uri.parse(objectUnderTest.createDiagramLink(location))
         then:
             diagramLink.getFirstParameter("col") == "100"
             diagramLink.getFirstParameter("row") == "200"

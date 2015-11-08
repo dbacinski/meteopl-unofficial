@@ -20,6 +20,8 @@ import rx.Observable;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
+import static pl.dariuszbacinski.meteo.text.StringNormalizer.normalizePlLang;
+
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PRIVATE)
 public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
@@ -93,7 +95,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
             @Override
             public Boolean call(IndexedLocation locationIndexed) {
                 String lowerCaseName = name.toLowerCase();
-                return locationIndexed.getLowerCaseName().contains(lowerCaseName) || locationIndexed.getNormalizedName().contains(lowerCaseName) ;
+                return  locationIndexed.getNormalizedName().contains(normalizePlLang(lowerCaseName)) ;
             }
         }).zipWith(new NaturalNumbers(), new Func2<IndexedLocation, Integer, IndexedLocation>() {
             @Override

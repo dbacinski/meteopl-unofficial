@@ -3,22 +3,34 @@ package pl.dariuszbacinski.meteo.location;
 import rx.functions.Func2;
 
 class SortFunctionStartsWith implements Func2<IndexedLocation, IndexedLocation, Integer> {
-    private final String name;
+    private final String prefix;
 
-    public SortFunctionStartsWith(String name) {
-        this.name = name;
+    public SortFunctionStartsWith(String prefix) {
+        this.prefix = prefix;
     }
 
     @Override
-    public Integer call(IndexedLocation locationIndexed, IndexedLocation locationIndexed2) {
-        if ("".equals(name)) {
+    public Integer call(IndexedLocation locationIndexed, IndexedLocation locationIndexedSecond) {
+
+        if ("".equals(prefix)) {
             return 0;
-        } else if (locationIndexed.getLowerCaseName().startsWith(name)|| locationIndexed.getNormalizedName().startsWith(name)) {
+        }
+
+        boolean firstStartsWithName = startsWithName(locationIndexed, prefix);
+        boolean secondStartsWithName = startsWithName(locationIndexedSecond, prefix);
+
+        if (firstStartsWithName && secondStartsWithName) {
+            return 0;
+        } else if (firstStartsWithName) {
             return -1;
-        } else if (locationIndexed2.getLowerCaseName().startsWith(name)|| locationIndexed2.getNormalizedName().startsWith(name)) {
+        } else if (secondStartsWithName) {
             return 1;
         } else {
             return 0;
         }
+    }
+
+    private boolean startsWithName(IndexedLocation locationIndexed, String name) {
+        return locationIndexed.getLowerCaseName().startsWith(name) || locationIndexed.getNormalizedName().startsWith(name);
     }
 }

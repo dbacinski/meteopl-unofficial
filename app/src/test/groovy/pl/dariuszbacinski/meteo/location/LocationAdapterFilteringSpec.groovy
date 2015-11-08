@@ -1,8 +1,6 @@
 package pl.dariuszbacinski.meteo.location
-
 import com.bignerdranch.android.multiselector.MultiSelector
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
-import spock.lang.Ignore
 
 class LocationAdapterFilteringSpec extends ShadowRoboSpecification {
 
@@ -37,7 +35,7 @@ class LocationAdapterFilteringSpec extends ShadowRoboSpecification {
     }
 
     //TODO implement filtering with mixed polish and normalized letters
-    @Ignore(value = "To be implemented")
+  //  @Ignore(value = "To be implemented")
     def "filters locations by name with mixed polish and normalized letters"() {
         given:
             LocationAdapter objectUnderTest = new LocationAdapter(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Łódź", 0, 0)], [])
