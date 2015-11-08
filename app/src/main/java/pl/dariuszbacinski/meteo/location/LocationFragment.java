@@ -28,7 +28,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 public class LocationFragment extends Fragment {
 
     public static final String MULTI_SELECTOR_STATE = "multiselector";
-    //TODO try to replace with observable
+    //TODO checked should be part of IndexedLocation
     private MultiSelector multiSelector = new MultiSelector();
     private LocationAdapter locationAdapter;
     private FavoriteLocationRepository favoriteLocationRepository = new FavoriteLocationRepository();

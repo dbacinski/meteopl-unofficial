@@ -34,8 +34,6 @@ class LocationAdapterFilteringSpec extends ShadowRoboSpecification {
             objectUnderTest.getLocations().first().value.name == "Łódź"
     }
 
-    //TODO implement filtering with mixed polish and normalized letters
-  //  @Ignore(value = "To be implemented")
     def "filters locations by name with mixed polish and normalized letters"() {
         given:
             LocationAdapter objectUnderTest = new LocationAdapter(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Łódź", 0, 0)], [])
