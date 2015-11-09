@@ -45,6 +45,7 @@ public class LocationFragment extends Fragment {
         locationBinding.favoritesList.setAdapter(locationAdapter);
         locationBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
         locationBinding.setFragment(this);
+        //TODO migrate EditText to SearchView
         watcherSubscription = RxTextView.textChanges(locationBinding.favoritesFilter).throttleLast(100L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter));
         return locationBinding.getRoot();
     }

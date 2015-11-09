@@ -1,7 +1,7 @@
 package pl.dariuszbacinski.meteo.location;
 
 import rx.functions.Func2;
-
+//TODO filter by checked attribute
 class SortFunctionStartsWith implements Func2<IndexedLocation, IndexedLocation, Integer> {
     private final String prefix;
 

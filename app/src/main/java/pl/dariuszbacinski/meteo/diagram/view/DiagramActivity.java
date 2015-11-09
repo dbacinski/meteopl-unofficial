@@ -92,6 +92,7 @@ public class DiagramActivity extends AppCompatActivity {
                 startInfoActivity();
                 return true;
             }
+            //TODO add Legend
             default: {
                 return super.onOptionsItemSelected(item);
             }
