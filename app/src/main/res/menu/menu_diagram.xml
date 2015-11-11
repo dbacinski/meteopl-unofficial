@@ -7,7 +7,12 @@
         android:title="@string/action_favorite"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_show_legend"
+        android:title="@string/action_show_legend"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_info"
         android:title="@string/action_info"
         app:showAsAction="never"/>
+
 </menu>

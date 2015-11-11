@@ -16,4 +16,11 @@ public class DiagramItemViewModel extends BaseObservable {
     public String getImageUrl() {
         return imageUrl;
     }
+
+    public static class Legend extends DiagramItemViewModel {
+
+        public Legend(String name) {
+            super(name, "http://www.meteo.pl/um/metco/leg_um_pl_cbase_256.png");
+        }
+    }
 }

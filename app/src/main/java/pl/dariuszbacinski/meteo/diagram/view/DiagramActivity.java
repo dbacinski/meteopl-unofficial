@@ -11,6 +11,7 @@ import android.view.View;
 
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.databinding.ActivityDiagramBinding;
+import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramItemViewModel.Legend;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramPagerViewModel;
 import pl.dariuszbacinski.meteo.info.InfoActivity;
 import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
@@ -44,8 +45,12 @@ public class DiagramActivity extends AppCompatActivity {
     }
 
     private void loadFavoriteLocations(ActivityDiagramBinding diagramBinding) {
-        DiagramPagerViewModel diagramPagerViewModel = new DiagramPagerViewModel(new FavoriteLocationRepository().findAll());
+        DiagramPagerViewModel diagramPagerViewModel = new DiagramPagerViewModel(new FavoriteLocationRepository().findAll(), new Legend(getString(R.string.legend)));
         startLocationActivityWhenNoFavoriteLocations(diagramPagerViewModel.getCount());
+        setViewModel(diagramBinding, diagramPagerViewModel);
+    }
+
+    private void setViewModel(ActivityDiagramBinding diagramBinding, DiagramPagerViewModel diagramPagerViewModel) {
         diagramBinding.setViewModel(diagramPagerViewModel);
         diagramBinding.executePendingBindings();
         diagramBinding.tabs.setTabsFromPagerAdapter(diagramBinding.pager.getAdapter());
@@ -92,7 +97,13 @@ public class DiagramActivity extends AppCompatActivity {
                 startInfoActivity();
                 return true;
             }
-            //TODO add Legend
+            case R.id.action_show_legend: {
+                if (diagramBinding.getViewModel().addLegend()) {
+                    diagramBinding.tabs.setTabsFromPagerAdapter(diagramBinding.pager.getAdapter());
+                }
+                diagramBinding.pager.scrollToLastElement();
+                return true;
+            }
             default: {
                 return super.onOptionsItemSelected(item);
             }

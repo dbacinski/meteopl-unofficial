@@ -31,6 +31,10 @@ public class HackyViewPager extends ViewPager {
         isLocked = false;
     }
 
+    public void scrollToLastElement(){
+        setCurrentItem(getAdapter().getCount() - 1);
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (!isLocked) {
