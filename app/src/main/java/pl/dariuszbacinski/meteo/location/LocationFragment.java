@@ -4,13 +4,18 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.bignerdranch.android.multiselector.MultiSelector;
-import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.RxSearchView;
 
 import java.util.List;
 
@@ -45,9 +50,17 @@ public class LocationFragment extends Fragment {
         locationBinding.favoritesList.setAdapter(locationAdapter);
         locationBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
         locationBinding.setFragment(this);
-        //TODO migrate EditText to SearchView
-        watcherSubscription = RxTextView.textChanges(locationBinding.favoritesFilter).throttleLast(100L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter));
+        setHasOptionsMenu(true);
         return locationBinding.getRoot();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setIconified(false);
+        watcherSubscription = RxSearchView.queryTextChanges(searchView).throttleLast(300L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter));
     }
 
     @Override
