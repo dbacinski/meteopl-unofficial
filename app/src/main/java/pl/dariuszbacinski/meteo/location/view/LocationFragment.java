@@ -45,16 +45,15 @@ public class LocationFragment extends Fragment {
     private LocationRepository locationRepository = new LocationRepository();
     private Subscription watcherSubscription;
     private FragmentLocationBinding locationBinding;
-    private LocationListViewModel locationListViewModel;
     private LocationAdapter locationAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         locationBinding = FragmentLocationBinding.inflate(inflater, container, false);
-        locationListViewModel = new LocationListViewModel(multiSelector, locationRepository.findAll(), favoriteLocationRepository.findAll());
-        locationBinding.favoritesList.setHasFixedSize(true);
+        LocationListViewModel locationListViewModel = new LocationListViewModel(multiSelector, locationRepository.findAll(), favoriteLocationRepository.findAll());
         locationAdapter = new LocationAdapter(locationListViewModel);
+        locationBinding.favoritesList.setHasFixedSize(true);
         locationBinding.favoritesList.setAdapter(locationAdapter);
         locationBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
         locationBinding.setFragment(this);
@@ -86,7 +85,7 @@ public class LocationFragment extends Fragment {
     }
 
     public void saveFavorites(View view) {
-        final List<Location> selectedLocations = locationListViewModel.getSelectedLocations();
+        final List<Location> selectedLocations = locationAdapter.getSelectedLocations();
         //TODO delegate to viewmodel
         favoriteLocationRepository.saveList(selectedLocations);
         if (selectedLocations.size() == 0) {
