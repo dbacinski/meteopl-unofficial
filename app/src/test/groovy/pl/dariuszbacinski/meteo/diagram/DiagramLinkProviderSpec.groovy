@@ -14,8 +14,8 @@ class DiagramLinkProviderSpec extends ShadowRoboSpecification {
         when:
             Uri diagramLink = Uri.parse(objectUnderTest.createDiagramLink(location))
         then:
-            diagramLink.getFirstParameter("col") == "100"
-            diagramLink.getFirstParameter("row") == "200"
+            diagramLink.getFirstParameter("row") == "100"
+            diagramLink.getFirstParameter("col") == "200"
             diagramLink.getFirstParameter("lang") == "pl"
     }
 

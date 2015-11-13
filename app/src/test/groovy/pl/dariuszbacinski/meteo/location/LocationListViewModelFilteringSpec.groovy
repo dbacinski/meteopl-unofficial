@@ -1,14 +1,14 @@
 package pl.dariuszbacinski.meteo.location
 import com.bignerdranch.android.multiselector.MultiSelector
 import pl.dariuszbacinski.meteo.location.model.Location
-import pl.dariuszbacinski.meteo.location.viewmodel.LocationAdapter
+import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 
-class LocationAdapterFilteringSpec extends ShadowRoboSpecification {
+class LocationListViewModelFilteringSpec extends ShadowRoboSpecification {
 
     def "filters locations by name ignoring case"() {
         given:
-            LocationAdapter objectUnderTest = new LocationAdapter(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Lublin", 0, 0)], [])
+            LocationListViewModel objectUnderTest = new LocationListViewModel(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Lublin", 0, 0)], [])
         when:
             objectUnderTest.filterLocationsByName("lub")
         then:
@@ -18,7 +18,7 @@ class LocationAdapterFilteringSpec extends ShadowRoboSpecification {
 
     def "filters locations by name with normalized letters"() {
         given:
-            LocationAdapter objectUnderTest = new LocationAdapter(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Łódź", 0, 0)], [])
+            LocationListViewModel objectUnderTest = new LocationListViewModel(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Łódź", 0, 0)], [])
         when:
             objectUnderTest.filterLocationsByName("lodz")
         then:
@@ -28,7 +28,7 @@ class LocationAdapterFilteringSpec extends ShadowRoboSpecification {
 
     def "filters locations by name with polish letters"() {
         given:
-            LocationAdapter objectUnderTest = new LocationAdapter(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Łódź", 0, 0)], [])
+            LocationListViewModel objectUnderTest = new LocationListViewModel(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Łódź", 0, 0)], [])
         when:
             objectUnderTest.filterLocationsByName("łódź")
         then:
@@ -38,7 +38,7 @@ class LocationAdapterFilteringSpec extends ShadowRoboSpecification {
 
     def "filters locations by name with mixed polish and normalized letters"() {
         given:
-            LocationAdapter objectUnderTest = new LocationAdapter(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Łódź", 0, 0)], [])
+            LocationListViewModel objectUnderTest = new LocationListViewModel(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Łódź", 0, 0)], [])
         when:
             objectUnderTest.filterLocationsByName("łodź")
         then:
@@ -48,7 +48,7 @@ class LocationAdapterFilteringSpec extends ShadowRoboSpecification {
 
     def "filters locations by name and updates position"() {
         given:
-            LocationAdapter objectUnderTest = new LocationAdapter(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Lublin", 0, 0)], [])
+            LocationListViewModel objectUnderTest = new LocationListViewModel(new MultiSelector(), [new Location("Warszawa", 0, 0), new Location("Lublin", 0, 0)], [])
         when:
             objectUnderTest.filterLocationsByName("Lublin")
         then:

@@ -5,11 +5,14 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 
+import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import pl.dariuszbacinski.meteo.databinding.ListItemLocationBinding;
+import pl.dariuszbacinski.meteo.location.model.Location;
 import pl.dariuszbacinski.meteo.location.view.LocationViewHolder;
 
 @Getter(AccessLevel.PACKAGE)
@@ -41,5 +44,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     public void filterLocationsByName(final String name) {
         locationListViewModel.filterLocationsByName(name);
         notifyDataSetChanged();
+    }
+
+    public List<Location> getSelectedLocations() {
+        return locationListViewModel.getSelectedLocations();
     }
 }
