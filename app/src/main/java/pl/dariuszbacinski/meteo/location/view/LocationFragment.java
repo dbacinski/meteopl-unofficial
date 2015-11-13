@@ -27,6 +27,7 @@ import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.model.Location;
 import pl.dariuszbacinski.meteo.location.model.LocationRepository;
 import pl.dariuszbacinski.meteo.location.viewmodel.LocationAdapter;
+import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel;
 import pl.dariuszbacinski.meteo.ui.SnackbarLightBuilder;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,18 +41,20 @@ public class LocationFragment extends Fragment {
     //TODO checked should be part of IndexedLocation
     //TODO move to viewmodel
     private MultiSelector multiSelector = new MultiSelector();
-    private LocationAdapter locationAdapter;
     private FavoriteLocationRepository favoriteLocationRepository = new FavoriteLocationRepository();
     private LocationRepository locationRepository = new LocationRepository();
     private Subscription watcherSubscription;
     private FragmentLocationBinding locationBinding;
+    private LocationListViewModel locationListViewModel;
+    private LocationAdapter locationAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         locationBinding = FragmentLocationBinding.inflate(inflater, container, false);
-        locationAdapter = new LocationAdapter(multiSelector, locationRepository.findAll(), favoriteLocationRepository.findAll());
+        locationListViewModel = new LocationListViewModel(multiSelector, locationRepository.findAll(), favoriteLocationRepository.findAll());
         locationBinding.favoritesList.setHasFixedSize(true);
+        locationAdapter = new LocationAdapter(locationListViewModel);
         locationBinding.favoritesList.setAdapter(locationAdapter);
         locationBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
         locationBinding.setFragment(this);
@@ -83,8 +86,8 @@ public class LocationFragment extends Fragment {
     }
 
     public void saveFavorites(View view) {
-        final List<Location> selectedLocations = locationAdapter.getSelectedLocations();
-        //TODO move to viewmodel
+        final List<Location> selectedLocations = locationListViewModel.getSelectedLocations();
+        //TODO delegate to viewmodel
         favoriteLocationRepository.saveList(selectedLocations);
         if (selectedLocations.size() == 0) {
             new SnackbarLightBuilder().make(getView(), R.string.location_no_locations_selected, Snackbar.LENGTH_LONG).show();
