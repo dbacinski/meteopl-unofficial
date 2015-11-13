@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".location.LocationActivity"/>
+            android:name=".location.view.LocationActivity"/>
         <activity
             android:name=".info.InfoActivity"/>
         <meta-data

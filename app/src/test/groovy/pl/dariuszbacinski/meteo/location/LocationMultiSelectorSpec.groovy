@@ -1,5 +1,8 @@
 package pl.dariuszbacinski.meteo.location
 import com.bignerdranch.android.multiselector.MultiSelector
+import pl.dariuszbacinski.meteo.location.model.IndexedLocation
+import pl.dariuszbacinski.meteo.location.model.Location
+import pl.dariuszbacinski.meteo.location.viewmodel.LocationMultiSelector
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 import rx.Observable
 

@@ -1,8 +1,9 @@
-package pl.dariuszbacinski.meteo.location;
+package pl.dariuszbacinski.meteo.location.viewmodel;
 
+import pl.dariuszbacinski.meteo.location.model.IndexedLocation;
 import rx.functions.Func2;
 //TODO filter by checked attribute
-class SortFunctionStartsWith implements Func2<IndexedLocation, IndexedLocation, Integer> {
+public class SortFunctionStartsWith implements Func2<IndexedLocation, IndexedLocation, Integer> {
     private final String prefix;
 
     public SortFunctionStartsWith(String prefix) {

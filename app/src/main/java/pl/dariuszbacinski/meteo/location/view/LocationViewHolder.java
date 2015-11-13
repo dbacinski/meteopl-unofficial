@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.location;
+package pl.dariuszbacinski.meteo.location.view;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
@@ -6,7 +6,7 @@ import android.widget.CheckedTextView;
 
 import pl.dariuszbacinski.meteo.databinding.ListItemLocationBinding;
 
-class LocationViewHolder extends RecyclerView.ViewHolder {
+public class LocationViewHolder extends RecyclerView.ViewHolder {
     private ListItemLocationBinding binding;
 
     public LocationViewHolder(CheckedTextView checkedTextView) {

@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.location;
+package pl.dariuszbacinski.meteo.location.view;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -23,6 +23,10 @@ import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.WeatherApplication;
 import pl.dariuszbacinski.meteo.databinding.FragmentLocationBinding;
 import pl.dariuszbacinski.meteo.diagram.view.DiagramActivity;
+import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
+import pl.dariuszbacinski.meteo.location.model.Location;
+import pl.dariuszbacinski.meteo.location.model.LocationRepository;
+import pl.dariuszbacinski.meteo.location.viewmodel.LocationAdapter;
 import pl.dariuszbacinski.meteo.ui.SnackbarLightBuilder;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -34,6 +38,7 @@ public class LocationFragment extends Fragment {
 
     public static final String MULTI_SELECTOR_STATE = "multiselector";
     //TODO checked should be part of IndexedLocation
+    //TODO move to viewmodel
     private MultiSelector multiSelector = new MultiSelector();
     private LocationAdapter locationAdapter;
     private FavoriteLocationRepository favoriteLocationRepository = new FavoriteLocationRepository();
@@ -79,7 +84,7 @@ public class LocationFragment extends Fragment {
 
     public void saveFavorites(View view) {
         final List<Location> selectedLocations = locationAdapter.getSelectedLocations();
-        //TODO model should be responsible for saving favorites
+        //TODO move to viewmodel
         favoriteLocationRepository.saveList(selectedLocations);
         if (selectedLocations.size() == 0) {
             new SnackbarLightBuilder().make(getView(), R.string.location_no_locations_selected, Snackbar.LENGTH_LONG).show();

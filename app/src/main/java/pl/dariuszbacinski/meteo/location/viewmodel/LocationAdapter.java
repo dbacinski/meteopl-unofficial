@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.location;
+package pl.dariuszbacinski.meteo.location.viewmodel;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +14,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import pl.dariuszbacinski.meteo.databinding.ListItemLocationBinding;
+import pl.dariuszbacinski.meteo.location.model.IndexedLocation;
+import pl.dariuszbacinski.meteo.location.model.Location;
+import pl.dariuszbacinski.meteo.location.view.LocationViewHolder;
 import pl.dariuszbacinski.meteo.rx.Indexed;
 import pl.dariuszbacinski.meteo.rx.NaturalNumbers;
 import rx.Observable;
@@ -59,9 +62,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
     @Override
     public void onBindViewHolder(LocationViewHolder holder, int position) {
         IndexedLocation locationIndexed = getLocationAtPosition(position);
-        LocationListItem listItem = new LocationListItem(locationIndexed.getValue().getName(), getMultiSelector().isSelected(locationIndexed.getOriginalIndex(), -1));
+        LocationItemViewModel listItem = new LocationItemViewModel(locationIndexed.getValue().getName(), getMultiSelector().isSelected(locationIndexed.getOriginalIndex(), -1));
         holder.getBinding().setItem(listItem);
-        holder.getBinding().setListener(new LocationListItemOnClickListener(multiSelector, locationIndexed.getOriginalIndex()));
+        holder.getBinding().setListener(new LocationItemOnClickListener(multiSelector, locationIndexed.getOriginalIndex()));
     }
 
     private IndexedLocation getLocationAtPosition(final int position) {

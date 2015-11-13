@@ -1,16 +1,16 @@
-package pl.dariuszbacinski.meteo.location;
+package pl.dariuszbacinski.meteo.location.viewmodel;
 
 import android.view.View;
 import android.widget.CheckedTextView;
 
 import com.bignerdranch.android.multiselector.MultiSelector;
 
-public class LocationListItemOnClickListener implements View.OnClickListener {
+public class LocationItemOnClickListener implements View.OnClickListener {
 
     private MultiSelector multiSelector;
     private int position;
 
-    public LocationListItemOnClickListener(MultiSelector multiSelector, int originalIndex) {
+    public LocationItemOnClickListener(MultiSelector multiSelector, int originalIndex) {
         this.multiSelector = multiSelector;
         this.position = originalIndex;
     }

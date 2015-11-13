@@ -1,7 +1,7 @@
 package pl.dariuszbacinski.meteo.diagram
 import android.net.Uri
 import pl.dariuszbacinski.meteo.diagram.model.DiagramLinkProvider
-import pl.dariuszbacinski.meteo.location.Location
+import pl.dariuszbacinski.meteo.location.model.Location
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 
 class DiagramLinkProviderSpec extends ShadowRoboSpecification {

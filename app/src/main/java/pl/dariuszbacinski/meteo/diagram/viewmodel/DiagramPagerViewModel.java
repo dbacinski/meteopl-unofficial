@@ -10,7 +10,7 @@ import pl.dariuszbacinski.meteo.BR;
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.diagram.model.Diagram;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramItemViewModel.Legend;
-import pl.dariuszbacinski.meteo.location.Location;
+import pl.dariuszbacinski.meteo.location.model.Location;
 import rx.Observable;
 import rx.functions.Func1;
 

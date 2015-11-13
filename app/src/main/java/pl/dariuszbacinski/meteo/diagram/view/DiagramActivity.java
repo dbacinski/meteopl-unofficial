@@ -13,8 +13,8 @@ import pl.dariuszbacinski.meteo.databinding.ActivityDiagramBinding;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramItemViewModel.Legend;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramPagerViewModel;
 import pl.dariuszbacinski.meteo.info.InfoActivity;
-import pl.dariuszbacinski.meteo.location.FavoriteLocationRepository;
-import pl.dariuszbacinski.meteo.location.LocationActivity;
+import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
+import pl.dariuszbacinski.meteo.location.view.LocationActivity;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 

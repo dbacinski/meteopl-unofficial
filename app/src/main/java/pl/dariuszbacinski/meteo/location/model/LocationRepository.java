@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.location;
+package pl.dariuszbacinski.meteo.location.model;
 
 import com.activeandroid.query.Select;
 

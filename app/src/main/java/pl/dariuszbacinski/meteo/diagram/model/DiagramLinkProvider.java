@@ -1,6 +1,6 @@
 package pl.dariuszbacinski.meteo.diagram.model;
 
-import pl.dariuszbacinski.meteo.location.Location;
+import pl.dariuszbacinski.meteo.location.model.Location;
 
 public class DiagramLinkProvider {
 

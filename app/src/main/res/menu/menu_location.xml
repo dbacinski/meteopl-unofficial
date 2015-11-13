@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="pl.dariuszbacinski.meteo.location.LocationActivity">
+      tools:context="pl.dariuszbacinski.meteo.location.view.LocationActivity">
     <item
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"

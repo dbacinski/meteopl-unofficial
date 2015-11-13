@@ -5,11 +5,11 @@
 
         <variable
             name="item"
-            type="pl.dariuszbacinski.meteo.location.LocationListItem"/>
+            type="pl.dariuszbacinski.meteo.location.viewmodel.LocationItemViewModel"/>
 
         <variable
             name="listener"
-            type="pl.dariuszbacinski.meteo.location.LocationListItemOnClickListener"/>
+            type="pl.dariuszbacinski.meteo.location.viewmodel.LocationItemOnClickListener"/>
     </data>
 
     <CheckedTextView

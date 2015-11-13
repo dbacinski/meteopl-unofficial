@@ -1,7 +1,7 @@
 package pl.dariuszbacinski.meteo.diagram.model;
 
 import lombok.AllArgsConstructor;
-import pl.dariuszbacinski.meteo.location.Location;
+import pl.dariuszbacinski.meteo.location.model.Location;
 
 @AllArgsConstructor(suppressConstructorProperties = true)
 public class Diagram {

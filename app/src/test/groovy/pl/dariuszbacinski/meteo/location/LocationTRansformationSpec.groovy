@@ -1,5 +1,8 @@
 package pl.dariuszbacinski.meteo.location
 
+import pl.dariuszbacinski.meteo.location.model.FavoriteLocation
+import pl.dariuszbacinski.meteo.location.model.Location
+import pl.dariuszbacinski.meteo.location.model.LocationTransformation
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 
 class LocationTransformationSpec extends ShadowRoboSpecification {

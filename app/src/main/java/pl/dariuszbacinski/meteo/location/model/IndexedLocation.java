@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.location;
+package pl.dariuszbacinski.meteo.location.model;
 
 import pl.dariuszbacinski.meteo.rx.Indexed;
 import pl.dariuszbacinski.meteo.text.StringNormalizer;
