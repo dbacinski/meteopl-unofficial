@@ -6,7 +6,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.databinding.ActivityDiagramBinding;
@@ -15,8 +14,6 @@ import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramPagerViewModel;
 import pl.dariuszbacinski.meteo.info.InfoActivity;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.view.LocationActivity;
-
-import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 
 public class DiagramActivity extends AppCompatActivity {
@@ -35,7 +32,6 @@ public class DiagramActivity extends AppCompatActivity {
 
     private void setupToolbar(ActivityDiagramBinding diagramBinding) {
         setSupportActionBar(diagramBinding.toolbar);
-        diagramBinding.toolbar.setVisibility(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE ? View.GONE : View.VISIBLE);
     }
 
     private void setupViewPager(ActivityDiagramBinding diagramBinding) {

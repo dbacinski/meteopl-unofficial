@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
 
 import com.bignerdranch.android.multiselector.MultiSelector;
@@ -66,6 +67,7 @@ public class LocationFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_FLAG_NO_FULLSCREEN | EditorInfo.IME_ACTION_SEARCH);
         searchView.setIconified(false);
         watcherSubscription = RxSearchView.queryTextChanges(searchView).throttleLast(300L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter));
     }
