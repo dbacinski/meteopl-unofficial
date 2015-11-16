@@ -17,8 +17,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="pl.dariuszbacinski.meteo.location.view.LocationFragment"
-        >
+        tools:context="pl.dariuszbacinski.meteo.location.view.LocationFragment">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/favorites_list"
@@ -26,16 +25,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:scrollbars="vertical"
-            android:layout_marginBottom="48dp" />
+            app:layout_behavior="pl.dariuszbacinski.meteo.ui.RecyclerViewResizeBehavior"/>
 
         <Button
             android:id="@+id/favorites_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:onClick="@{fragment.saveFavorites}"
             android:text="@string/save"
-            android:layout_gravity="bottom"
-            app:layout_behavior="pl.dariuszbacinski.meteo.ui.ButtonBehavoir"/>
+            app:layout_behavior="pl.dariuszbacinski.meteo.ui.ButtonBehavior"/>
 
 
     </android.support.design.widget.CoordinatorLayout>
