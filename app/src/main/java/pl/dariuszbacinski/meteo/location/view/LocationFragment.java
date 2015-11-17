@@ -59,7 +59,6 @@ public class LocationFragment extends Fragment {
         locationBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
         locationBinding.setFragment(this);
         setHasOptionsMenu(true);
-        //TODO hide keyboard
         //TODO show save only when data where changed
         return locationBinding.getRoot();
     }
@@ -71,6 +70,7 @@ public class LocationFragment extends Fragment {
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_FLAG_NO_FULLSCREEN | EditorInfo.IME_ACTION_SEARCH);
         searchView.setIconified(false);
+        searchView.clearFocus();
         //TODO add autocomplete to searchView
         watcherSubscription = RxSearchView.queryTextChanges(searchView).throttleLast(300L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter));
     }
