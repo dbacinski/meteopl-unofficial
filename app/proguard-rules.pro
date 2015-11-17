@@ -6,6 +6,7 @@
 -dontwarn javax.annotation.**
 # Picasso:
 -dontwarn com.squareup.okhttp.**
+-dontwarn okio.**
 # AboutLibraries:
 -keep class .R
 -keep class **.R$* {
