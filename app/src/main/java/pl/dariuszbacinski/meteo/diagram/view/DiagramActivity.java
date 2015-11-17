@@ -36,7 +36,7 @@ public class DiagramActivity extends AppCompatActivity {
         //TODO scroll toolbar off screen in landscape mode
     }
 
-    private void setupViewPager(ActivityDiagramBinding diagramBinding) {
+    private void setupViewPager(final ActivityDiagramBinding diagramBinding) {
         diagramBinding.tabs.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(diagramBinding.pager));
         //TODO reset zoom on page change
         diagramBinding.pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(diagramBinding.tabs));
