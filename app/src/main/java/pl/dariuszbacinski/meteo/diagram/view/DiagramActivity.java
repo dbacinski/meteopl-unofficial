@@ -32,10 +32,12 @@ public class DiagramActivity extends AppCompatActivity {
 
     private void setupToolbar(ActivityDiagramBinding diagramBinding) {
         setSupportActionBar(diagramBinding.toolbar);
+        //TODO scroll toolbar off screen in landscape mode
     }
 
     private void setupViewPager(ActivityDiagramBinding diagramBinding) {
         diagramBinding.tabs.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(diagramBinding.pager));
+        //TODO reset zoom on page change
         diagramBinding.pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(diagramBinding.tabs));
     }
 
@@ -84,6 +86,7 @@ public class DiagramActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_favorite: {
+                //TODO add FAB with this action
                 startLocationActivity();
                 return true;
             }

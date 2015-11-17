@@ -13,6 +13,7 @@ public class BinderAdapter {
 
     @BindingAdapter("bind:imageUrl")
     public static void loadImage(PhotoView imageView, String url) {
+        //TODO add http cache
         float minScale = imageView.getContext().getResources().getInteger(R.integer.image_scale_min);
         float maxScale = imageView.getContext().getResources().getInteger(R.integer.image_scale_max);
         float mediumScale = (maxScale + minScale) / 2f;

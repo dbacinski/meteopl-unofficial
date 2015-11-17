@@ -17,6 +17,7 @@ public class LocationActivity extends AppCompatActivity {
         locationBinding = ActivityLocationBinding.inflate(getLayoutInflater());
         setContentView(locationBinding.getRoot());
         setSupportActionBar(locationBinding.toolbar);
+        //TODO add toolbar up button
     }
 
     @Override
