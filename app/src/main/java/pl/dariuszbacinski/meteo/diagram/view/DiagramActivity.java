@@ -11,18 +11,19 @@ import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.databinding.ActivityDiagramBinding;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramItemViewModel.Legend;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramPagerViewModel;
-import pl.dariuszbacinski.meteo.info.InfoActivity;
+import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramViewModel;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
-import pl.dariuszbacinski.meteo.location.view.LocationActivity;
 
 
 public class DiagramActivity extends AppCompatActivity {
 
     private ActivityDiagramBinding diagramBinding;
+    private DiagramViewModel diagramViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        diagramViewModel = new DiagramViewModel(this);
         diagramBinding = ActivityDiagramBinding.inflate(getLayoutInflater());
         setContentView(diagramBinding.getRoot());
         setupToolbar(diagramBinding);
@@ -43,12 +44,13 @@ public class DiagramActivity extends AppCompatActivity {
 
     private void loadFavoriteLocations(ActivityDiagramBinding diagramBinding) {
         DiagramPagerViewModel diagramPagerViewModel = new DiagramPagerViewModel(new FavoriteLocationRepository().findAll(), new Legend(getString(R.string.legend)));
-        startLocationActivityWhenNoFavoriteLocations(diagramPagerViewModel.getCount());
+        diagramViewModel.startLocationActivityWhenNoFavoriteLocations(diagramPagerViewModel.getCount());
         setViewModel(diagramBinding, diagramPagerViewModel);
     }
 
     private void setViewModel(ActivityDiagramBinding diagramBinding, DiagramPagerViewModel diagramPagerViewModel) {
-        diagramBinding.setViewModel(diagramPagerViewModel);
+        diagramBinding.setPagerViewModel(diagramPagerViewModel);
+        diagramBinding.setActivityViewModel(diagramViewModel);
         diagramBinding.executePendingBindings();
         diagramBinding.tabs.setTabsFromPagerAdapter(diagramBinding.pager.getAdapter());
     }
@@ -57,22 +59,6 @@ public class DiagramActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         loadFavoriteLocations(diagramBinding);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    private void startLocationActivityWhenNoFavoriteLocations(int numberOfFavoriteLocations) {
-        if (numberOfFavoriteLocations == 0) {
-            startLocationActivity();
-            finish();
-        }
-    }
-
-    private void startLocationActivity() {
-        startActivity(new Intent(this, LocationActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
     }
 
     @Override
@@ -87,15 +73,15 @@ public class DiagramActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_favorite: {
                 //TODO add FAB with this action
-                startLocationActivity();
+                diagramViewModel.startLocationActivity();
                 return true;
             }
             case R.id.action_info: {
-                startInfoActivity();
+                diagramViewModel.startInfoActivity();
                 return true;
             }
             case R.id.action_show_legend: {
-                if (diagramBinding.getViewModel().addLegend()) {
+                if (diagramBinding.getPagerViewModel().addLegend()) {
                     diagramBinding.tabs.setTabsFromPagerAdapter(diagramBinding.pager.getAdapter());
                 }
                 diagramBinding.pager.scrollToLastElement();
@@ -105,9 +91,5 @@ public class DiagramActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
             }
         }
-    }
-
-    private void startInfoActivity() {
-        startActivity(new Intent(this, InfoActivity.class));
     }
 }
