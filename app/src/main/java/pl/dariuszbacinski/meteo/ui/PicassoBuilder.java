@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 
 public class PicassoBuilder {
+    public static final int ONE_HOUR = 60 * 60;
     private Context context;
     private OkHttpDownloader okHttpDownloader;
 
@@ -27,18 +28,17 @@ public class PicassoBuilder {
         }
     }
 
-    public PicassoBuilder withNetworkCache() {
+    public PicassoBuilder withNetworkCache(Cache cache) {
         OkHttpClient okHttpClient = new OkHttpClient();
         okHttpClient.networkInterceptors().add(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Response originalResponse = chain.proceed(chain.request());
-                return originalResponse.newBuilder().header("Cache-Control", "max-age=" + (60 * 60)).build();
-
+                return originalResponse.newBuilder().header("Cache-Control", "max-age=" + ONE_HOUR).build();
             }
         });
 
-        okHttpClient.setCache(new Cache(context.getCacheDir(), Integer.MAX_VALUE));
+        okHttpClient.setCache(cache);
         okHttpDownloader = new OkHttpDownloader(okHttpClient);
         return this;
     }

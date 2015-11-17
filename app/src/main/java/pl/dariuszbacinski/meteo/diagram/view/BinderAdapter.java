@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 
+import com.squareup.okhttp.Cache;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -15,7 +16,6 @@ public class BinderAdapter {
 
     @BindingAdapter("bind:imageUrl")
     public static void loadImage(PhotoView imageView, String url) {
-        //TODO add http cache
         float minScale = imageView.getContext().getResources().getInteger(R.integer.image_scale_min);
         float maxScale = imageView.getContext().getResources().getInteger(R.integer.image_scale_max);
         float mediumScale = (maxScale + minScale) / 2f;
@@ -24,17 +24,21 @@ public class BinderAdapter {
     }
 
     private static class PicassoHolder {
-        public static Picasso singleton;
+        private static Picasso singleton;
 
         public static Picasso getInstance(Context context) {
             if (singleton == null) {
                 synchronized (Picasso.class) {
                     if (singleton == null) {
-                        singleton = new PicassoBuilder(context).withNetworkCache().build();
+                        setInstance(new PicassoBuilder(context).withNetworkCache(new Cache(context.getCacheDir(), Integer.MAX_VALUE)).build());
                     }
                 }
             }
             return singleton;
+        }
+
+        public static void setInstance(Picasso singleton) {
+            PicassoHolder.singleton = singleton;
         }
     }
 }

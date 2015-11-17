@@ -72,7 +72,6 @@ public class DiagramActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_favorite: {
-                //TODO add FAB with this action
                 diagramViewModel.startLocationActivity();
                 return true;
             }
