@@ -71,6 +71,7 @@ public class LocationFragment extends Fragment {
         searchView.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_FLAG_NO_FULLSCREEN | EditorInfo.IME_ACTION_SEARCH);
         searchView.setIconified(false);
         searchView.clearFocus();
+        searchView.setQueryHint(getString(R.string.location_choose_favorite));
         //TODO add autocomplete to searchView
         watcherSubscription = RxSearchView.queryTextChanges(searchView).throttleLast(300L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter));
     }
