@@ -1,13 +1,28 @@
 package pl.dariuszbacinski.meteo;
 
-import android.app.Application;
-import android.test.ApplicationTestCase;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.LargeTest;
 
-/**
- * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
- */
-public class ApplicationTest extends ApplicationTestCase<Application> {
-    public ApplicationTest() {
-        super(Application.class);
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import pl.dariuszbacinski.meteo.location.view.LocationActivity;
+
+import static junit.framework.Assert.assertFalse;
+
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class ApplicationTest {
+
+    @Rule
+    public ActivityTestRule<LocationActivity> mActivityRule =
+            new ActivityTestRule<>(LocationActivity.class);
+
+    @Test
+    public void alwaysPass(){
+        assertFalse(false);
     }
+
 }
