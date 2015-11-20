@@ -1,7 +1,7 @@
 package pl.dariuszbacinski.meteo
-
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import groovy.transform.CompileStatic
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -9,6 +9,7 @@ import pl.dariuszbacinski.meteo.diagram.view.DiagramActivity
 
 import static junit.framework.Assert.assertFalse
 
+@CompileStatic
 @RunWith(AndroidJUnit4.class)
 public class DiagramTestCase {
 
