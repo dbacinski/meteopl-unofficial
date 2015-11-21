@@ -7,6 +7,17 @@
 # Picasso:
 -dontwarn com.squareup.okhttp.**
 -dontwarn okio.**
+# Tests:
+-dontwarn com.squareup.leakcanary.DisplayLeakService
+-dontwarn android.support.v4.**
+-dontwarn org.hamcrest.**
+-dontwarn org.junit.**
+-dontwarn junit.**
+-dontwarn org.codehaus.groovy.**
+-dontwarn groovy**
+-dontwarn com.squareup.javawriter.JavaWriter
+-dontwarn sun.misc.Unsafe
+-dontwarn android.support.test.**
 # AboutLibraries:
 -keep class .R
 -keep class **.R$* {

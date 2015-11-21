@@ -5,19 +5,29 @@ import groovy.transform.CompileStatic
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import pl.dariuszbacinski.meteo.diagram.view.DiagramActivity
+import pl.dariuszbacinski.meteo.location.view.LocationActivity
 
-import static junit.framework.Assert.assertFalse
+import static android.support.test.espresso.Espresso.onView
+import static android.support.test.espresso.assertion.ViewAssertions.matches
+import static android.support.test.espresso.matcher.ViewMatchers.withId
+import static android.support.test.espresso.matcher.ViewMatchers.withText
 
 @CompileStatic
 @RunWith(AndroidJUnit4.class)
-public class DiagramTestCase {
+class DiagramTestCase {
 
     @Rule
-    public final ActivityTestRule<DiagramActivity> main = new ActivityTestRule<>(DiagramActivity.class)
+    public ActivityTestRule<LocationActivity> activity = [LocationActivity] as ActivityTestRule<LocationActivity>
 
     @Test
-    public void alwaysPass(){
-        assertFalse(false);
+    void alwaysPass() {
+        assert true
+    }
+
+    @Test
+    void filterLocationsList() {
+        onView withId(R.id.action_search) perform typeText("Ber")
+        sleep(500)
+        onView withId(R.id.location_name) check matches(withText("Berlin"))
     }
 }
