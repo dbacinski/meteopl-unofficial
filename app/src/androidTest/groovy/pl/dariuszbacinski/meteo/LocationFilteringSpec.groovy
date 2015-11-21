@@ -37,7 +37,7 @@ public class LocationFilteringSpec extends Specification{
             listContainsLocation("Warszawa")
     }
 
-    def "filter locations by sufix"() {
+    def "filter locations by suffix"() {
         when: "enter filter query belin"
             enterQueryToSearchView("belin")
             sleep(500)
