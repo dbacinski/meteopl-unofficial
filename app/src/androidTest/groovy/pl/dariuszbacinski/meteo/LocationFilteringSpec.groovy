@@ -11,7 +11,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId
 import static android.support.test.espresso.matcher.ViewMatchers.withText
 import static com.andrewreitz.spock.android.RunMode.METHOD
 
-public class LocationSpec  extends Specification{
+public class LocationFilteringSpec extends Specification{
 
     @UseActivity(value=LocationActivity, runMode = METHOD)
     def locationActivity
@@ -21,12 +21,28 @@ public class LocationSpec  extends Specification{
             locationActivity instanceof LocationActivity
     }
 
-    def "filter locations"() {
+    def "filter locations by prefix"() {
         when: "enter filter query Ber"
             enterQueryToSearchView("Ber")
-        then: "location list contains location Berlin"
             sleep(500)
+        then: "location list contains location Berlin"
             listContainsLocation("Berlin")
+    }
+
+    def "filter locations by containing string"() {
+        when: "enter filter query arsza"
+            enterQueryToSearchView("arsza")
+            sleep(500)
+        then: "location list contains location Warszawa"
+            listContainsLocation("Warszawa")
+    }
+
+    def "filter locations by sufix"() {
+        when: "enter filter query belin"
+            enterQueryToSearchView("belin")
+            sleep(500)
+        then: "location list contains location Izabelin"
+            listContainsLocation("Izabelin")
     }
 
     private ViewInteraction enterQueryToSearchView(String berlin_query) {
