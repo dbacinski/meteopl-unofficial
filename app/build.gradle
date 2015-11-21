@@ -46,6 +46,11 @@ android {
             minSdkVersion 14
         }
     }
+    //android-spock
+    packagingOptions {
+        exclude 'META-INF/services/org.codehaus.groovy.transform.ASTTransformation'
+        exclude 'LICENSE.txt'
+    }
 
     lintOptions {
         disable 'InvalidPackage' //ButterKnife
@@ -83,8 +88,13 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.4.1'
     androidTestCompile 'com.android.support:support-annotations:23.1.0'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2') {
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2') {
         exclude module: 'support-v4'
         exclude module: 'recyclerview-v7'
+    }
+    androidTestCompile 'com.github.dbacinski:android-spock:ca78c6c043'
+    androidTestCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+        exclude group: 'org.codehaus.groovy'
+        exclude group: 'junit'
     }
 }
