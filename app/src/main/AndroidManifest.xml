@@ -35,10 +35,10 @@
             android:value="meteo.db"/>
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="1"/>
+            android:value="2"/>
         <meta-data
             android:name="AA_MODELS"
-            android:value="pl.dariuszbacinski.meteo.location.FavoriteLocation, pl.dariuszbacinski.meteo.location.Location"/>
+            android:value="pl.dariuszbacinski.meteo.location.model.FavoriteLocation, pl.dariuszbacinski.meteo.location.model.Location, pl.dariuszbacinski.meteo.diagram.model.SelectedDiagram"/>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3532ab59d2182893c031c56cac2353f33af09bf3" />

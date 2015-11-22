@@ -15,4 +15,8 @@ public class Diagram {
     public String getTitle() {
         return location.getName();
     }
+
+    public Long getId() {
+        return location.getId();
+    }
 }

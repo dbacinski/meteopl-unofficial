@@ -2,12 +2,13 @@ package pl.dariuszbacinski.meteo.diagram.viewmodel;
 
 import android.databinding.BaseObservable;
 
-import lombok.AllArgsConstructor;
+import lombok.experimental.Builder;
 
-@AllArgsConstructor(suppressConstructorProperties = true)
+@Builder
 public class DiagramItemViewModel extends BaseObservable {
     String title;
     String imageUrl;
+    private Long id;
 
     public String getTitle() {
         return title;
@@ -17,10 +18,20 @@ public class DiagramItemViewModel extends BaseObservable {
         return imageUrl;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public static class Legend extends DiagramItemViewModel {
 
+        public static final long DIAGRAM_ID = -1L;
+
         public Legend(String name) {
-            super(name, "http://www.meteo.pl/um/metco/leg_um_pl_cbase_256.png");
+            super(name, "http://www.meteo.pl/um/metco/leg_um_pl_cbase_256.png", DIAGRAM_ID);
         }
     }
 }
