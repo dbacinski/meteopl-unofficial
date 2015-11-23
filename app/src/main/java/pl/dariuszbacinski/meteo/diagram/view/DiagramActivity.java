@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
 
+import hugo.weaving.DebugLog;
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.databinding.ActivityDiagramBinding;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramItemViewModel.Legend;
@@ -26,6 +27,7 @@ public class DiagramActivity extends AppCompatActivity {
     private DiagramViewModel diagramViewModel;
     private Subscription subscription;
 
+    @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,7 @@ public class DiagramActivity extends AppCompatActivity {
         setupViewPager(diagramBinding);
     }
 
+    @DebugLog
     @Override
     protected void onStop() {
         subscription.unsubscribe();
@@ -51,16 +54,13 @@ public class DiagramActivity extends AppCompatActivity {
         diagramBinding.tabs.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(diagramBinding.pager));
         //TODO reset zoom on page change
         diagramBinding.pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(diagramBinding.tabs));
-        DiagramPagerViewModel diagramPagerViewModel = loadFavoriteLocations(diagramBinding);
-        restoreSelectedTab(diagramBinding.pager, diagramBinding.getPagerViewModel());
-        subscription = RxViewPager.pageSelections(diagramBinding.pager).observeOn(Schedulers.io()).subscribe(new SaveSelectedDiagramPositionAction(diagramPagerViewModel));
+        loadFavoriteLocations(diagramBinding);
     }
 
-    private DiagramPagerViewModel loadFavoriteLocations(ActivityDiagramBinding diagramBinding) {
+    private void loadFavoriteLocations(ActivityDiagramBinding diagramBinding) {
         DiagramPagerViewModel diagramPagerViewModel = new DiagramPagerViewModel(new FavoriteLocationRepository().findAll(), new Legend(getString(R.string.legend)));
         diagramViewModel.startLocationActivityWhenNoFavoriteLocations(diagramPagerViewModel.getCount());
         setViewModel(diagramBinding, diagramPagerViewModel);
-        return  diagramPagerViewModel;
     }
 
     private void setViewModel(ActivityDiagramBinding diagramBinding, DiagramPagerViewModel diagramPagerViewModel) {
@@ -70,11 +70,12 @@ public class DiagramActivity extends AppCompatActivity {
         diagramBinding.tabs.setTabsFromPagerAdapter(diagramBinding.pager.getAdapter());
     }
 
+    @DebugLog
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         loadFavoriteLocations(diagramBinding);
-        restoreSelectedTab(diagramBinding.pager, diagramBinding.getPagerViewModel());
+
     }
 
     private void restoreSelectedTab(HackyViewPager pager, DiagramPagerViewModel pagerViewModel) {
@@ -110,6 +111,14 @@ public class DiagramActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    @DebugLog
+    @Override
+    protected void onResume() {
+        super.onResume();
+        restoreSelectedTab(diagramBinding.pager, diagramBinding.getPagerViewModel());
+        subscription = RxViewPager.pageSelections(diagramBinding.pager).observeOn(Schedulers.io()).subscribe(new SaveSelectedDiagramPositionAction(diagramBinding.getPagerViewModel()));
     }
 
     private static class SaveSelectedDiagramPositionAction implements Action1<Integer> {
