@@ -41,6 +41,7 @@
             app:items="@{pagerViewModel.items}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:pageTitles="@{pagerViewModel.pageTitles}"
+            android:background="@android:color/white"
             tools:context=".WeatherActivity"/>
 
         <android.support.design.widget.FloatingActionButton
