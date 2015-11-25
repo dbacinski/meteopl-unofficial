@@ -3,9 +3,11 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="activityViewModel"
             type="pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramViewModel"/>
+
         <variable
             name="pagerViewModel"
             type="pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramPagerViewModel"/>
@@ -37,11 +39,11 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@android:color/white"
             app:itemView="@{pagerViewModel.itemView}"
             app:items="@{pagerViewModel.items}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:pageTitles="@{pagerViewModel.pageTitles}"
-            android:background="@android:color/white"
             tools:context=".WeatherActivity"/>
 
         <android.support.design.widget.FloatingActionButton
@@ -50,9 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
+            android:onClick="@{activityViewModel.startLocationActivity}"
             android:src="@drawable/ic_edit"
-            app:elevation="4dp"
-            android:onClick="@{activityViewModel.startLocationActivity}"/>
+            app:elevation="4dp"/>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>
