@@ -40,6 +40,22 @@ public class DiagramActivity extends AppCompatActivity {
 
     @DebugLog
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        loadFavoriteLocations(diagramBinding);
+
+    }
+
+    @DebugLog
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        restoreSelectedTab(diagramBinding.pager, diagramBinding.getPagerViewModel());
+        subscription = RxViewPager.pageSelections(diagramBinding.pager).observeOn(Schedulers.io()).subscribe(new SaveSelectedDiagramPositionAction(diagramBinding.getPagerViewModel()));
+    }
+
+    @DebugLog
+    @Override
     protected void onStop() {
         subscription.unsubscribe();
         super.onStop();
@@ -70,16 +86,10 @@ public class DiagramActivity extends AppCompatActivity {
         diagramBinding.tabs.setTabsFromPagerAdapter(diagramBinding.pager.getAdapter());
     }
 
-    @DebugLog
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        loadFavoriteLocations(diagramBinding);
+    private void restoreSelectedTab(final HackyViewPager pager, DiagramPagerViewModel pagerViewModel) {
+        final int currentItem = pagerViewModel.loadSelectedDiagramPosition();
+        pager.setCurrentItemDelayed(currentItem);
 
-    }
-
-    private void restoreSelectedTab(HackyViewPager pager, DiagramPagerViewModel pagerViewModel) {
-        pager.setCurrentItem(pagerViewModel.loadSelectedDiagramPosition());
     }
 
     @Override
@@ -111,14 +121,6 @@ public class DiagramActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
             }
         }
-    }
-
-    @DebugLog
-    @Override
-    protected void onResume() {
-        super.onResume();
-        restoreSelectedTab(diagramBinding.pager, diagramBinding.getPagerViewModel());
-        subscription = RxViewPager.pageSelections(diagramBinding.pager).observeOn(Schedulers.io()).subscribe(new SaveSelectedDiagramPositionAction(diagramBinding.getPagerViewModel()));
     }
 
     private static class SaveSelectedDiagramPositionAction implements Action1<Integer> {

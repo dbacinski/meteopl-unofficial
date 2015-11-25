@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import hugo.weaving.DebugLog;
 import lombok.Setter;
 import me.tatarka.bindingcollectionadapter.BindingViewPagerAdapter;
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -67,12 +68,14 @@ public class DiagramPagerViewModel {
         return observableItems;
     }
 
+    @DebugLog
     public void saveSelectedDiagramPosition(int position) {
         if (!items.isEmpty()) {
             new SelectedDiagram(getItemId(position)).saveSingle();
         }
     }
 
+    @DebugLog
     public int loadSelectedDiagramPosition() {
         return SelectedDiagram.loadSingle().map(new DiagramToPositionFunction(items)).orElse(0);
     }

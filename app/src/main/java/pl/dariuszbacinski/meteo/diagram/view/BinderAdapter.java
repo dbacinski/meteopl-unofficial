@@ -9,12 +9,14 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
+import hugo.weaving.DebugLog;
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.ui.PicassoBuilder;
 import uk.co.senab.photoview.PhotoView;
 
 public class BinderAdapter {
 
+    @DebugLog
     @BindingAdapter("bind:imageUrl")
     public static void loadImage(PhotoView imageView, String url) {
         float minScale = imageView.getContext().getResources().getInteger(R.integer.image_scale_min);

@@ -64,4 +64,13 @@ public class HackyViewPager extends ViewPager {
         return isLocked;
     }
 
+    public void setCurrentItemDelayed(final int currentItem) {
+        post(new Runnable() {
+
+            @Override
+            public void run() {
+                setCurrentItem(currentItem, false);
+            }
+        });
+    }
 }
