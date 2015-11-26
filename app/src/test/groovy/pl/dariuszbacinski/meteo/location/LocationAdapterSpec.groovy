@@ -36,5 +36,4 @@ class LocationAdapterSpec extends ShadowRoboSpecification {
             delegate.get(it).name
         }
     }
-
 }

@@ -16,7 +16,7 @@ import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramItemViewModel.Legend;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramPagerViewModel;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramViewModel;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
-import rx.Subscription;
+import pl.dariuszbacinski.meteo.rx.ReusableCompositeSubscription;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -25,7 +25,7 @@ public class DiagramActivity extends AppCompatActivity {
 
     private ActivityDiagramBinding diagramBinding;
     private DiagramViewModel diagramViewModel;
-    private Subscription subscription;
+    private ReusableCompositeSubscription subscriptions = new ReusableCompositeSubscription();
 
     @DebugLog
     @Override
@@ -43,21 +43,20 @@ public class DiagramActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         loadFavoriteLocations(diagramBinding);
-
     }
 
     @DebugLog
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
         restoreSelectedTab(diagramBinding.pager, diagramBinding.getPagerViewModel());
-        subscription = RxViewPager.pageSelections(diagramBinding.pager).observeOn(Schedulers.io()).subscribe(new SaveSelectedDiagramPositionAction(diagramBinding.getPagerViewModel()));
+        subscriptions.add(RxViewPager.pageSelections(diagramBinding.pager).observeOn(Schedulers.io()).subscribe(new SaveSelectedDiagramPositionAction(diagramBinding.getPagerViewModel())));
     }
 
     @DebugLog
     @Override
     protected void onStop() {
-        subscription.unsubscribe();
+        subscriptions.unsubscribe();
         super.onStop();
     }
 

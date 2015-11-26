@@ -29,8 +29,8 @@ import pl.dariuszbacinski.meteo.location.model.Location;
 import pl.dariuszbacinski.meteo.location.model.LocationRepository;
 import pl.dariuszbacinski.meteo.location.viewmodel.LocationAdapter;
 import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel;
+import pl.dariuszbacinski.meteo.rx.ReusableCompositeSubscription;
 import pl.dariuszbacinski.meteo.ui.SnackbarLightBuilder;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
@@ -44,9 +44,9 @@ public class LocationFragment extends Fragment {
     private MultiSelector multiSelector = new MultiSelector();
     private FavoriteLocationRepository favoriteLocationRepository = new FavoriteLocationRepository();
     private LocationRepository locationRepository = new LocationRepository();
-    private Subscription watcherSubscription;
     private FragmentLocationBinding locationBinding;
     private LocationAdapter locationAdapter;
+    private ReusableCompositeSubscription subscriptions = new ReusableCompositeSubscription();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +72,11 @@ public class LocationFragment extends Fragment {
         searchView.setIconified(false);
         searchView.clearFocus();
         searchView.setQueryHint(getString(R.string.location_choose_favorite));
-        watcherSubscription = RxSearchView.queryTextChanges(searchView).throttleLast(300L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter));
+        subscribeToSearchViewQueries(searchView);
+    }
+
+    void subscribeToSearchViewQueries(SearchView searchView) {
+        subscriptions.add(RxSearchView.queryTextChanges(searchView).throttleLast(300L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter)));
     }
 
     @Override
@@ -104,7 +108,7 @@ public class LocationFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        watcherSubscription.unsubscribe();
+        subscriptions.unsubscribe();
         locationBinding = null;
     }
 
