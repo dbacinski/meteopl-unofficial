@@ -4,7 +4,7 @@ import groovy.transform.CompileStatic
 import pl.dariuszbacinski.meteo.location.view.LocationActivity
 import spock.lang.Specification
 
-import static com.andrewreitz.spock.android.RunMode.METHOD
+import static com.andrewreitz.spock.android.ActivityRunMode.METHOD
 import static pl.dariuszbacinski.meteo.location.LocationListFeature.*
 
 @CompileStatic

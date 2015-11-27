@@ -94,7 +94,7 @@ dependencies {
         exclude module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
-    androidTestCompile 'com.github.dbacinski:android-spock:ca78c6c043'
+    androidTestCompile 'com.github.dbacinski:android-spock:0d344eb3c6'
     androidTestCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
         exclude group: 'org.codehaus.groovy'
         exclude group: 'junit'
