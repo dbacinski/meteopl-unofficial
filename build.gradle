@@ -24,3 +24,9 @@ allprojects {
         maven { url "https://jitpack.io" }
     }
 }
+
+subprojects {
+    tasks.withType(Test).all {
+        systemProperty "vw-test-mode", "true"
+    }
+}
