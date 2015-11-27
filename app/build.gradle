@@ -38,14 +38,6 @@ android {
         javaMaxHeapSize "2G"
     }
 
-    productFlavors {
-        fastdexlollipop {
-            minSdkVersion 21
-        }
-        prod {
-            minSdkVersion 14
-        }
-    }
     //android-spock
     packagingOptions {
         exclude 'META-INF/services/org.codehaus.groovy.transform.ASTTransformation'
