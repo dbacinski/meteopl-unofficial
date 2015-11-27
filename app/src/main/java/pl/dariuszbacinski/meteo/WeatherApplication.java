@@ -1,5 +1,6 @@
 package pl.dariuszbacinski.meteo;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
@@ -24,7 +25,7 @@ public class WeatherApplication extends MultiDexApplication {
     }
 
     private void initReleaseMode() {
-        if(!BuildConfig.DEBUG) {
+        if(!BuildConfig.DEBUG && !isVolkswagenModeEnabled()) {
             Fabric.with(this, new CrashlyticsCore(), new Answers());
         }
     }
@@ -32,5 +33,9 @@ public class WeatherApplication extends MultiDexApplication {
     public static RefWatcher getRefWatcher(Context context) {
         WeatherApplication application = (WeatherApplication) context.getApplicationContext();
         return application.refWatcher;
+    }
+
+    public boolean isVolkswagenModeEnabled() {
+        return ActivityManager.isRunningInTestHarness() || ActivityManager.isUserAMonkey();
     }
 }
