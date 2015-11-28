@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.location.viewmodel;
+package pl.dariuszbacinski.meteo.location.view;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +13,8 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.dariuszbacinski.meteo.databinding.ListItemLocationBinding;
 import pl.dariuszbacinski.meteo.location.model.Location;
-import pl.dariuszbacinski.meteo.location.view.LocationViewHolder;
+import pl.dariuszbacinski.meteo.location.viewmodel.LocationItemViewModel;
+import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel;
 
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PRIVATE)

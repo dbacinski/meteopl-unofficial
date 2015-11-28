@@ -27,7 +27,6 @@ import pl.dariuszbacinski.meteo.diagram.view.DiagramActivity;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.model.Location;
 import pl.dariuszbacinski.meteo.location.model.LocationRepository;
-import pl.dariuszbacinski.meteo.location.viewmodel.LocationAdapter;
 import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel;
 import pl.dariuszbacinski.meteo.rx.ReusableCompositeSubscription;
 import pl.dariuszbacinski.meteo.ui.SnackbarLightBuilder;
