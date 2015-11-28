@@ -18,8 +18,7 @@ import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel;
 
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PRIVATE)
-//TODO define suppressConstructorProperties=true in global config
-@AllArgsConstructor(suppressConstructorProperties = true)
+@AllArgsConstructor
 public class LocationAdapter extends RecyclerView.Adapter<LocationViewHolder> {
 
     LocationListViewModel locationListViewModel;

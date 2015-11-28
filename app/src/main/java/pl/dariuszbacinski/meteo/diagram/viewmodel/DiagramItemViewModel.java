@@ -2,7 +2,8 @@ package pl.dariuszbacinski.meteo.diagram.viewmodel;
 
 import android.databinding.BaseObservable;
 
-import lombok.experimental.Builder;
+import lombok.Builder;
+
 
 @Builder
 public class DiagramItemViewModel extends BaseObservable {
