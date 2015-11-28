@@ -29,7 +29,7 @@ import pl.dariuszbacinski.meteo.location.model.Location;
 import pl.dariuszbacinski.meteo.location.model.LocationRepository;
 import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel;
 import pl.dariuszbacinski.meteo.rx.ReusableCompositeSubscription;
-import pl.dariuszbacinski.meteo.ui.SnackbarLightBuilder;
+import pl.dariuszbacinski.meteo.view.SnackbarLightBuilder;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 

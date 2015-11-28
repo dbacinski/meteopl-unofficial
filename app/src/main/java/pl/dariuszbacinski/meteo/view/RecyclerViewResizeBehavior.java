@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.ui;
+package pl.dariuszbacinski.meteo.view;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

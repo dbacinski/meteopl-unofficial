@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:scrollbars="vertical"
-            app:layout_behavior="pl.dariuszbacinski.meteo.ui.RecyclerViewResizeBehavior"/>
+            app:layout_behavior="pl.dariuszbacinski.meteo.view.RecyclerViewResizeBehavior"/>
 
         <Button
             android:id="@+id/favorites_save"
@@ -34,7 +34,7 @@
             android:layout_gravity="bottom"
             android:onClick="@{fragment.saveFavorites}"
             android:text="@string/save"
-            app:layout_behavior="pl.dariuszbacinski.meteo.ui.ButtonBehavior"/>
+            app:layout_behavior="pl.dariuszbacinski.meteo.view.ButtonBehavior"/>
 
 
     </android.support.design.widget.CoordinatorLayout>

@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import hugo.weaving.DebugLog;
 import pl.dariuszbacinski.meteo.R;
-import pl.dariuszbacinski.meteo.ui.PicassoBuilder;
+import pl.dariuszbacinski.meteo.view.PicassoBuilder;
 import uk.co.senab.photoview.PhotoView;
 
 public class BinderAdapter {
