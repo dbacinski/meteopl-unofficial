@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.text
+package pl.dariuszbacinski.meteo.component.text
 
 import spock.lang.Specification
 import spock.lang.Unroll

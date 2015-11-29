@@ -22,14 +22,14 @@ import java.util.List;
 
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.WeatherApplication;
+import pl.dariuszbacinski.meteo.component.rx.ReusableCompositeSubscription;
+import pl.dariuszbacinski.meteo.component.view.SnackbarLightBuilder;
 import pl.dariuszbacinski.meteo.databinding.FragmentLocationBinding;
 import pl.dariuszbacinski.meteo.diagram.view.DiagramActivity;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.model.Location;
 import pl.dariuszbacinski.meteo.location.model.LocationRepository;
 import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel;
-import pl.dariuszbacinski.meteo.rx.ReusableCompositeSubscription;
-import pl.dariuszbacinski.meteo.view.SnackbarLightBuilder;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 

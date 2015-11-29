@@ -7,8 +7,8 @@ import lombok.Builder;
 
 @Builder
 public class DiagramItemViewModel extends BaseObservable {
-    String title;
-    String imageUrl;
+    private String title;
+    private String imageUrl;
     private Long id;
 
     public String getTitle() {

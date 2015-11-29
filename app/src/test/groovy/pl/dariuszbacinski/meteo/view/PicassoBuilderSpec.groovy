@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.view
+package pl.dariuszbacinski.meteo.component.view
 
 import com.squareup.picasso.Picasso
 import org.robolectric.RuntimeEnvironment

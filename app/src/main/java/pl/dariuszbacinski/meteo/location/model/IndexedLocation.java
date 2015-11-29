@@ -1,7 +1,7 @@
 package pl.dariuszbacinski.meteo.location.model;
 
-import pl.dariuszbacinski.meteo.rx.Indexed;
-import pl.dariuszbacinski.meteo.text.StringNormalizer;
+import pl.dariuszbacinski.meteo.component.rx.Indexed;
+import pl.dariuszbacinski.meteo.component.text.StringNormalizer;
 
 public class IndexedLocation extends Indexed<Location> {
 

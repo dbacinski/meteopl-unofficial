@@ -11,12 +11,14 @@ import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
 
 import hugo.weaving.DebugLog;
 import pl.dariuszbacinski.meteo.R;
+import pl.dariuszbacinski.meteo.component.log.AnswersLogger;
+import pl.dariuszbacinski.meteo.component.rx.ReusableCompositeSubscription;
 import pl.dariuszbacinski.meteo.databinding.ActivityDiagramBinding;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramItemViewModel.Legend;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramPagerViewModel;
 import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramViewModel;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
-import pl.dariuszbacinski.meteo.rx.ReusableCompositeSubscription;
+import rx.Observable;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -50,7 +52,9 @@ public class DiagramActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         restoreSelectedTab(diagramBinding.pager, diagramBinding.getPagerViewModel());
-        subscriptions.add(RxViewPager.pageSelections(diagramBinding.pager).observeOn(Schedulers.io()).subscribe(new SaveSelectedDiagramPositionAction(diagramBinding.getPagerViewModel())));
+        Observable<Integer> pageSelectionObservable = RxViewPager.pageSelections(diagramBinding.pager).observeOn(Schedulers.io());
+        subscriptions.add(pageSelectionObservable.subscribe(new SaveSelectedDiagramPositionAction(diagramBinding.getPagerViewModel())));
+        subscriptions.add(pageSelectionObservable.subscribe(new TrackingPositionAction(new AnswersLogger(), diagramBinding.getPagerViewModel())));
     }
 
     @DebugLog
@@ -122,8 +126,7 @@ public class DiagramActivity extends AppCompatActivity {
         }
     }
 
-    private static class SaveSelectedDiagramPositionAction implements Action1<Integer> {
-
+    public static class SaveSelectedDiagramPositionAction implements Action1<Integer> {
         private DiagramPagerViewModel diagramPagerViewModel;
 
         public SaveSelectedDiagramPositionAction(DiagramPagerViewModel diagramPagerViewModel) {
@@ -131,8 +134,24 @@ public class DiagramActivity extends AppCompatActivity {
         }
 
         @Override
-        public void call(Integer integer) {
-            diagramPagerViewModel.saveSelectedDiagramPosition(integer);
+        public void call(Integer position) {
+            diagramPagerViewModel.saveSelectedDiagramPosition(position);
+        }
+    }
+
+    public static class TrackingPositionAction implements Action1<Integer> {
+
+        private DiagramPagerViewModel diagramPagerViewModel;
+        private AnswersLogger answersLogger;
+
+        public TrackingPositionAction(AnswersLogger answersLogger, DiagramPagerViewModel diagramPagerViewModel) {
+            this.answersLogger = answersLogger;
+            this.diagramPagerViewModel = diagramPagerViewModel;
+        }
+
+        @Override
+        public void call(Integer position) {
+            answersLogger.logDiagramView(diagramPagerViewModel.items.get(position));
         }
     }
 }

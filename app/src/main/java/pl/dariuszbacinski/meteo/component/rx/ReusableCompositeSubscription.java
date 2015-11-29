@@ -1,4 +1,4 @@
-package pl.dariuszbacinski.meteo.rx;
+package pl.dariuszbacinski.meteo.component.rx;
 
 import android.support.annotation.NonNull;
 

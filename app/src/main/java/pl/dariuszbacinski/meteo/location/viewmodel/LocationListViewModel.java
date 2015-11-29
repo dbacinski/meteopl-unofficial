@@ -8,15 +8,15 @@ import hugo.weaving.DebugLog;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import pl.dariuszbacinski.meteo.component.rx.Indexed;
+import pl.dariuszbacinski.meteo.component.rx.NaturalNumbers;
 import pl.dariuszbacinski.meteo.location.model.IndexedLocation;
 import pl.dariuszbacinski.meteo.location.model.Location;
-import pl.dariuszbacinski.meteo.rx.Indexed;
-import pl.dariuszbacinski.meteo.rx.NaturalNumbers;
 import rx.Observable;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
-import static pl.dariuszbacinski.meteo.text.StringNormalizer.normalizePlLang;
+import static pl.dariuszbacinski.meteo.component.text.StringNormalizer.normalizePlLang;
 
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PRIVATE)
