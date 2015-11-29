@@ -7,7 +7,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class ReusableCompositeSubscription implements Subscription {
 
-    CompositeSubscription compositeSubscription = new CompositeSubscription();
+    private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     public void add(@NonNull Subscription subscription) {
         if (isUnsubscribed()) {

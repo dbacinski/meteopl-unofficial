@@ -5,7 +5,7 @@ import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.eccyan.optional.Optional;
 
-public class SelectedDiagramRepository {
+class SelectedDiagramRepository {
 
     public Optional<SelectedDiagram> findOne() {
         return Optional.ofNullable((SelectedDiagram) new Select().from(SelectedDiagram.class).executeSingle());

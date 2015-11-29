@@ -9,7 +9,7 @@ import pl.dariuszbacinski.meteo.location.view.LocationActivity;
 
 public class DiagramViewModel {
 
-    Activity activity;
+    private Activity activity;
 
     public DiagramViewModel(Activity activity) {
         this.activity = activity;

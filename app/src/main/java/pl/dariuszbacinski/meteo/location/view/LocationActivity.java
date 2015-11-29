@@ -9,12 +9,10 @@ import pl.dariuszbacinski.meteo.databinding.ActivityLocationBinding;
 
 public class LocationActivity extends AppCompatActivity {
 
-    private ActivityLocationBinding locationBinding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        locationBinding = ActivityLocationBinding.inflate(getLayoutInflater());
+        ActivityLocationBinding locationBinding = ActivityLocationBinding.inflate(getLayoutInflater());
         setContentView(locationBinding.getRoot());
         setSupportActionBar(locationBinding.toolbar);
         //TODO add toolbar up button

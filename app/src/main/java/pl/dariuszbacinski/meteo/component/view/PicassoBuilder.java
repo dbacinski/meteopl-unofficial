@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 
 public class PicassoBuilder {
-    public static final int ONE_HOUR = 60 * 60;
+    private static final int ONE_HOUR = 60 * 60;
     private Context context;
     private OkHttpDownloader okHttpDownloader;
 

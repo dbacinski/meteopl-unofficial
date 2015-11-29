@@ -37,7 +37,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class LocationFragment extends Fragment {
 
-    public static final String MULTI_SELECTOR_STATE = "multiselector";
+    private static final String MULTI_SELECTOR_STATE = "multiselector";
     //TODO checked should be part of IndexedLocation
     //TODO move to viewmodel
     private MultiSelector multiSelector = new MultiSelector();
@@ -74,7 +74,7 @@ public class LocationFragment extends Fragment {
         subscribeToSearchViewQueries(searchView);
     }
 
-    void subscribeToSearchViewQueries(SearchView searchView) {
+    private void subscribeToSearchViewQueries(SearchView searchView) {
         subscriptions.add(RxSearchView.queryTextChanges(searchView).throttleLast(300L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter)));
     }
 

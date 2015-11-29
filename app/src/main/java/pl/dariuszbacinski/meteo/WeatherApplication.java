@@ -24,7 +24,7 @@ public class WeatherApplication extends MultiDexApplication {
         initReleaseMode();
     }
 
-    void initReleaseMode() {
+    private void initReleaseMode() {
         if (!BuildConfig.DEBUG && !isVolkswagenModeEnabled()) {
             Fabric.with(this, new CrashlyticsCore(), new Answers());
         }
@@ -35,7 +35,7 @@ public class WeatherApplication extends MultiDexApplication {
         return application.refWatcher;
     }
 
-    public boolean isVolkswagenModeEnabled() {
+    private boolean isVolkswagenModeEnabled() {
         return ActivityManager.isRunningInTestHarness() ||
                 ActivityManager.isUserAMonkey() ||
                 "true".equals(System.getProperty("vw-test-mode", "false"));

@@ -8,7 +8,7 @@ import pl.dariuszbacinski.meteo.diagram.viewmodel.DiagramItemViewModel;
 
 
 public class AnswersLogger {
-    public static final String DIAGRAM = "diagram";
+    private static final String DIAGRAM = "diagram";
 
     public void logDiagramView(DiagramItemViewModel diagramItemViewModel) {
         if (Fabric.isInitialized()) {
