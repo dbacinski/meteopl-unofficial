@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 //XXX @AllArgsConstructor Dangerous for identical types
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @Table(name = "Locations", id = "_id")
 public class Location extends Model {

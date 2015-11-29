@@ -9,8 +9,6 @@ import android.widget.Button;
 
 public class RecyclerViewResizeBehavior extends CoordinatorLayout.Behavior<RecyclerView> {
 
-    private int height;
-
     public RecyclerViewResizeBehavior(Context context, AttributeSet attrs) {
     }
 

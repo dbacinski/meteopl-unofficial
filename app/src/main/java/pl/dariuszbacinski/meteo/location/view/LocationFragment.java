@@ -33,6 +33,7 @@ import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
+import static com.eccyan.optional.Optional.ofNullable;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class LocationFragment extends Fragment {
@@ -88,7 +89,7 @@ public class LocationFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            multiSelector.restoreSelectionStates(savedInstanceState.getBundle(MULTI_SELECTOR_STATE));
+            multiSelector.restoreSelectionStates(ofNullable(savedInstanceState.getBundle(MULTI_SELECTOR_STATE)).orElse(new Bundle()));
         }
     }
 
