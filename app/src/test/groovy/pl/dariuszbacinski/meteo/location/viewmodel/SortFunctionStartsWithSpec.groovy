@@ -1,8 +1,6 @@
-package pl.dariuszbacinski.meteo.location
-
+package pl.dariuszbacinski.meteo.location.viewmodel
 import pl.dariuszbacinski.meteo.location.model.IndexedLocation
 import pl.dariuszbacinski.meteo.location.model.Location
-import pl.dariuszbacinski.meteo.location.viewmodel.SortFunctionStartsWith
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 import spock.lang.Unroll
 

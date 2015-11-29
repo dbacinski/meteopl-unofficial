@@ -1,7 +1,6 @@
-package pl.dariuszbacinski.meteo.location
+package pl.dariuszbacinski.meteo.location.viewmodel
 import com.bignerdranch.android.multiselector.MultiSelector
 import pl.dariuszbacinski.meteo.location.model.Location
-import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 
 class LocationListViewModelFilteringSpec extends ShadowRoboSpecification {

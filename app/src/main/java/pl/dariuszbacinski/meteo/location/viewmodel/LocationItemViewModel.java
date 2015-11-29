@@ -9,7 +9,7 @@ import lombok.Value;
 
 @AllArgsConstructor(suppressConstructorProperties = true)
 @Value
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class LocationItemViewModel extends BaseObservable {
     String name;
     boolean checked;

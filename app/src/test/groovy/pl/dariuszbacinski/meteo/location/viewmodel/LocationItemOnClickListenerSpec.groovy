@@ -1,11 +1,10 @@
-package pl.dariuszbacinski.meteo.location
+package pl.dariuszbacinski.meteo.location.viewmodel
 import android.widget.CheckedTextView
 import com.bignerdranch.android.multiselector.MultiSelector
 import org.robolectric.RuntimeEnvironment
-import pl.dariuszbacinski.meteo.location.viewmodel.LocationItemOnClickListener
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
 
-class LocationViewHolderSpec extends ShadowRoboSpecification {
+class LocationItemOnClickListenerSpec extends ShadowRoboSpecification {
 
     def "toggles view on click"() {
         given:
