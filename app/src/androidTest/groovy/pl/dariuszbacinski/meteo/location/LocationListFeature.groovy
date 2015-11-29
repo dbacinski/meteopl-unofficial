@@ -28,11 +28,16 @@ public class LocationListFeature {
         onView withId(R.id.favorites_list) perform actionOnItemAtPosition(0, click())
     }
 
+    public static void selectLocationWithName(String name) {
+        filterLocationsWithQuery name
+        selectFirstLocationAsFavorite()
+    }
+
     public static void saveSelectedLocations() {
         onView withId(R.id.favorites_save) perform click()
     }
 
-    public static void waitForFilterResults(){
+    public static void waitForFilterResults() {
         sleep(500)
     }
 
@@ -40,7 +45,7 @@ public class LocationListFeature {
         new FavoriteLocationRepository().saveList([])
     }
 
-    public static boolean firstSelectedLocationHasName(String name){
+    public static boolean firstSelectedLocationHasName(String name) {
         return new FavoriteLocationRepository().findAll().first().name == name
     }
 }

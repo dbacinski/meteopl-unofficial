@@ -25,6 +25,7 @@ android {
                     'proguard-rules.pro'
         }
         debug {
+            minifyEnabled false
             ext.enableCrashlytics = false
         }
     }

@@ -22,11 +22,12 @@ public class LocationSaveSpec extends Specification {
 
     def "save location as favorite"() {
         given: "select Berlin as favorite location"
-            filterLocationsWithQuery "Berlin"
-            selectFirstLocationAsFavorite()
+            selectLocationWithName "Berlin"
         when: "save selected location"
             saveSelectedLocations()
         then: "Berlin is saved"
             firstSelectedLocationHasName "Berlin"
     }
+
+
 }
