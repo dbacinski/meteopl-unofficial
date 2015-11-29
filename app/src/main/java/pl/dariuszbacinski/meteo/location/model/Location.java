@@ -30,4 +30,8 @@ public class Location extends Model {
         this.row = row;
         this.col = col;
     }
+
+    public String getName(){
+     return name;
+    }
 }

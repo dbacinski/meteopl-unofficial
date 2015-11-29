@@ -1,13 +1,11 @@
 package pl.dariuszbacinski.meteo.location
 import com.andrewreitz.spock.android.UseActivity
-import groovy.transform.CompileStatic
 import pl.dariuszbacinski.meteo.location.view.LocationActivity
 import spock.lang.Specification
 
 import static com.andrewreitz.spock.android.ActivityRunMode.METHOD
 import static pl.dariuszbacinski.meteo.location.LocationListFeature.*
 
-@CompileStatic
 public class LocationSaveSpec extends Specification {
 
     @UseActivity(value = LocationActivity, runMode = METHOD)
@@ -23,13 +21,12 @@ public class LocationSaveSpec extends Specification {
     }
 
     def "save location as favorite"() {
-        when: "select Berlin as favorite location"
+        given: "select Berlin as favorite location"
             filterLocationsWithQuery "Berlin"
             selectFirstLocationAsFavorite()
+        when: "save selected location"
             saveSelectedLocations()
-        then: "save selected locations"
-            //TODO assert
+        then: "Berlin is saved"
+            firstSelectedLocationHasName "Berlin"
     }
-
-
 }

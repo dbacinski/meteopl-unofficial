@@ -39,4 +39,8 @@ public class LocationListFeature {
     public static void removeFavoriteLocations() {
         new FavoriteLocationRepository().saveList([])
     }
+
+    public static boolean firstSelectedLocationHasName(String name){
+        return new FavoriteLocationRepository().findAll().first().name == name
+    }
 }
