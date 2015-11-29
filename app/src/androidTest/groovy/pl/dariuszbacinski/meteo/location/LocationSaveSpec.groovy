@@ -8,10 +8,14 @@ import static com.andrewreitz.spock.android.ActivityRunMode.METHOD
 import static pl.dariuszbacinski.meteo.location.LocationListFeature.*
 
 @CompileStatic
-public class LocationSaveSpec extends Specification{
+public class LocationSaveSpec extends Specification {
 
-    @UseActivity(value=LocationActivity, runMode = METHOD)
+    @UseActivity(value = LocationActivity, runMode = METHOD)
     def locationActivity
+
+    def setupSpec() {
+        removeFavoriteLocations()
+    }
 
     def "verify activity"() {
         expect:
@@ -20,11 +24,12 @@ public class LocationSaveSpec extends Specification{
 
     def "save location as favorite"() {
         when: "select Berlin as favorite location"
-        //TODO uncheck all locations
             filterLocationsWithQuery "Berlin"
             selectFirstLocationAsFavorite()
             saveSelectedLocations()
         then: "save selected locations"
-        //TODO assert
+            //TODO assert
     }
+
+
 }

@@ -2,6 +2,7 @@ package pl.dariuszbacinski.meteo.location
 
 import groovy.transform.CompileStatic
 import pl.dariuszbacinski.meteo.R
+import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository
 
 import static android.support.test.espresso.Espresso.onView
 import static android.support.test.espresso.action.ViewActions.click
@@ -33,5 +34,9 @@ public class LocationListFeature {
 
     public static void waitForFilterResults(){
         sleep(500)
+    }
+
+    public static void removeFavoriteLocations() {
+        new FavoriteLocationRepository().saveList([])
     }
 }
