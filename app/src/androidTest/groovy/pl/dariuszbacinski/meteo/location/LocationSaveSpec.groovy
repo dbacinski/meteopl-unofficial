@@ -28,6 +28,4 @@ public class LocationSaveSpec extends Specification {
         then: "Berlin is saved"
             firstSelectedLocationHasName "Berlin"
     }
-
-
 }

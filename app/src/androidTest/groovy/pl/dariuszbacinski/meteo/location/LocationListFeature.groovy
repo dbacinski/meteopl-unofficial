@@ -3,6 +3,8 @@ package pl.dariuszbacinski.meteo.location
 import groovy.transform.CompileStatic
 import pl.dariuszbacinski.meteo.R
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository
+import pl.dariuszbacinski.meteo.location.model.Location
+import pl.dariuszbacinski.meteo.location.model.LocationRepository
 
 import static android.support.test.espresso.Espresso.onView
 import static android.support.test.espresso.action.ViewActions.click
@@ -47,5 +49,10 @@ public class LocationListFeature {
 
     public static boolean firstSelectedLocationHasName(String name) {
         return new FavoriteLocationRepository().findAll().first().name == name
+    }
+
+    static void addFavoriteLocationsWithNames(List<String> locationNames) {
+        List<Location> locations = new LocationRepository().findAll().findAll { it.name in locationNames}
+        new FavoriteLocationRepository().saveList(locations);
     }
 }
