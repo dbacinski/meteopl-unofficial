@@ -1,22 +1,16 @@
 package pl.dariuszbacinski.meteo.location
-
-import com.andrewreitz.spock.android.UseActivity
+import android.support.test.rule.ActivityTestRule
+import org.junit.Rule
 import pl.dariuszbacinski.meteo.location.view.LocationActivity
 import spock.lang.Specification
 
-import static com.andrewreitz.spock.android.ActivityRunMode.METHOD
 import static pl.dariuszbacinski.meteo.location.LocationListFeature.filterLocationsWithQuery
 import static pl.dariuszbacinski.meteo.location.LocationListFeature.listContainsLocation
 
 public class LocationFilteringSpec extends Specification{
 
-    @UseActivity(value=LocationActivity, runMode = METHOD)
-    def locationActivity
-
-    def "verify activity"() {
-        expect:
-            locationActivity instanceof LocationActivity
-    }
+    @Rule
+    ActivityTestRule<LocationActivity> locationActivityRule = new ActivityTestRule(LocationActivity)
 
     def "filter locations by prefix"() {
         when: "enter filter query Ber"

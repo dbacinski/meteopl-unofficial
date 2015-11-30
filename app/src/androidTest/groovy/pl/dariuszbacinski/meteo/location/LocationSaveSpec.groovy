@@ -1,23 +1,18 @@
 package pl.dariuszbacinski.meteo.location
-import com.andrewreitz.spock.android.UseActivity
+import android.support.test.rule.ActivityTestRule
+import org.junit.Rule
 import pl.dariuszbacinski.meteo.location.view.LocationActivity
 import spock.lang.Specification
 
-import static com.andrewreitz.spock.android.ActivityRunMode.METHOD
 import static pl.dariuszbacinski.meteo.location.LocationListFeature.*
 
 public class LocationSaveSpec extends Specification {
 
-    @UseActivity(value = LocationActivity, runMode = METHOD)
-    def locationActivity
+    @Rule
+    ActivityTestRule<LocationActivity> locationActivityRule = new ActivityTestRule(LocationActivity)
 
     def setupSpec() {
         removeFavoriteLocations()
-    }
-
-    def "verify activity"() {
-        expect:
-            locationActivity instanceof LocationActivity
     }
 
     def "save location as favorite"() {
