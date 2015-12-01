@@ -1,16 +1,12 @@
 package pl.dariuszbacinski.meteo.location
 import android.support.test.espresso.Espresso
 import android.support.test.rule.ActivityTestRule
-import android.support.v7.widget.RecyclerView
 import org.junit.Rule
-import pl.dariuszbacinski.meteo.R
 import pl.dariuszbacinski.meteo.component.LocationListIdlingResource
 import pl.dariuszbacinski.meteo.location.view.LocationActivity
-import pl.dariuszbacinski.meteo.location.view.LocationAdapter
 import spock.lang.Specification
 
-import static pl.dariuszbacinski.meteo.location.LocationListFeature.filterLocationsWithQuery
-import static pl.dariuszbacinski.meteo.location.LocationListFeature.listContainsLocation
+import static pl.dariuszbacinski.meteo.location.LocationListFeature.*
 
 public class LocationFilteringSpec extends Specification {
 
@@ -25,10 +21,6 @@ public class LocationFilteringSpec extends Specification {
 
     def cleanup() {
         Espresso.unregisterIdlingResources listIdlingResource
-    }
-
-    static LocationAdapter getLocationListAdapter(LocationActivity activity) {
-        return (activity.findViewById(R.id.favorites_list) as RecyclerView).getAdapter() as LocationAdapter
     }
 
     def "filter locations by prefix"() {

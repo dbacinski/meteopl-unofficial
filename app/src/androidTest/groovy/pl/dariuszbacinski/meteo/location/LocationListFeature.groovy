@@ -1,4 +1,6 @@
 package pl.dariuszbacinski.meteo.location
+
+import android.support.v7.widget.RecyclerView
 import groovy.transform.CompileStatic
 import pl.dariuszbacinski.meteo.R
 import pl.dariuszbacinski.meteo.component.LocationListIdlingResource
@@ -6,6 +8,8 @@ import pl.dariuszbacinski.meteo.component.ReplaceHintAction
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository
 import pl.dariuszbacinski.meteo.location.model.Location
 import pl.dariuszbacinski.meteo.location.model.LocationRepository
+import pl.dariuszbacinski.meteo.location.view.LocationActivity
+import pl.dariuszbacinski.meteo.location.view.LocationAdapter
 
 import static android.support.test.espresso.Espresso.onView
 import static android.support.test.espresso.action.ViewActions.actionWithAssertions
@@ -55,5 +59,9 @@ public class LocationListFeature {
     static void addFavoriteLocationsWithNames(List<String> locationNames) {
         List<Location> locations = new LocationRepository().findAll().findAll { it.name in locationNames}
         new FavoriteLocationRepository().saveList(locations);
+    }
+
+    static LocationAdapter getLocationListAdapter(LocationActivity activity) {
+        return (activity.findViewById(R.id.favorites_list) as RecyclerView).getAdapter() as LocationAdapter
     }
 }
