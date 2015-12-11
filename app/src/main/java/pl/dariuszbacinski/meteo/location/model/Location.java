@@ -8,16 +8,22 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
 
 @Getter
 @NoArgsConstructor
-//XXX @AllArgsConstructor Dangerous for identical types
+//XXX @AllArgsConstructor is dangerous for identical types
 @EqualsAndHashCode(callSuper = false)
 @Builder
+@ToString
 @Table(name = "Locations", id = "_id")
 public class Location extends Model {
 
+    @Accessors(chain = true)
+    @Setter
     @Column
     private String name;
     @Column
@@ -30,5 +36,4 @@ public class Location extends Model {
         this.row = row;
         this.col = col;
     }
-
 }

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CheckedTextView;
 import android.widget.SearchView;
 
 import com.bignerdranch.android.multiselector.MultiSelector;
@@ -29,6 +30,8 @@ import pl.dariuszbacinski.meteo.diagram.view.DiagramActivity;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.model.Location;
 import pl.dariuszbacinski.meteo.location.model.LocationRepository;
+import pl.dariuszbacinski.meteo.location.viewmodel.CoarseLocationItemViewModel;
+import pl.dariuszbacinski.meteo.location.viewmodel.CoarseLocationViewModelAdapter;
 import pl.dariuszbacinski.meteo.location.viewmodel.LocationListViewModel;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -47,17 +50,30 @@ public class LocationFragment extends Fragment {
     private FragmentLocationBinding locationBinding;
     private LocationAdapter locationAdapter;
     private ReusableCompositeSubscription subscriptions = new ReusableCompositeSubscription();
+    private CoarseLocationViewModelAdapter coarseLocationViewModelAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         locationBinding = FragmentLocationBinding.inflate(inflater, container, false);
+
         LocationListViewModel locationListViewModel = new LocationListViewModel(multiSelector, locationRepository.findAll(), favoriteLocationRepository.findAll());
         locationAdapter = new LocationAdapter(locationListViewModel);
         locationBinding.favoritesList.setHasFixedSize(true);
         locationBinding.favoritesList.setAdapter(locationAdapter);
         locationBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
         locationBinding.setFragment(this);
+
+        coarseLocationViewModelAdapter = new CoarseLocationViewModelAdapter(new CoarseLocationItemViewModel(getString(R.string.location_gps_loading), false, R.drawable.ic_gps_not_fixed));
+        //TODO move location request to on click
+        subscriptions.add(coarseLocationViewModelAdapter.requestLocation(getActivity().getApplicationContext()));
+        CoarseLocationItemViewModel locationItemViewModel = coarseLocationViewModelAdapter.getLocationItemViewModel();
+        locationBinding.setLocation(locationItemViewModel);
+        locationBinding.locationGpsName.setItem(locationItemViewModel);
+
+        CoarseLocationClickListener listener = new CoarseLocationClickListener(locationItemViewModel);
+        locationBinding.setListener(listener);
+        locationBinding.locationGpsName.setListener(listener);
         setHasOptionsMenu(true);
         //TODO show save only when data where changed
         return locationBinding.getRoot();
@@ -95,6 +111,8 @@ public class LocationFragment extends Fragment {
 
     public void saveFavorites(View view) {
         final List<Location> selectedLocations = locationAdapter.getSelectedLocations();
+        selectedLocations.addAll(coarseLocationViewModelAdapter.getSelectedCoarseLocation());
+
         //TODO delegate to viewmodel
         favoriteLocationRepository.saveList(selectedLocations);
         if (selectedLocations.size() == 0) {
@@ -104,6 +122,8 @@ public class LocationFragment extends Fragment {
             getActivity().finish();
         }
     }
+
+
 
     @Override
     public void onDestroyView() {
@@ -129,6 +149,22 @@ public class LocationFragment extends Fragment {
         @Override
         public void call(CharSequence charSequence) {
             locationAdapter.filterLocationsByName(charSequence.toString());
+        }
+    }
+
+    private static class CoarseLocationClickListener implements View.OnClickListener {
+
+        private CoarseLocationItemViewModel locationItemViewModel;
+
+        public CoarseLocationClickListener(CoarseLocationItemViewModel locationItemViewModel) {
+            this.locationItemViewModel = locationItemViewModel;
+        }
+
+        @Override
+        public void onClick(View view) {
+            CheckedTextView checkedTextView = (CheckedTextView) view.findViewById(R.id.location_gps_name);
+            checkedTextView.toggle();
+            locationItemViewModel.setChecked(checkedTextView.isChecked());
         }
     }
 }

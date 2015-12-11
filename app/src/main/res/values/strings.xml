@@ -9,4 +9,6 @@
     <string name="action_show_legend">Show legend</string>
     <string name="legend">Legend</string>
     <string name="info_author" formatted="false" translatable="false"><![CDATA[Author: <a href="https://www.linkedin.com/pub/dariusz-baci%C5%84ski/22/5ab/33b">Dariusz Baciński</a><br><br>Icons: <a href="https://www.linkedin.com/in/kkosiorek/de">Konrad Kosiorek</a><br><br>QA: <a href="https://www.linkedin.com/in/gizynski">Wojciech Giżyński</a>]]></string>
+    <string name="location_gps_loading">Loading current location…</string>
+    <string name="location_gps_error">Error loading current location</string>
 </resources>

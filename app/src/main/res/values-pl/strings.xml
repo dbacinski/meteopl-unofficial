@@ -9,4 +9,6 @@
     <string name="location_no_locations_selected">Wybierz przynajmniej jedną miejscowość</string>
     <string name="action_show_legend">Pokaż legendę</string>
     <string name="legend">Legenda</string>
+    <string name="location_gps_loading">Pobieram lokalizację…</string>
+    <string name="location_gps_error">Brak dostępu do lokalizacji</string>
 </resources>

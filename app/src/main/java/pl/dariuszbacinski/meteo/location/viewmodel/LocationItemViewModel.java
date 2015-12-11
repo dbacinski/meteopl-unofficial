@@ -5,14 +5,23 @@ import android.databinding.Bindable;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Value;
+import pl.dariuszbacinski.meteo.BR;
 
 @AllArgsConstructor(suppressConstructorProperties = true)
-@Value
 @EqualsAndHashCode(callSuper = false)
 public class LocationItemViewModel extends BaseObservable {
     String name;
     boolean checked;
+
+    public void setName(String name) {
+        this.name = name;
+        notifyPropertyChanged(BR.name);
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+        notifyPropertyChanged(BR.checked);
+    }
 
     @Bindable
     public String getName() {

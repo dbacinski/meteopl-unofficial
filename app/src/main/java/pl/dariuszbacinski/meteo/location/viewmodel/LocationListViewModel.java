@@ -17,6 +17,7 @@ import rx.functions.Func1;
 import rx.functions.Func2;
 
 import static pl.dariuszbacinski.meteo.component.text.StringNormalizer.normalizePlLang;
+import static pl.dariuszbacinski.meteo.location.viewmodel.CoarseLocationViewModelAdapter.COARSE_LOCATION_ID;
 
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PRIVATE)
@@ -39,6 +40,11 @@ public class LocationListViewModel {
             @Override
             public IndexedLocation call(Location location, Integer index) {
                 return new IndexedLocation(index, index, location);
+            }
+        }).filter(new Func1<IndexedLocation, Boolean>() {
+            @Override
+            public Boolean call(IndexedLocation indexedLocation) {
+                return !COARSE_LOCATION_ID.equals(indexedLocation.getValue().getId());
             }
         });
     }

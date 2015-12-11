@@ -3,6 +3,7 @@ package pl.dariuszbacinski.meteo.diagram.model;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.activeandroid.sqlbrite.BriteDatabase;
 import com.eccyan.optional.Optional;
 
 class SelectedDiagramRepository {
@@ -12,14 +13,14 @@ class SelectedDiagramRepository {
     }
 
     public void saveOne(SelectedDiagram selectedDiagram) {
-        ActiveAndroid.beginTransaction();
+        BriteDatabase.Transaction transaction = ActiveAndroid.beginTransaction();
 
         try {
             new Delete().from(SelectedDiagram.class).execute();
             selectedDiagram.save();
-            ActiveAndroid.setTransactionSuccessful();
+            ActiveAndroid.setTransactionSuccessful(transaction);
         } finally {
-            ActiveAndroid.endTransaction();
+            ActiveAndroid.endTransaction(transaction);
         }
     }
 }

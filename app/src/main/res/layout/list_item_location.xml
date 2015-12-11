@@ -9,7 +9,7 @@
 
         <variable
             name="listener"
-            type="pl.dariuszbacinski.meteo.location.viewmodel.LocationItemOnClickListener"/>
+            type="android.view.View.OnClickListener"/>
     </data>
 
     <CheckedTextView
@@ -20,10 +20,6 @@
         android:checked="@{item.checked}"
         android:gravity="center_vertical"
         android:onClick="@{listener.onClick}"
-        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-        android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
-        android:paddingRight="?android:attr/listPreferredItemPaddingRight"
-        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
         android:text="@{item.name}"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
 </layout>
