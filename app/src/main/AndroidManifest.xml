@@ -43,6 +43,6 @@
             android:value="pl.dariuszbacinski.meteo.location.model.FavoriteLocation, pl.dariuszbacinski.meteo.location.model.Location, pl.dariuszbacinski.meteo.diagram.model.SelectedDiagram"/>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="3532ab59d2182893c031c56cac2353f33af09bf3" />
+            android:value="3532ab59d2182893c031c56cac2353f33af09bf3"/>
     </application>
 </manifest>

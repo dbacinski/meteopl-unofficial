@@ -5,11 +5,14 @@ import android.util.Log;
 
 import com.tbruyelle.rxpermissions.RxPermissions;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import hugo.weaving.DebugLog;
 import lombok.Getter;
+import lombok.Setter;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.location.model.CoarseLocation;
@@ -20,17 +23,14 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
+@Parcel
+@Getter
+@Setter
 public class CoarseLocationViewModelAdapter {
 
     public static final Long COARSE_LOCATION_ID = 999999L;
-    @Getter
-    private CoarseLocationItemViewModel locationItemViewModel;
-    @Getter
-    private Location location;
-
-    public CoarseLocationViewModelAdapter(CoarseLocationItemViewModel initialViewModel) {
-        locationItemViewModel = initialViewModel;
-    }
+    CoarseLocationItemViewModel locationItemViewModel;
+    Location location;
 
     @DebugLog
     public Subscription requestLocation(Context context) {

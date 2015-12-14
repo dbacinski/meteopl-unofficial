@@ -19,8 +19,11 @@ import android.widget.SearchView;
 import com.bignerdranch.android.multiselector.MultiSelector;
 import com.jakewharton.rxbinding.widget.RxSearchView;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
+import hugo.weaving.DebugLog;
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.WeatherApplication;
 import pl.dariuszbacinski.meteo.component.rx.ReusableCompositeSubscription;
@@ -39,11 +42,12 @@ import rx.functions.Action1;
 import static com.eccyan.optional.Optional.ofNullable;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+@DebugLog
 public class LocationFragment extends Fragment {
 
     private static final String MULTI_SELECTOR_STATE = "multiselector";
-    //TODO checked should be part of IndexedLocation
-    //TODO move to viewmodel
+    private static final String COARSE_LOCATION_STATE = "location";
+    //TODO move to viewmodel, checked should be part of IndexedLocation
     private MultiSelector multiSelector = new MultiSelector();
     private FavoriteLocationRepository favoriteLocationRepository = new FavoriteLocationRepository();
     private LocationRepository locationRepository = new LocationRepository();
@@ -53,30 +57,58 @@ public class LocationFragment extends Fragment {
     private CoarseLocationViewModelAdapter coarseLocationViewModelAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         locationBinding = FragmentLocationBinding.inflate(inflater, container, false);
+        locationAdapter = bindLocationList(locationBinding);
+        coarseLocationViewModelAdapter = restoreInstanceState(savedInstanceState, multiSelector);
+        requestCoarseLocation();
+        bindCoarseLocationView(locationBinding);
+        setHasOptionsMenu(true);
+        return locationBinding.getRoot();
+    }
 
+    private void requestCoarseLocation() {
+        if (coarseLocationViewModelAdapter.getLocation() == null) {
+            //TODO move location request to on click
+            subscriptions.add(coarseLocationViewModelAdapter.requestLocation(getActivity().getApplicationContext()));
+        }
+    }
+
+    private LocationAdapter bindLocationList(FragmentLocationBinding locationBinding) {
         LocationListViewModel locationListViewModel = new LocationListViewModel(multiSelector, locationRepository.findAll(), favoriteLocationRepository.findAll());
-        locationAdapter = new LocationAdapter(locationListViewModel);
+        LocationAdapter locationAdapter = new LocationAdapter(locationListViewModel);
         locationBinding.favoritesList.setHasFixedSize(true);
         locationBinding.favoritesList.setAdapter(locationAdapter);
         locationBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
         locationBinding.setFragment(this);
+        return locationAdapter;
+    }
 
-        coarseLocationViewModelAdapter = new CoarseLocationViewModelAdapter(new CoarseLocationItemViewModel(getString(R.string.location_gps_loading), false, R.drawable.ic_gps_not_fixed));
-        //TODO move location request to on click
-        subscriptions.add(coarseLocationViewModelAdapter.requestLocation(getActivity().getApplicationContext()));
+    private void bindCoarseLocationView(FragmentLocationBinding locationBinding) {
         CoarseLocationItemViewModel locationItemViewModel = coarseLocationViewModelAdapter.getLocationItemViewModel();
         locationBinding.setLocation(locationItemViewModel);
         locationBinding.locationGpsName.setItem(locationItemViewModel);
-
         CoarseLocationClickListener listener = new CoarseLocationClickListener(locationItemViewModel);
         locationBinding.setListener(listener);
         locationBinding.locationGpsName.setListener(listener);
-        setHasOptionsMenu(true);
-        //TODO show save only when data where changed
-        return locationBinding.getRoot();
+    }
+
+    private CoarseLocationViewModelAdapter restoreInstanceState(Bundle savedInstanceState, MultiSelector multiSelector) {
+        if (savedInstanceState != null) {
+            multiSelector.restoreSelectionStates(ofNullable(savedInstanceState.getBundle(MULTI_SELECTOR_STATE)).orElse(new Bundle()));
+            return Parcels.unwrap(savedInstanceState.getParcelable(COARSE_LOCATION_STATE));
+        } else {
+            CoarseLocationViewModelAdapter coarseLocationViewModelAdapter = new CoarseLocationViewModelAdapter();
+            coarseLocationViewModelAdapter.setLocationItemViewModel(new CoarseLocationItemViewModel(getString(R.string.location_gps_loading), false, R.drawable.ic_gps_not_fixed));
+            return coarseLocationViewModelAdapter;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBundle(MULTI_SELECTOR_STATE, multiSelector.saveSelectionStates());
+        outState.putParcelable(COARSE_LOCATION_STATE, Parcels.wrap(coarseLocationViewModelAdapter));
     }
 
     @Override
@@ -95,20 +127,6 @@ public class LocationFragment extends Fragment {
         subscriptions.add(RxSearchView.queryTextChanges(searchView).throttleLast(300L, MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new FilterLocationByNameAction(locationAdapter)));
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBundle(MULTI_SELECTOR_STATE, multiSelector.saveSelectionStates());
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            multiSelector.restoreSelectionStates(ofNullable(savedInstanceState.getBundle(MULTI_SELECTOR_STATE)).orElse(new Bundle()));
-        }
-    }
-
     public void saveFavorites(View view) {
         final List<Location> selectedLocations = locationAdapter.getSelectedLocations();
         selectedLocations.addAll(coarseLocationViewModelAdapter.getSelectedCoarseLocation());
@@ -122,8 +140,6 @@ public class LocationFragment extends Fragment {
             getActivity().finish();
         }
     }
-
-
 
     @Override
     public void onDestroyView() {

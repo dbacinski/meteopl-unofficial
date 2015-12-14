@@ -3,15 +3,20 @@ package pl.dariuszbacinski.meteo.location.viewmodel;
 import android.databinding.Bindable;
 import android.support.annotation.DrawableRes;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
 import pl.dariuszbacinski.meteo.BR;
 
+@Parcel
 public class CoarseLocationItemViewModel extends LocationItemViewModel {
     @DrawableRes
     int icon;
 
-    public CoarseLocationItemViewModel(String name, boolean checked, int iconRes) {
+    @ParcelConstructor
+    public CoarseLocationItemViewModel(String name, boolean checked, int icon) {
         super(name, checked);
-        this.icon = iconRes;
+        this.icon = icon;
     }
 
     @Bindable

@@ -24,8 +24,18 @@ public class CoarseLocation {
 
     public CoarseLocation(ReactiveLocationProvider reactiveLocationProvider, RxPermissions rxPermissions) {
         this.reactiveLocationProvider = reactiveLocationProvider;
+//        if(BuildConfig.DEBUG){
+//            this.reactiveLocationProvider.mockLocation(Observable.just(getMockLocation()));
+//        }
         this.rxPermissions = rxPermissions;
     }
+
+//    private android.location.Location getMockLocation() {
+//        android.location.Location location = new android.location.Location(LocationManager.NETWORK_PROVIDER);
+//        location.setLatitude(52.0);
+//        location.setLongitude(21.0);
+//        return location;
+//    }
 
     public Observable<Location> requestLocation() {
         return rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION)
