@@ -5,7 +5,7 @@ import retrofit.http.HEAD;
 import retrofit.http.Query;
 import rx.Observable;
 
-public interface MeteoApiService2 {
+public interface MeteoApiService {
 
     @HEAD("um/php/mgram_search.php")
     Observable<Response<Void>> getGridCoordinatedBasedOnLocation(@Query("NALL") double latitude, @Query("EALL") double longitude);
