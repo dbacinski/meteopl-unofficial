@@ -18,24 +18,18 @@ import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
+import static com.eccyan.optional.Optional.ofNullable;
+
 public class CoarseLocation {
     private ReactiveLocationProvider reactiveLocationProvider;
     private RxPermissions rxPermissions;
+    private MeteoService meteoService;
 
-    public CoarseLocation(ReactiveLocationProvider reactiveLocationProvider, RxPermissions rxPermissions) {
+    public CoarseLocation(ReactiveLocationProvider reactiveLocationProvider, RxPermissions rxPermissions, MeteoService meteoService) {
         this.reactiveLocationProvider = reactiveLocationProvider;
-//        if(BuildConfig.DEBUG){
-//            this.reactiveLocationProvider.mockLocation(Observable.just(getMockLocation()));
-//        }
         this.rxPermissions = rxPermissions;
+        this.meteoService = meteoService;
     }
-
-//    private android.location.Location getMockLocation() {
-//        android.location.Location location = new android.location.Location(LocationManager.NETWORK_PROVIDER);
-//        location.setLatitude(52.0);
-//        location.setLongitude(21.0);
-//        return location;
-//    }
 
     public Observable<Location> requestLocation() {
         return rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -73,13 +67,15 @@ public class CoarseLocation {
                 .map(new Func1<List<Address>, String>() {
                     @Override
                     public String call(List<Address> addresses) {
-                        return addresses.get(0).getLocality();
+                        for(Address address : addresses){
+                            return ofNullable(address.getLocality()).orElse(ofNullable(address.getFeatureName()).orElse("N/A"));
+                        }
+                        return "N/A";
                     }
                 });
     }
 
     private Observable<Location> getLocationGridCoordinates(android.location.Location location) {
-        return new MeteoService().getGridCoordinatedBasedOnLocation(location).subscribeOn(Schedulers.io());
+        return meteoService.getGridCoordinatedBasedOnLocation(location).subscribeOn(Schedulers.io());
     }
-
 }

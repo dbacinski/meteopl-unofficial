@@ -1,8 +1,8 @@
 package pl.dariuszbacinski.meteo.location.viewmodel;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.google.android.gms.common.api.Status;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.parceler.Parcel;
@@ -19,6 +19,8 @@ import pl.dariuszbacinski.meteo.location.model.CoarseLocation;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.model.Location;
 import pl.dariuszbacinski.meteo.location.model.LocationRepository;
+import pl.dariuszbacinski.meteo.location.model.MeteoService;
+import pl.dariuszbacinski.meteo.location.model.MockLocation;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -35,33 +37,28 @@ public class CoarseLocationViewModelAdapter {
     @DebugLog
     public Subscription requestLocation(Context context) {
         final String errorString = context.getString(R.string.location_gps_error);
-        CoarseLocation coarseLocation = new CoarseLocation(new ReactiveLocationProvider(context), RxPermissions.getInstance(context));
+        CoarseLocation coarseLocation = new CoarseLocation(new ReactiveLocationProvider(context), RxPermissions.getInstance(context), new MeteoService());
 
         return coarseLocation.requestLocation().startWith(getStoredCoarseLocation()).subscribe(new Subscriber<Location>() {
 
+            @DebugLog
             @Override
             public void onNext(Location location) {
-                Log.i("CoarseLocationViewModelAdapter", "onNext: " + location);
-                CoarseLocationViewModelAdapter.this.location = location;
                 locationItemViewModel.setChecked(isFavoriteLocation(location));
                 locationItemViewModel.setName(location.getName());
                 locationItemViewModel.setIcon(R.drawable.ic_gps_fixed);
-                //TODO store GPS location
                 location.setId(COARSE_LOCATION_ID);
-                location.save();
+                CoarseLocationViewModelAdapter.this.location = location;
             }
 
             @DebugLog
             @Override
             public void onError(Throwable e) {
-                Log.w("CoarseLocationViewModelAdapter", "onError: ", e);
                 showErrorMessage(errorString);
             }
 
-            @DebugLog
             @Override
             public void onCompleted() {
-                Log.i("CoarseLocationViewModelAdapter", "onCompleted:");
             }
         });
     }
@@ -89,5 +86,21 @@ public class CoarseLocationViewModelAdapter {
         } else {
             return new ArrayList<>();
         }
+    }
+
+    public Subscription mockLocation(Context context) {
+        return new MockLocation(new ReactiveLocationProvider(context)).mockNetworkProvider().subscribe(new Subscriber<Status>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(Status status) {
+            }
+        });
     }
 }

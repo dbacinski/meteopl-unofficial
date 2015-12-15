@@ -2,6 +2,7 @@ package pl.dariuszbacinski.meteo.location.view;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
@@ -24,6 +25,7 @@ import org.parceler.Parcels;
 import java.util.List;
 
 import hugo.weaving.DebugLog;
+import pl.dariuszbacinski.meteo.BuildConfig;
 import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.WeatherApplication;
 import pl.dariuszbacinski.meteo.component.rx.ReusableCompositeSubscription;
@@ -71,7 +73,14 @@ public class LocationFragment extends Fragment {
         if (coarseLocationViewModelAdapter.getLocation() == null) {
             //TODO move location request to on click
             subscriptions.add(coarseLocationViewModelAdapter.requestLocation(getActivity().getApplicationContext()));
+            if (BuildConfig.DEBUG && isEmulator()) {
+                subscriptions.add(coarseLocationViewModelAdapter.mockLocation(getActivity().getApplicationContext()));
+            }
         }
+    }
+
+    private boolean isEmulator() {
+        return "goldfish".equals(Build.HARDWARE) || "vbox86".equals(Build.HARDWARE);
     }
 
     private LocationAdapter bindLocationList(FragmentLocationBinding locationBinding) {
@@ -129,7 +138,9 @@ public class LocationFragment extends Fragment {
 
     public void saveFavorites(View view) {
         final List<Location> selectedLocations = locationAdapter.getSelectedLocations();
-        selectedLocations.addAll(coarseLocationViewModelAdapter.getSelectedCoarseLocation());
+        List<Location> selectedCoarseLocation = coarseLocationViewModelAdapter.getSelectedCoarseLocation();
+        saveCoarseLocation(selectedCoarseLocation);
+        selectedLocations.addAll(selectedCoarseLocation);
 
         //TODO delegate to viewmodel
         favoriteLocationRepository.saveList(selectedLocations);
@@ -138,6 +149,12 @@ public class LocationFragment extends Fragment {
         } else {
             startActivity(new Intent(getActivity(), DiagramActivity.class).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
             getActivity().finish();
+        }
+    }
+
+    private void saveCoarseLocation(List<Location> selectedCoarseLocation) {
+        for (Location coarseLocation : selectedCoarseLocation) {
+            coarseLocation.save();
         }
     }
 
