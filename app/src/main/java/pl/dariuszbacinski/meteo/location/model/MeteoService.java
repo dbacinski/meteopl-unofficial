@@ -10,7 +10,7 @@ import rx.functions.Func1;
 
 public class MeteoService {
 
-    MeteoApiService service;
+    MeteoApiService2 service;
 
     public MeteoService() {
         //TODO move Retrofit to parameter
@@ -19,7 +19,7 @@ public class MeteoService {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        this.service = retrofit.create(MeteoApiService.class);
+        this.service = retrofit.create(MeteoApiService2.class);
     }
 
     public Observable<Location> getGridCoordinatedBasedOnLocation(android.location.Location location) {
