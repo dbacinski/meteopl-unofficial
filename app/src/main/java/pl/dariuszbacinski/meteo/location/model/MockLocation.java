@@ -13,11 +13,13 @@ public class MockLocation {
 
     private ReactiveLocationProvider reactiveLocationProvider;
 
+
+
     public MockLocation(ReactiveLocationProvider reactiveLocationProvider) {
         this.reactiveLocationProvider = reactiveLocationProvider;
     }
 
-    private android.location.Location getMockNetworkProviderLocation() {
+    public android.location.Location getMockNetworkProviderLocation() {
         android.location.Location mockLocation = new android.location.Location(LocationManager.NETWORK_PROVIDER);
         mockLocation.setLatitude(52.22977);
         mockLocation.setLongitude(21.01178);
@@ -30,6 +32,6 @@ public class MockLocation {
     }
 
     public Observable<Status> mockNetworkProvider() {
-            return reactiveLocationProvider.mockLocation(Observable.just(getMockNetworkProviderLocation()));
+        return reactiveLocationProvider.mockLocation(Observable.just(getMockNetworkProviderLocation()));
     }
 }
