@@ -5,36 +5,37 @@ import android.util.Log;
 import com.google.android.gms.location.LocationRequest;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
+import hugo.weaving.DebugLog;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.exceptions.Exceptions;
 import rx.functions.Func1;
 import rx.functions.Func2;
-import rx.schedulers.Schedulers;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 
+@DebugLog
 public class CoarseLocation {
+    private LocationNameResolver locationNameResolver;
     private ReactiveLocationProvider reactiveLocationProvider;
     private RxPermissions rxPermissions;
     private MeteoService meteoService;
 
-    public CoarseLocation(ReactiveLocationProvider reactiveLocationProvider, RxPermissions rxPermissions, MeteoService meteoService) {
+    public CoarseLocation(ReactiveLocationProvider reactiveLocationProvider, RxPermissions rxPermissions, MeteoService meteoService, LocationNameResolver locationNameResolver) {
         this.reactiveLocationProvider = reactiveLocationProvider;
         this.rxPermissions = rxPermissions;
         this.meteoService = meteoService;
+        this.locationNameResolver = locationNameResolver;
     }
 
     public Observable<Location> requestLocation() {
         return rxPermissions.request(ACCESS_COARSE_LOCATION)
                 .flatMap(new RequestCoarseLocationFunc(reactiveLocationProvider))
-                .flatMap(new CoarseLocationToLocationFunc(reactiveLocationProvider, meteoService))
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                .flatMap(new CoarseLocationToLocationFunc(meteoService, locationNameResolver));
+//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 
-    private static class RequestCoarseLocationFunc implements Func1<Boolean, Observable<android.location.Location>> {
+    static class RequestCoarseLocationFunc implements Func1<Boolean, Observable<android.location.Location>> {
 
         private ReactiveLocationProvider reactiveLocationProvider;
 
@@ -46,7 +47,7 @@ public class CoarseLocation {
         public Observable<android.location.Location> call(Boolean coarseLocationPermissionGranted) {
             Log.i("CoarseLocation", "coarseLocationPermissionGranted: " + coarseLocationPermissionGranted);
             if (!coarseLocationPermissionGranted) {
-                throw Exceptions.propagate(new SecurityException("Coarse location is not granted"));
+                return Observable.error(new SecurityException("Coarse location is not granted"));
             } else {
                 return getCoarseLocation();
             }
@@ -57,14 +58,14 @@ public class CoarseLocation {
         }
     }
 
-    private static class CoarseLocationToLocationFunc implements Func1<android.location.Location, Observable<Location>> {
+    static class CoarseLocationToLocationFunc implements Func1<android.location.Location, Observable<Location>> {
 
-        private ReactiveLocationProvider reactiveLocationProvider;
         private MeteoService meteoService;
+        private LocationNameResolver locationNameResolver;
 
-        public CoarseLocationToLocationFunc(ReactiveLocationProvider reactiveLocationProvider, MeteoService meteoService) {
-            this.reactiveLocationProvider = reactiveLocationProvider;
+        public CoarseLocationToLocationFunc(MeteoService meteoService, LocationNameResolver locationNameResolver) {
             this.meteoService = meteoService;
+            this.locationNameResolver = locationNameResolver;
         }
 
         @Override
@@ -84,11 +85,11 @@ public class CoarseLocation {
         }
 
         private Observable<String> getLocationName(android.location.Location location) {
-            return new LocationNameResolver(reactiveLocationProvider).getLocationName(location);
+            return locationNameResolver.getLocationName(location);
         }
 
         private Observable<Location> getLocationGridCoordinates(android.location.Location location) {
-            return meteoService.getGridCoordinatedBasedOnLocation(location).subscribeOn(Schedulers.io());
+            return meteoService.getGridCoordinatedBasedOnLocation(location);
         }
     }
 }

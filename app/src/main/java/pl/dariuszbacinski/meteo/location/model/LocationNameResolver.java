@@ -10,7 +10,7 @@ import rx.functions.Func1;
 
 import static com.eccyan.optional.Optional.ofNullable;
 
-class LocationNameResolver {
+public class LocationNameResolver {
 
     private ReactiveLocationProvider reactiveLocationProvider;
 

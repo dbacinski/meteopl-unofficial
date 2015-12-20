@@ -7,6 +7,7 @@ import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class MeteoService {
 
@@ -27,10 +28,10 @@ public class MeteoService {
         return service.getGridCoordinatedBasedOnLocation(location.getLatitude(), location.getLongitude()).map(new Func1<Response<Void>, Location>() {
             @Override
             public Location call(Response<Void> response) {
-               //TODO extract coordinates from response
+               //XXX make me pretty
                 Uri uri = Uri.parse(response.raw().request().url().toString());
                 return new Location("", Integer.valueOf(uri.getQueryParameter("row")), Integer.valueOf(uri.getQueryParameter("col")));
             }
-        });
+        }).subscribeOn(Schedulers.io());
     }
 }

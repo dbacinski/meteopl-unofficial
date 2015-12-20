@@ -2,7 +2,6 @@ package pl.dariuszbacinski.meteo.location.viewmodel;
 
 import android.content.Context;
 
-import com.google.android.gms.common.api.Status;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.parceler.Parcel;
@@ -18,6 +17,7 @@ import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.location.model.CoarseLocation;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.model.Location;
+import pl.dariuszbacinski.meteo.location.model.LocationNameResolver;
 import pl.dariuszbacinski.meteo.location.model.LocationRepository;
 import pl.dariuszbacinski.meteo.location.model.MeteoService;
 import pl.dariuszbacinski.meteo.location.model.MockLocation;
@@ -37,11 +37,10 @@ public class CoarseLocationViewModelAdapter {
     @DebugLog
     public Subscription requestLocation(Context context) {
         final String errorString = context.getString(R.string.location_gps_error);
-        CoarseLocation coarseLocation = new CoarseLocation(new ReactiveLocationProvider(context), RxPermissions.getInstance(context), new MeteoService());
-
+        ReactiveLocationProvider reactiveLocationProvider = new ReactiveLocationProvider(context);
+        CoarseLocation coarseLocation = new CoarseLocation(reactiveLocationProvider, RxPermissions.getInstance(context), new MeteoService(), new LocationNameResolver(reactiveLocationProvider));
         return coarseLocation.requestLocation().startWith(getStoredCoarseLocation()).subscribe(new Subscriber<Location>() {
 
-            @DebugLog
             @Override
             public void onNext(Location location) {
                 locationItemViewModel.setChecked(isFavoriteLocation(location));
@@ -51,7 +50,6 @@ public class CoarseLocationViewModelAdapter {
                 CoarseLocationViewModelAdapter.this.location = location;
             }
 
-            @DebugLog
             @Override
             public void onError(Throwable e) {
                 showErrorMessage(errorString);
@@ -89,18 +87,6 @@ public class CoarseLocationViewModelAdapter {
     }
 
     public Subscription mockLocation(Context context) {
-        return new MockLocation(new ReactiveLocationProvider(context)).mockNetworkProvider().subscribe(new Subscriber<Status>() {
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onNext(Status status) {
-            }
-        });
+        return new MockLocation(new ReactiveLocationProvider(context)).mockNetworkProvider().subscribe();
     }
 }

@@ -9,11 +9,10 @@ import com.google.android.gms.common.api.Status;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.Observable;
 
+//TODO move to debug folder
 public class MockLocation {
 
     private ReactiveLocationProvider reactiveLocationProvider;
-
-
 
     public MockLocation(ReactiveLocationProvider reactiveLocationProvider) {
         this.reactiveLocationProvider = reactiveLocationProvider;

@@ -1,36 +1,19 @@
 package pl.dariuszbacinski.meteo.location.model
 import pl.dariuszbacinski.meteo.shadow.ShadowRoboSpecification
-import rx.Observable
-import rx.Subscriber
-import rx.schedulers.Schedulers
-import spock.lang.Ignore
+import rx.observers.TestSubscriber
 
-@Ignore
 class MeteoServiceSpec extends ShadowRoboSpecification {
-    def "GetGridCoordinatedBasedOnLocation"() {
+    private TestSubscriber<Location> subscriber = new TestSubscriber<Location>()
+
+    def "resolves grid location based on coarse location"() {
         given:
             MeteoService objectUnderTest = new MeteoService()
-            android.location.Location locationMock = Mock()
-            locationMock.getLatitude() >> 52.2d
-            locationMock.getLongitude() >> 21.0d
+            def location = new android.location.Location("")
+            location.setLatitude 52.2d
+            location.setLongitude 21.0d
         when:
-            Observable<Location> locationObservable = objectUnderTest.getGridCoordinatedBasedOnLocation(locationMock).subscribeOn(Schedulers.immediate())
+            objectUnderTest.getGridCoordinatedBasedOnLocation(location).subscribe(subscriber)
         then:
-            locationObservable.subscribe(new Subscriber<Location>() {
-                @Override
-                void onCompleted() {
-
-                }
-
-                @Override
-                void onError(Throwable e) {
-                    e.toString()
-                }
-
-                @Override
-                void onNext(Location o) {
-                    o.toString()
-                }
-            })
+            subscriber.assertValue(new Location("", 409, 248))
     }
 }
