@@ -25,11 +25,8 @@ import rx.functions.Func2;
 public class DiagramPagerViewModel {
 
     public ItemView itemView = ItemView.of(BR.item, R.layout.list_item_diagram);
-
     public List<DiagramItemViewModel> items;
-
     public PageTitles pageTitles;
-
     private Legend legendItem;
 
     public DiagramPagerViewModel(List<Location> locations, Legend legendItem) {
@@ -49,7 +46,7 @@ public class DiagramPagerViewModel {
     }
 
     public boolean addLegend() {
-        if (!(items.get(items.size() - 1) instanceof Legend)) {
+        if (items.size() == 0 || !(items.get(items.size() - 1) instanceof Legend)) {
             items.add(legendItem);
             pageTitles.setItems(items);
             return true;
@@ -78,7 +75,7 @@ public class DiagramPagerViewModel {
 
     @DebugLog
     public int loadSelectedDiagramPosition() {
-        return SelectedDiagram.loadSingle().map(new DiagramToPositionFunction(items)).orElse(0);
+        return SelectedDiagram.loadSingle().map(new DiagramPositionFunction(items)).orElse(0);
     }
 
     private Long getItemId(int position) {
@@ -100,11 +97,11 @@ public class DiagramPagerViewModel {
         }
     }
 
-    private static class DiagramToPositionFunction implements Func1<SelectedDiagram, Integer> {
+    static class DiagramPositionFunction implements Func1<SelectedDiagram, Integer> {
 
-        List<DiagramItemViewModel> items;
+        private List<DiagramItemViewModel> items;
 
-        public DiagramToPositionFunction(List<DiagramItemViewModel> items) {
+        public  DiagramPositionFunction(List<DiagramItemViewModel> items) {
             this.items = items;
         }
 
