@@ -5,6 +5,7 @@ import rx.observers.TestSubscriber
 class MeteoServiceSpec extends ShadowRoboSpecification {
     private TestSubscriber<Location> subscriber = new TestSubscriber<Location>()
 
+    //TODO mock network call
     def "resolves grid location based on coarse location"() {
         given:
             MeteoService objectUnderTest = new MeteoService()
@@ -14,6 +15,7 @@ class MeteoServiceSpec extends ShadowRoboSpecification {
         when:
             objectUnderTest.getGridCoordinatedBasedOnLocation(location).subscribe(subscriber)
         then:
+            subscriber.awaitTerminalEvent()
             subscriber.assertValue(new Location("", 409, 248))
     }
 }
