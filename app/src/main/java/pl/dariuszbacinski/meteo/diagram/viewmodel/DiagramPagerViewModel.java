@@ -21,7 +21,6 @@ import rx.Observable;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
-//TODO add tests
 public class DiagramPagerViewModel {
 
     public ItemView itemView = ItemView.of(BR.item, R.layout.list_item_diagram);

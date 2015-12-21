@@ -14,7 +14,6 @@ public class MeteoService {
     MeteoApiService service;
 
     public MeteoService(String baseUrl) {
-        //TODO move Retrofit to parameter
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
