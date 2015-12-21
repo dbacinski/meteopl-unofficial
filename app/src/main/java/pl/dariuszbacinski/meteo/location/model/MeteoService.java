@@ -13,10 +13,10 @@ public class MeteoService {
 
     MeteoApiService service;
 
-    public MeteoService() {
+    public MeteoService(String baseUrl) {
         //TODO move Retrofit to parameter
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.meteo.pl")
+                .baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 

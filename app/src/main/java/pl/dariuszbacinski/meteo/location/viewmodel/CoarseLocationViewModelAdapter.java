@@ -38,7 +38,7 @@ public class CoarseLocationViewModelAdapter {
     public Subscription requestLocation(Context context) {
         final String errorString = context.getString(R.string.location_gps_error);
         ReactiveLocationProvider reactiveLocationProvider = new ReactiveLocationProvider(context);
-        CoarseLocation coarseLocation = new CoarseLocation(reactiveLocationProvider, RxPermissions.getInstance(context), new MeteoService(), new LocationNameResolver(reactiveLocationProvider));
+        CoarseLocation coarseLocation = new CoarseLocation(reactiveLocationProvider, RxPermissions.getInstance(context), new MeteoService("http://www.meteo.pl"), new LocationNameResolver(reactiveLocationProvider));
         return coarseLocation.requestLocation().startWith(getStoredCoarseLocation()).subscribe(new Subscriber<Location>() {
 
             @Override
