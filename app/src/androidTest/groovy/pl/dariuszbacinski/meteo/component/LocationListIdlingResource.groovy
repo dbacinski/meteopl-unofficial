@@ -6,10 +6,12 @@ import android.support.test.espresso.IdlingResource
 import groovy.transform.CompileStatic
 import hugo.weaving.DebugLog
 
+import java.util.concurrent.atomic.AtomicBoolean
+
 @CompileStatic
 class LocationListIdlingResource extends Observable.OnPropertyChangedCallback implements IdlingResource {
 
-    boolean isIdle = true
+    AtomicBoolean isIdle = new AtomicBoolean(true)
     IdlingResource.ResourceCallback callback
 
     LocationListIdlingResource(ObservableBoolean listLoading) {
@@ -22,13 +24,13 @@ class LocationListIdlingResource extends Observable.OnPropertyChangedCallback im
     }
 
     void setIsIdle(boolean isIdle) {
-        this.isIdle = isIdle
+        this.isIdle.set(isIdle)
     }
 
     @DebugLog
     @Override
     boolean isIdleNow() {
-        return isIdle
+        return isIdle.get()
     }
 
     @Override
@@ -58,7 +60,7 @@ class LocationListIdlingResource extends Observable.OnPropertyChangedCallback im
         void run() {
             skipOneFrame()
             listIdlingResource.callback.onTransitionToIdle()
-            listIdlingResource.isIdle=true
+            listIdlingResource.isIdle.set(true)
         }
 
         static skipOneFrame() {
