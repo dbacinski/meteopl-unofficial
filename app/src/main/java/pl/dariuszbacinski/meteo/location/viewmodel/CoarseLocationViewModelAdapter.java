@@ -2,6 +2,7 @@ package pl.dariuszbacinski.meteo.location.viewmodel;
 
 import android.content.Context;
 
+import com.eccyan.optional.Optional;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.parceler.Parcel;
@@ -24,6 +25,7 @@ import pl.dariuszbacinski.meteo.location.model.MockLocation;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.functions.Func1;
 
 @Parcel
 @Getter
@@ -39,7 +41,7 @@ public class CoarseLocationViewModelAdapter {
         final String errorString = context.getString(R.string.location_gps_error);
         ReactiveLocationProvider reactiveLocationProvider = new ReactiveLocationProvider(context);
         CoarseLocation coarseLocation = new CoarseLocation(reactiveLocationProvider, RxPermissions.getInstance(context), new MeteoService("http://www.meteo.pl"), new LocationNameResolver(reactiveLocationProvider));
-        return coarseLocation.requestLocation().startWith(getStoredCoarseLocation()).subscribe(new Subscriber<Location>() {
+        return coarseLocation.requestLocation().startWith(getStoredCoarseLocationObservable()).subscribe(new Subscriber<Location>() {
 
             @Override
             public void onNext(Location location) {
@@ -66,21 +68,33 @@ public class CoarseLocationViewModelAdapter {
     }
 
     private void showErrorMessage(String errorString) {
-        locationItemViewModel.setName(errorString);
+        Optional<String> name = getStoredCoarseLocation().map(new Func1<Location, String>() {
+            @Override
+            public String call(Location location) {
+                return location.getName();
+            }
+        });
+
+        locationItemViewModel.setName(name.orElse(errorString));
         locationItemViewModel.setIcon(R.drawable.ic_gps_off);
+        //TODO show snack bar
     }
 
-    public Observable<Location> getStoredCoarseLocation() {
+    public Observable<Location> getStoredCoarseLocationObservable() {
+        return getStoredCoarseLocation().toObservable();
+    }
+
+    private Optional<Location> getStoredCoarseLocation() {
         if (location != null) {
-            return Observable.just(location);
+            return Optional.of(location);
         } else {
-            return new LocationRepository().findOne(COARSE_LOCATION_ID).toObservable();
+            return new LocationRepository().findOne(COARSE_LOCATION_ID);
         }
     }
 
     public List<Location> getSelectedCoarseLocation() {
         if (locationItemViewModel.isChecked()) {
-            return getStoredCoarseLocation().toList().toBlocking().single();
+            return getStoredCoarseLocationObservable().toList().toBlocking().single();
         } else {
             return new ArrayList<>();
         }
