@@ -3,6 +3,7 @@ package pl.dariuszbacinski.meteo.location.viewmodel;
 import android.content.Context;
 
 import com.eccyan.optional.Optional;
+import com.google.android.gms.common.api.Status;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.parceler.Parcel;
@@ -103,6 +104,6 @@ public class CoarseLocationViewModelAdapter {
     }
 
     public Subscription mockLocation(Context context) {
-        return new MockLocation(new ReactiveLocationProvider(context)).mockNetworkProvider().subscribe();
+        return new MockLocation(new ReactiveLocationProvider(context)).mockNetworkProvider().onErrorResumeNext(Observable.<Status>empty()).subscribe();
     }
 }
