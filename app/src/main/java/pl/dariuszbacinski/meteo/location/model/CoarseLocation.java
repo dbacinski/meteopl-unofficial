@@ -5,6 +5,8 @@ import android.util.Log;
 import com.google.android.gms.location.LocationRequest;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
+import javax.inject.Inject;
+
 import hugo.weaving.DebugLog;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.Observable;
@@ -20,6 +22,7 @@ public class CoarseLocation {
     private RxPermissions rxPermissions;
     private MeteoService meteoService;
 
+    @Inject
     public CoarseLocation(ReactiveLocationProvider reactiveLocationProvider, RxPermissions rxPermissions, MeteoService meteoService, LocationNameResolver locationNameResolver) {
         this.reactiveLocationProvider = reactiveLocationProvider;
         this.rxPermissions = rxPermissions;

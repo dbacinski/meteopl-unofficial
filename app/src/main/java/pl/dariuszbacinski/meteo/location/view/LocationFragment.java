@@ -32,6 +32,11 @@ import pl.dariuszbacinski.meteo.component.rx.ReusableCompositeSubscription;
 import pl.dariuszbacinski.meteo.component.view.SnackbarLightBuilder;
 import pl.dariuszbacinski.meteo.databinding.FragmentLocationBinding;
 import pl.dariuszbacinski.meteo.diagram.view.DiagramActivity;
+import pl.dariuszbacinski.meteo.inject.ApplicationModule;
+import pl.dariuszbacinski.meteo.inject.DaggerApplicationComponent;
+import pl.dariuszbacinski.meteo.inject.DaggerLocationComponent;
+import pl.dariuszbacinski.meteo.inject.LocationComponent;
+import pl.dariuszbacinski.meteo.inject.LocationModule;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.model.Location;
 import pl.dariuszbacinski.meteo.location.model.LocationRepository;
@@ -72,7 +77,8 @@ public class LocationFragment extends Fragment {
     private void requestCoarseLocation() {
         if (coarseLocationViewModelAdapter.getLocation() == null) {
             //TODO move location request to on click
-            subscriptions.add(coarseLocationViewModelAdapter.requestLocation(getActivity().getApplicationContext()));
+            LocationComponent locationComponent = DaggerLocationComponent.builder().applicationComponent(DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(getActivity().getApplicationContext())).build()).locationModule(new LocationModule()).build();
+            subscriptions.add(coarseLocationViewModelAdapter.requestLocation(locationComponent.coarseLocation(), getActivity().getApplicationContext().getString(R.string.location_gps_error)));
             if (BuildConfig.DEBUG && isEmulator()) {
                 subscriptions.add(coarseLocationViewModelAdapter.mockLocation(getActivity().getApplicationContext()));
             }

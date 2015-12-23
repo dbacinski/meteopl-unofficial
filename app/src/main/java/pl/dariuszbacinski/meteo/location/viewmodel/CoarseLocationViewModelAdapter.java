@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.eccyan.optional.Optional;
 import com.google.android.gms.common.api.Status;
-import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.parceler.Parcel;
 
@@ -19,9 +18,7 @@ import pl.dariuszbacinski.meteo.R;
 import pl.dariuszbacinski.meteo.location.model.CoarseLocation;
 import pl.dariuszbacinski.meteo.location.model.FavoriteLocationRepository;
 import pl.dariuszbacinski.meteo.location.model.Location;
-import pl.dariuszbacinski.meteo.location.model.LocationNameResolver;
 import pl.dariuszbacinski.meteo.location.model.LocationRepository;
-import pl.dariuszbacinski.meteo.location.model.MeteoService;
 import pl.dariuszbacinski.meteo.location.model.MockLocation;
 import rx.Observable;
 import rx.Subscriber;
@@ -40,10 +37,7 @@ public class CoarseLocationViewModelAdapter {
     Location location;
 
     @DebugLog
-    public Subscription requestLocation(Context context) {
-        final String errorString = context.getString(R.string.location_gps_error);
-        ReactiveLocationProvider reactiveLocationProvider = new ReactiveLocationProvider(context);
-        CoarseLocation coarseLocation = new CoarseLocation(reactiveLocationProvider, RxPermissions.getInstance(context), new MeteoService("http://www.meteo.pl"), new LocationNameResolver(reactiveLocationProvider));
+    public Subscription requestLocation(CoarseLocation coarseLocation, final String errorString) {
         return coarseLocation.requestLocation().startWith(getStoredCoarseLocationObservable()).subscribe(new Subscriber<Location>() {
 
             @Override
