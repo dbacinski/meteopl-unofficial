@@ -21,8 +21,7 @@ public class ApplicationTest {
             new ActivityTestRule<>(LocationActivity.class);
 
     @Test
-    public void alwaysPass(){
+    public void alwaysPass() {
         assertFalse(false);
     }
-
 }

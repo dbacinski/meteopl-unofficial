@@ -1,9 +1,11 @@
 package pl.dariuszbacinski.meteo.location.view;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -77,12 +79,16 @@ public class LocationFragment extends Fragment {
     private void requestCoarseLocation() {
         if (coarseLocationViewModelAdapter.getLocation() == null) {
             //TODO move location request to on click
-            LocationComponent locationComponent = DaggerLocationComponent.builder().applicationComponent(DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(getActivity().getApplicationContext())).build()).locationModule(new LocationModule()).build();
+            LocationComponent locationComponent = createLocationComponent();
             subscriptions.add(coarseLocationViewModelAdapter.requestLocation(locationComponent.coarseLocation(), getActivity().getApplicationContext().getString(R.string.location_gps_error)));
             if (BuildConfig.DEBUG && isEmulator()) {
                 subscriptions.add(coarseLocationViewModelAdapter.mockLocation(getActivity().getApplicationContext()));
             }
         }
+    }
+
+    private LocationComponent createLocationComponent() {
+        return LocationComponentProvider.get(getActivity().getApplicationContext());
     }
 
     private boolean isEmulator() {
@@ -204,6 +210,23 @@ public class LocationFragment extends Fragment {
             CheckedTextView checkedTextView = (CheckedTextView) view.findViewById(R.id.location_gps_name);
             checkedTextView.toggle();
             locationItemViewModel.setChecked(checkedTextView.isChecked());
+        }
+    }
+
+    public static class LocationComponentProvider {
+
+        @VisibleForTesting
+        public static void setTestLocationComponent(LocationComponent testLocationComponent) {
+            LocationComponentProvider.testLocationComponent = testLocationComponent;
+        }
+
+        private static LocationComponent testLocationComponent;
+
+        static LocationComponent get(Context applicationContext) {
+            if (testLocationComponent != null) {
+                return testLocationComponent;
+            }
+            return DaggerLocationComponent.builder().applicationComponent(DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(applicationContext)).build()).locationModule(new LocationModule()).build();
         }
     }
 }

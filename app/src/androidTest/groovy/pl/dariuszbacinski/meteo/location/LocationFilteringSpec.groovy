@@ -1,22 +1,85 @@
 package pl.dariuszbacinski.meteo.location
+import android.content.Context
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.rule.ActivityTestRule
+import com.tbruyelle.rxpermissions.RxPermissions
+import dagger.Component
+import dagger.Module
+import dagger.Provides
 import org.junit.Rule
+import pl.charmas.android.reactivelocation.ReactiveLocationProvider
 import pl.dariuszbacinski.meteo.component.LocationListIdlingResource
+import pl.dariuszbacinski.meteo.inject.*
+import pl.dariuszbacinski.meteo.location.model.LocationNameResolver
+import pl.dariuszbacinski.meteo.location.model.MeteoService
 import pl.dariuszbacinski.meteo.location.view.LocationActivity
+import pl.dariuszbacinski.meteo.location.view.LocationFragment
+import rx.Observable
 import spock.lang.Specification
 
+import javax.inject.Inject
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION
+import static org.mockito.BDDMockito.given
+import static org.mockito.Mockito.mock
 import static pl.dariuszbacinski.meteo.location.LocationListFeature.*
+
+@ActivityScope
+@Component(dependencies = ApplicationComponent.class, modules = TestModule.class)
+public interface TestLocationComponent extends LocationComponent {
+    RxPermissions rxPermissions();
+}
+
+@Module
+public class TestModule {
+
+    @Provides
+    @ActivityScope
+    public RxPermissions provideRxPermissions(@ApplicationContext Context context) {
+        return mock(RxPermissions)
+    }
+
+    @Provides
+    @ActivityScope
+    public ReactiveLocationProvider provideReactiveLocationProvider(
+            @ApplicationContext Context context) {
+        return new ReactiveLocationProvider(context)
+    }
+
+    @Provides
+    @ActivityScope
+    public MeteoService provideMeteoService() {
+        return new MeteoService("http://meteo.pl")
+    }
+
+    @Provides
+    @ActivityScope
+    public LocationNameResolver provideLocationNameResolver(ReactiveLocationProvider reactiveLocationProvider) {
+        return new LocationNameResolver(reactiveLocationProvider)
+    }
+}
 
 public class LocationFilteringSpec extends Specification {
 
     @Rule
     ActivityTestRule<LocationActivity> locationActivityRule = new ActivityTestRule(LocationActivity)
     LocationListIdlingResource listIdlingResource
+    @Inject
+    RxPermissions rxPermissionsMock
 
     def setup() {
         listIdlingResource = new LocationListIdlingResource(getLocationListAdapter(locationActivityRule.getActivity()).getLoading())
         Espresso.registerIdlingResources listIdlingResource
+        initDagger();
+    }
+
+    Object initDagger() {
+        Context applicationContext = InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
+        TestLocationComponent locationComponent = DaggerTestLocationComponent.builder().applicationComponent(DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(applicationContext)).build()).testModule(new TestModule()).build()
+        LocationFragment.LocationComponentProvider.setTestLocationComponent(locationComponent)
+        rxPermissionsMock = locationComponent.rxPermissions()
+        given rxPermissionsMock.request(ACCESS_COARSE_LOCATION) willReturn Observable.just(true)
     }
 
     def cleanup() {

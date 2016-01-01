@@ -15,25 +15,25 @@ public class LocationModule {
 
     @Provides
     @ActivityScope
-    RxPermissions provideRxPermissions(@ApplicationContext Context context) {
+    public RxPermissions provideRxPermissions(@ApplicationContext Context context) {
         return RxPermissions.getInstance(context);
     }
 
     @Provides
     @ActivityScope
-    ReactiveLocationProvider provideReactiveLocationProvider(@ApplicationContext Context context) {
+    public ReactiveLocationProvider provideReactiveLocationProvider(@ApplicationContext Context context) {
         return new ReactiveLocationProvider(context);
     }
 
     @Provides
     @ActivityScope
-    MeteoService provideMeteoService() {
+    public MeteoService provideMeteoService() {
         return new MeteoService("http://meteo.pl");
     }
 
     @Provides
     @ActivityScope
-    LocationNameResolver provideLocationNameResolver(ReactiveLocationProvider reactiveLocationProvider) {
+    public LocationNameResolver provideLocationNameResolver(ReactiveLocationProvider reactiveLocationProvider) {
         return new LocationNameResolver(reactiveLocationProvider);
     }
 }

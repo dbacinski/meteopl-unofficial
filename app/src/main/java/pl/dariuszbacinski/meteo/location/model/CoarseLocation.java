@@ -34,7 +34,6 @@ public class CoarseLocation {
         return rxPermissions.request(ACCESS_COARSE_LOCATION)
                 .flatMap(new RequestCoarseLocationFunc(reactiveLocationProvider))
                 .flatMap(new CoarseLocationToLocationFunc(meteoService, locationNameResolver));
-//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 
