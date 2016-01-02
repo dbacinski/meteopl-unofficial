@@ -2,6 +2,7 @@ package pl.dariuszbacinski.meteo.location.model;
 
 import android.util.Log;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
 import com.google.android.gms.location.LocationRequest;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
@@ -30,6 +31,7 @@ public class CoarseLocation {
         this.locationNameResolver = locationNameResolver;
     }
 
+    @RxLogObservable
     public Observable<Location> requestLocation() {
         return rxPermissions.request(ACCESS_COARSE_LOCATION)
                 .flatMap(new RequestCoarseLocationFunc(reactiveLocationProvider))
@@ -55,6 +57,7 @@ public class CoarseLocation {
             }
         }
 
+        @RxLogObservable
         private Observable<android.location.Location> getCoarseLocation() {
             return reactiveLocationProvider.getUpdatedLocation(new LocationRequest().setPriority(LocationRequest.PRIORITY_LOW_POWER));
         }
@@ -86,10 +89,12 @@ public class CoarseLocation {
             };
         }
 
+        @RxLogObservable
         private Observable<String> getLocationName(android.location.Location location) {
             return locationNameResolver.getLocationName(location);
         }
 
+        @RxLogObservable
         private Observable<Location> getLocationGridCoordinates(android.location.Location location) {
             return meteoService.getGridCoordinatedBasedOnLocation(location);
         }

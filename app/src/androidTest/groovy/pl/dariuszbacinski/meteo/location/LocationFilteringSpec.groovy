@@ -1,8 +1,11 @@
 package pl.dariuszbacinski.meteo.location
+
 import android.content.Context
+import android.location.Address
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.rule.ActivityTestRule
+import com.google.android.gms.location.LocationRequest
 import com.tbruyelle.rxpermissions.RxPermissions
 import dagger.Component
 import dagger.Module
@@ -13,22 +16,23 @@ import pl.dariuszbacinski.meteo.component.LocationListIdlingResource
 import pl.dariuszbacinski.meteo.inject.*
 import pl.dariuszbacinski.meteo.location.model.LocationNameResolver
 import pl.dariuszbacinski.meteo.location.model.MeteoService
+import pl.dariuszbacinski.meteo.location.model.MockLocation
 import pl.dariuszbacinski.meteo.location.view.LocationActivity
 import pl.dariuszbacinski.meteo.location.view.LocationFragment
 import rx.Observable
 import spock.lang.Specification
 
-import javax.inject.Inject
-
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION
 import static org.mockito.BDDMockito.given
+import static org.mockito.Matchers.*
 import static org.mockito.Mockito.mock
 import static pl.dariuszbacinski.meteo.location.LocationListFeature.*
 
 @ActivityScope
 @Component(dependencies = ApplicationComponent.class, modules = TestModule.class)
 public interface TestLocationComponent extends LocationComponent {
-    RxPermissions rxPermissions();
+    RxPermissions rxPermissions()
+    ReactiveLocationProvider reactiveLocationProvider()
 }
 
 @Module
@@ -44,7 +48,7 @@ public class TestModule {
     @ActivityScope
     public ReactiveLocationProvider provideReactiveLocationProvider(
             @ApplicationContext Context context) {
-        return new ReactiveLocationProvider(context)
+        return mock(ReactiveLocationProvider)
     }
 
     @Provides
@@ -65,8 +69,8 @@ public class LocationFilteringSpec extends Specification {
     @Rule
     ActivityTestRule<LocationActivity> locationActivityRule = new ActivityTestRule(LocationActivity)
     LocationListIdlingResource listIdlingResource
-    @Inject
     RxPermissions rxPermissionsMock
+    ReactiveLocationProvider reactiveLocationProviderMock
 
     def setup() {
         listIdlingResource = new LocationListIdlingResource(getLocationListAdapter(locationActivityRule.getActivity()).getLoading())
@@ -79,7 +83,10 @@ public class LocationFilteringSpec extends Specification {
         TestLocationComponent locationComponent = DaggerTestLocationComponent.builder().applicationComponent(DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(applicationContext)).build()).testModule(new TestModule()).build()
         LocationFragment.LocationComponentProvider.setTestLocationComponent(locationComponent)
         rxPermissionsMock = locationComponent.rxPermissions()
+        reactiveLocationProviderMock = locationComponent.reactiveLocationProvider()
         given rxPermissionsMock.request(ACCESS_COARSE_LOCATION) willReturn Observable.just(true)
+        given reactiveLocationProviderMock.getUpdatedLocation(isA(LocationRequest)) willReturn Observable.just(new MockLocation().getMockNetworkProviderLocation())
+        given reactiveLocationProviderMock.getReverseGeocodeObservable(anyDouble(), anyDouble(), anyInt()) willReturn Observable.just([] as List<Address>)
     }
 
     def cleanup() {

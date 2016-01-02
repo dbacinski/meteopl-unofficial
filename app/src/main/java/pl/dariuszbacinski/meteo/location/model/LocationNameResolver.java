@@ -2,6 +2,8 @@ package pl.dariuszbacinski.meteo.location.model;
 
 import android.location.Address;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
+
 import java.util.List;
 
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
@@ -18,6 +20,7 @@ public class LocationNameResolver {
         this.reactiveLocationProvider = reactiveLocationProvider;
     }
 
+    @RxLogObservable
     public Observable<String> getLocationName(android.location.Location location) {
         return reactiveLocationProvider
                 .getReverseGeocodeObservable(location.getLatitude(), location.getLongitude(), 1)
