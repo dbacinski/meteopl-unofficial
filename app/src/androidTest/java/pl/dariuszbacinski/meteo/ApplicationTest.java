@@ -8,7 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import pl.dariuszbacinski.meteo.location.view.LocationActivity;
+import pl.dariuszbacinski.meteo.info.InfoActivity;
 
 import static junit.framework.Assert.assertFalse;
 
@@ -17,8 +17,8 @@ import static junit.framework.Assert.assertFalse;
 public class ApplicationTest {
 
     @Rule
-    public ActivityTestRule<LocationActivity> mActivityRule =
-            new ActivityTestRule<>(LocationActivity.class);
+    public ActivityTestRule<InfoActivity> mActivityRule =
+            new ActivityTestRule<>(InfoActivity.class);
 
     @Test
     public void alwaysPass() {

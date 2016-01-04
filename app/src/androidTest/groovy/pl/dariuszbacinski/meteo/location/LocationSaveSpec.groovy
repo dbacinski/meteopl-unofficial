@@ -1,6 +1,7 @@
 package pl.dariuszbacinski.meteo.location
 
 import android.content.Context
+import android.content.Intent
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import org.junit.Rule
@@ -13,7 +14,7 @@ import static pl.dariuszbacinski.meteo.location.LocationListFeature.*
 public class LocationSaveSpec extends Specification {
 
     @Rule
-    ActivityTestRule<LocationActivity> locationActivityRule = new ActivityTestRule(LocationActivity)
+    ActivityTestRule<LocationActivity> locationActivityRule = new ActivityTestRule(LocationActivity, true, false)
     @AutoCleanup("cleanup")
     LocationSetup locationSetup = new LocationSetup()
 
@@ -33,6 +34,7 @@ public class LocationSaveSpec extends Specification {
     void setup() {
         Context applicationContext = InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext()
         locationSetup.setupStubs(applicationContext)
+        locationActivityRule.launchActivity(new Intent());
         locationSetup.setupIdlingResource(locationActivityRule.getActivity())
     }
 }
