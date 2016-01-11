@@ -18,6 +18,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import static android.support.test.espresso.matcher.ViewMatchers.withId
 import static android.support.test.espresso.matcher.ViewMatchers.withText
+import static org.hamcrest.Matchers.startsWith
 
 @CompileStatic
 public class LocationListFeature {
@@ -28,7 +29,7 @@ public class LocationListFeature {
     }
 
     public static void listContainsLocation(String locationName) {
-        onView withId(R.id.location_name) check matches(withText(locationName))
+        onView withId(R.id.location_name) check matches(withText(startsWith(locationName)))
     }
 
     public static void selectFirstLocationAsFavorite() {

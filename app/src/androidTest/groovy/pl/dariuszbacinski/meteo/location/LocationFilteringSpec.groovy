@@ -32,13 +32,6 @@ public class LocationFilteringSpec extends Specification {
             listContainsLocation "Warszawa"
     }
 
-    def "filter locations by suffix"() {
-        when: "enter filter query belin"
-            filterLocationsWithQuery "belin", locationSetup.listIdlingResource
-        then: "location list contains location Izabelin"
-            listContainsLocation "Izabelin"
-    }
-
     void setup() {
         Context applicationContext = InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext()
         locationSetup.setupStubs(applicationContext)
