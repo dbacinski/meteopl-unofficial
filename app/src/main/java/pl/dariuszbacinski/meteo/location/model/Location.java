@@ -33,11 +33,14 @@ public class Location extends Model {
     Integer row;
     @Column
     Integer col;
+    @Column
+    String poviat;
 
     @ParcelConstructor
-    public Location(String name, Integer row, Integer col) {
+    public Location(String name, Integer row, Integer col, String poviat) {
         this.name = name;
         this.row = row;
         this.col = col;
+        this.poviat = poviat;
     }
 }

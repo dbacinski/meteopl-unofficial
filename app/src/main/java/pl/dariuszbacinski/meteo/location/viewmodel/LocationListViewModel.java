@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.dariuszbacinski.meteo.component.rx.Indexed;
 import pl.dariuszbacinski.meteo.component.rx.NaturalNumbers;
+import pl.dariuszbacinski.meteo.component.text.StringJoiner;
 import pl.dariuszbacinski.meteo.location.model.IndexedLocation;
 import pl.dariuszbacinski.meteo.location.model.Location;
 import rx.Observable;
@@ -26,6 +27,7 @@ public class LocationListViewModel {
     private MultiSelector multiSelector;
     private Observable<IndexedLocation> originalLocationObservable;
     private List<IndexedLocation> locations;
+    private StringJoiner stringJoiner = new StringJoiner(" - ");
 
     public LocationListViewModel(MultiSelector multiSelector, List<Location> locationList, List<Location> favoriteLocationList ) {
         this.multiSelector = multiSelector;
@@ -59,8 +61,12 @@ public class LocationListViewModel {
 
     public LocationItemViewModel getItemViewModel(int position){
         IndexedLocation locationIndexed = getLocationAtPosition(position);
-        return new LocationItemViewModel(locationIndexed.getValue().getName(), getMultiSelector().isSelected(locationIndexed.getOriginalIndex(), -1));
+        return new LocationItemViewModel(getLocationName(locationIndexed.getValue().getName(), locationIndexed.getValue().getPoviat()), getMultiSelector().isSelected(locationIndexed.getOriginalIndex(), -1));
 
+    }
+
+    private String getLocationName(String... names) {
+        return stringJoiner.join(names);
     }
 
     public LocationItemOnClickListener getOnClickListener(int position){
@@ -103,10 +109,4 @@ public class LocationListViewModel {
             }
         }).toSortedList(new SortFunctionStartsWith(name)).toBlocking().single());
     }
-
-
-
-
-
-
 }

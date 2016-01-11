@@ -29,7 +29,7 @@ public class MeteoService {
             public Location call(Response<Void> response) {
                //XXX make me pretty
                 Uri uri = Uri.parse(response.raw().request().url().toString());
-                return new Location("", Integer.valueOf(uri.getQueryParameter("row")), Integer.valueOf(uri.getQueryParameter("col")));
+                return new Location("", Integer.valueOf(uri.getQueryParameter("row")), Integer.valueOf(uri.getQueryParameter("col")), "");
             }
         }).subscribeOn(Schedulers.io());
     }

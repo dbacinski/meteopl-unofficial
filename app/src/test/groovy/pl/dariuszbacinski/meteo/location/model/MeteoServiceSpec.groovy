@@ -31,6 +31,6 @@ class MeteoServiceSpec extends ShadowRoboSpecification {
             objectUnderTest.getGridCoordinatedBasedOnLocation(location).subscribe(subscriber)
         then:
             subscriber.awaitTerminalEvent()
-            subscriber.assertValue(new Location("", 409, 248))
+            subscriber.assertValue(new Location("", 409, 248, ""))
     }
 }

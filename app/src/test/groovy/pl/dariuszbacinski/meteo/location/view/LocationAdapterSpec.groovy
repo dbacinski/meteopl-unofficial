@@ -20,8 +20,8 @@ class LocationAdapterSpec extends ShadowRoboSpecification {
             LocationAdapter objectUnderTest =
                     new LocationAdapter(new LocationListViewModel(
                             new MultiSelector(),
-                            [new Location('BerlinNotSelected', 0, 0), new Location('Warszawa', 0, 0), new Location('Lublin', 0, 0)],
-                            [new Location('Warszawa', 0, 0), new Location('Lublin', 0, 0)]))
+                            [new Location('BerlinNotSelected', 0, 0,""), new Location('Warszawa', 0, 0,""), new Location('Lublin', 0, 0,"")],
+                            [new Location('Warszawa', 0, 0,""), new Location('Lublin', 0, 0,"")]))
         when:
             def favoriteLocations = objectUnderTest.getSelectedLocations()
         then:
