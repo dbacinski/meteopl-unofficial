@@ -58,13 +58,13 @@ class LocationListIdlingResource extends Observable.OnPropertyChangedCallback im
 
         @Override
         void run() {
-            skipOneFrame()
+            waitForListRedraw()
             listIdlingResource.callback.onTransitionToIdle()
             listIdlingResource.isIdle.set(true)
         }
 
-        static skipOneFrame() {
-            sleep 30
+        static waitForListRedraw() {
+            sleep 100
         }
     }
 }
